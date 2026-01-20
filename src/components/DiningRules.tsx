@@ -1,0 +1,71 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+import { Clock, AlertCircle, Users, Info } from "lucide-react";
+
+const rules = [
+  {
+    icon: Clock,
+    title: "90 Min Dining",
+    description: "Peak hours limit",
+  },
+  {
+    icon: AlertCircle,
+    title: "No Waste Policy",
+    description: "Order what you eat",
+  },
+  {
+    icon: Users,
+    title: "Groups 6+",
+    description: "18% auto-gratuity",
+  },
+];
+
+export default function DiningRules() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <section ref={ref} className="py-6 border-y border-border bg-card/30">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Info size={16} className="text-primary" />
+            <span className="text-sm font-medium text-foreground">
+              Dining Guidelines
+            </span>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+            {rules.map((rule, index) => (
+              <motion.div
+                key={rule.title}
+                initial={{ opacity: 0, y: 10 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                className="flex items-center gap-3"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <rule.icon className="text-primary" size={18} />
+                </div>
+                <div>
+                  <div className="font-semibold text-foreground text-sm">
+                    {rule.title}
+                  </div>
+                  <div className="text-muted text-xs">{rule.description}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}

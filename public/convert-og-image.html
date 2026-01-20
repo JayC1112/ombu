@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convert OG Image to PNG</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #0a0a0a;
+      color: #fafafa;
+    }
+    h1 { color: #e63946; }
+    .instructions {
+      background: #18181b;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    button {
+      background: #e63946;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+    button:hover { background: #c1121f; }
+    canvas { display: none; }
+    #preview {
+      max-width: 100%;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    .note {
+      color: #9ca3af;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Ombu Grill - OG Image Generator</h1>
+  
+  <div class="instructions">
+    <h2>Instructions:</h2>
+    <ol>
+      <li>Click "Generate PNG" button below</li>
+      <li>The PNG image will automatically download</li>
+      <li>Move the downloaded file to <code>public/og-image.png</code></li>
+      <li>Delete this HTML file before deploying</li>
+    </ol>
+  </div>
+  
+  <button onclick="generatePNG()">Generate PNG (1200x630)</button>
+  
+  <h3>Preview:</h3>
+  <img id="preview" src="og-image.svg" alt="OG Image Preview">
+  
+  <canvas id="canvas" width="1200" height="630"></canvas>
+  
+  <p class="note">
+    * This tool converts the SVG to a PNG suitable for social media sharing.
+    <br>* Required size: 1200x630px for optimal display on Facebook, Twitter, LinkedIn.
+  </p>
+  
+  <script>
+    async function generatePNG() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0, 1200, 630);
+        
+        // Download the PNG
+        const link = document.createElement('a');
+        link.download = 'og-image.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        alert('PNG downloaded! Move it to public/og-image.png');
+      };
+      
+      img.src = 'og-image.svg';
+    }
+  </script>
+</body>
+</html>

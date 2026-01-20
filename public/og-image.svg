@@ -1,0 +1,77 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  
+  <!-- Decorative gradient circles -->
+  <circle cx="200" cy="150" r="200" fill="url(#gradient1)" opacity="0.3"/>
+  <circle cx="1000" cy="500" r="250" fill="url(#gradient2)" opacity="0.2"/>
+  
+  <!-- Main content container -->
+  <rect x="60" y="60" width="1080" height="510" rx="24" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+  
+  <!-- Fire icon -->
+  <g transform="translate(540, 120)">
+    <path d="M60 0C60 0 75 30 75 50C75 70 60 85 60 85C60 85 45 70 45 50C45 30 60 0 60 0Z" fill="#e63946"/>
+    <path d="M60 20C60 20 70 40 70 55C70 70 60 80 60 80C60 80 50 70 50 55C50 40 60 20 60 20Z" fill="#f4a261"/>
+  </g>
+  
+  <!-- Main Title -->
+  <text x="600" y="260" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="bold" fill="white">
+    OMBU GRILL
+  </text>
+  
+  <!-- Gradient subtitle -->
+  <text x="600" y="330" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="600">
+    <tspan fill="url(#textGradient)">Utah's #1 All-You-Can-Eat</tspan>
+  </text>
+  
+  <text x="600" y="380" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="32" fill="#9ca3af">
+    Korean BBQ &amp; Hot Pot
+  </text>
+  
+  <!-- Info badges -->
+  <g transform="translate(300, 440)">
+    <rect width="180" height="50" rx="25" fill="#e63946" opacity="0.2"/>
+    <rect width="180" height="50" rx="25" stroke="#e63946" stroke-width="2" fill="none"/>
+    <text x="90" y="32" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#e63946">
+      From $16.99
+    </text>
+  </g>
+  
+  <g transform="translate(510, 440)">
+    <rect width="180" height="50" rx="25" fill="#2a9d8f" opacity="0.2"/>
+    <rect width="180" height="50" rx="25" stroke="#2a9d8f" stroke-width="2" fill="none"/>
+    <text x="90" y="32" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#2a9d8f">
+      6 Locations
+    </text>
+  </g>
+  
+  <g transform="translate(720, 440)">
+    <rect width="180" height="50" rx="25" fill="#f4a261" opacity="0.2"/>
+    <rect width="180" height="50" rx="25" stroke="#f4a261" stroke-width="2" fill="none"/>
+    <text x="90" y="32" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#f4a261">
+      Open Daily
+    </text>
+  </g>
+  
+  <!-- Website URL -->
+  <text x="600" y="540" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#6b7280">
+    ombugrillutah.com
+  </text>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e63946"/>
+      <stop offset="100%" stop-color="#f4a261"/>
+    </linearGradient>
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f4a261"/>
+      <stop offset="100%" stop-color="#2a9d8f"/>
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e63946"/>
+      <stop offset="100%" stop-color="#f4a261"/>
+    </linearGradient>
+  </defs>
+</svg>

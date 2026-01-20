@@ -1,0 +1,19 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fire icon -->
+  <g transform="translate(5, 8)">
+    <path d="M22 0C22 0 30 12 30 20C30 28 22 35 22 35C22 35 14 28 14 20C14 12 22 0 22 0Z" fill="#e63946"/>
+    <path d="M22 8C22 8 27 16 27 22C27 28 22 32 22 32C22 32 17 28 17 22C17 16 22 8 22 8Z" fill="#f4a261"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="50" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="bold">
+    <tspan fill="url(#logoGradient)">OMBU GRILL</tspan>
+  </text>
+  
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e63946"/>
+      <stop offset="100%" stop-color="#f4a261"/>
+    </linearGradient>
+  </defs>
+</svg>
