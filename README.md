@@ -1,56 +1,52 @@
 # Ombu Grill Utah - Official Website
 
-Utah's #1 All-You-Can-Eat Korean BBQ & Hot Pot restaurant chain with 6 locations.
+🔥 Utah's #1 All-You-Can-Eat Korean BBQ & Hot Pot restaurant chain with 6 locations.
+
+**Live Site**: [ombugrillutah.com](https://ombugrillutah.com)
+
+---
 
 ## Tech Stack
 
-- **Framework**: Next.js 16.1.2 (App Router)
-- **React**: 19.2.3
-- **Styling**: Tailwind CSS 4
-- **Animations**: Framer Motion
-- **State Management**: Zustand
-- **Icons**: Lucide React
-- **Language**: TypeScript 5
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Next.js | 16.1.2 | React Framework (App Router) |
+| React | 19.2.3 | UI Library |
+| Tailwind CSS | 4 | Styling |
+| Framer Motion | 12.x | Animations |
+| Zustand | 5.x | State Management |
+| Lucide React | 0.562 | Icons |
+| TypeScript | 5 | Type Safety |
+
+---
 
 ## Project Structure
 
 ```
-src/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root layout with SEO metadata
-│   ├── page.tsx            # Home page
-│   ├── globals.css         # Global styles & Tailwind
-│   ├── robots.ts           # robots.txt generation
-│   ├── sitemap.ts          # sitemap.xml generation
-│   └── locations/[slug]/   # Dynamic location pages
-│       └── page.tsx
-├── components/             # React components
-│   ├── Header.tsx          # Navigation header
-│   ├── Hero.tsx            # Hero section with geolocation
-│   ├── About.tsx           # About section
-│   ├── Menu.tsx            # Menu categories
-│   ├── Locations.tsx       # All locations grid
-│   ├── LocationCard.tsx    # Individual location card
-│   ├── Contact.tsx         # Contact & social links
-│   ├── Footer.tsx          # Footer with mobile CTA
-│   ├── DiningRules.tsx     # Dining guidelines
-│   ├── PhotoGallery.tsx    # Photo gallery
-│   ├── GoogleReviewsPreview.tsx # Reviews section
-│   ├── ImagePlaceholder.tsx # Placeholder for images
-│   └── CopyButton.tsx      # Copy to clipboard button
-├── data/                   # Static data
-│   ├── locations.ts        # All 6 location data
-│   ├── images.ts           # Image configuration
-│   ├── faq.ts              # FAQ content
-│   ├── gallery.ts          # Gallery images
-│   ├── reviews.ts          # Google reviews
-│   └── diningGuidelines.ts # Dining rules
-├── store/                  # State management
-│   └── locationStore.ts    # Zustand store for location
-├── config/                 # Configuration
-│   └── pricingVisibility.ts # Pricing display settings
-└── utils/                  # Utilities
-    └── scrollTo.ts         # Smooth scroll utility
+ombu/
+├── public/                   # Static assets
+│   ├── og-image.svg          # Social sharing image (SVG)
+│   ├── og-image.png          # Social sharing image (PNG) ← Generate before deploy
+│   ├── logo.svg              # Brand logo
+│   └── images/               # Site images
+├── src/
+│   ├── app/                  # Next.js App Router
+│   │   ├── layout.tsx        # Root layout + SEO Schema
+│   │   ├── page.tsx          # Home page
+│   │   ├── globals.css       # Global styles
+│   │   ├── menu/page.tsx     # Menu page
+│   │   ├── ayce-guidelines/  # Dining guidelines page
+│   │   ├── locations/[slug]/ # Dynamic location pages (6)
+│   │   ├── robots.ts         # robots.txt
+│   │   └── sitemap.ts        # sitemap.xml
+│   ├── components/           # 12 React components
+│   ├── data/                 # Static data (locations, menu, etc.)
+│   ├── store/                # Zustand state management
+│   ├── config/               # App configuration
+│   └── utils/                # Utility functions
+├── vercel.json               # Vercel deployment config
+├── next.config.ts            # Next.js configuration
+└── package.json
 ```
 
 ## Features
@@ -150,41 +146,118 @@ Edit `src/data/locations.ts` to update:
 
 ## Deployment
 
-### Vercel (Recommended)
+### Step 1: Generate OG Image (Required)
+
 ```bash
-npx vercel
+# Option A: Use browser converter
+open http://localhost:3000/convert-og-image.html
+# Click "Generate PNG" → Move to public/og-image.png
+# Then delete convert-og-image.html
+
+# Option B: Use online converter
+# Upload public/og-image.svg to https://cloudconvert.com/svg-to-png
+# Download and save as public/og-image.png
 ```
 
-Or connect GitHub repo to Vercel for automatic deployments.
+### Step 2: Deploy to Vercel
 
-### Other Platforms
-Build static files:
+**Method A: Via GitHub (Recommended)**
 ```bash
-npm run build
+# Push to GitHub
+git remote add origin https://github.com/YOUR_USERNAME/ombu.git
+git push -u origin main
+
+# Then import project at vercel.com
 ```
 
-Output in `.next/` folder. Deploy to any Node.js hosting or static hosting with `next export`.
+**Method B: Via Vercel CLI**
+```bash
+npm i -g vercel
+vercel --prod
+```
 
-### Environment Variables
-No environment variables required for basic deployment.
+### Step 3: Configure Domain
 
-Optional:
-- `NEXT_PUBLIC_GA_ID`: Google Analytics ID
-- Add Google Search Console verification in `layout.tsx`
+1. Go to Vercel Dashboard → Project → Settings → Domains
+2. Add `ombugrillutah.com`
+3. Configure DNS:
+   - Type: `A` Record → `76.76.21.21`
+   - Or Type: `CNAME` → `cname.vercel-dns.com`
+
+### Step 4: Post-Deployment Verification
+
+```bash
+# Test sitemap
+curl https://ombugrillutah.com/sitemap.xml
+
+# Test robots.txt
+curl https://ombugrillutah.com/robots.txt
+```
+
+**Manual Checks:**
+- [ ] Homepage loads correctly
+- [ ] Mobile navigation works
+- [ ] Menu categories switch properly
+- [ ] Location pages load (`/locations/salt-lake-city`, etc.)
+- [ ] Phone call buttons work on mobile
+
+### Step 5: SEO Setup
+
+1. **Google Search Console**
+   - Add property: `ombugrillutah.com`
+   - Submit sitemap: `https://ombugrillutah.com/sitemap.xml`
+   
+2. **Test Rich Results**
+   - Visit: https://search.google.com/test/rich-results
+   - Enter: `https://ombugrillutah.com`
+   - Verify Schema data (FAQ, Restaurant, LocalBusiness)
+
+3. **Google Analytics (Optional)**
+   - Create GA4 property
+   - Add `NEXT_PUBLIC_GA_ID` environment variable in Vercel
+
+---
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_GA_ID` | No | Google Analytics 4 ID |
+| `NEXT_PUBLIC_GTM_ID` | No | Google Tag Manager ID |
+
+---
 
 ## Pre-Deployment Checklist
 
-- [x] All TypeScript errors resolved
-- [x] All ESLint errors resolved
-- [x] Build succeeds
-- [x] 12 pages generated correctly
-- [x] Navigation works on all devices
-- [x] Mobile menu functional
-- [ ] Add actual images to `/public/images/`
-- [ ] Set `IMAGE_PLACEHOLDERS_ENABLED = false`
-- [ ] Configure domain (ombugrillutah.com)
-- [ ] Add Google Analytics (optional)
-- [ ] Add Google Search Console verification (optional)
+### Code Quality
+- [x] TypeScript - No errors
+- [x] ESLint - No errors
+- [x] Build - Successful
+
+### SEO
+- [x] Meta tags (title, description, keywords)
+- [x] Open Graph tags
+- [x] Twitter Card tags
+- [x] Schema.org structured data (7 types)
+- [x] Sitemap.xml auto-generated
+- [x] Robots.txt configured
+
+### Content
+- [x] 80+ menu items (real data from ombugrillutah.com)
+- [x] 6 locations with addresses, phones, hours
+- [x] Dining guidelines
+- [x] FAQ content
+
+### Assets
+- [x] Logo SVG (`public/logo.svg`)
+- [x] OG Image SVG (`public/og-image.svg`)
+- [ ] OG Image PNG (`public/og-image.png`) ← Generate before deploy
+- [ ] Actual food/location images (currently using placeholders)
+
+### Configuration
+- [x] vercel.json (security headers, caching)
+- [x] next.config.ts (image optimization)
+- [ ] Set `IMAGE_PLACEHOLDERS_ENABLED = false` when images ready
 
 ## Browser Support
 
@@ -194,13 +267,51 @@ Optional:
 - Edge (latest)
 - Mobile browsers (iOS Safari, Chrome for Android)
 
+---
+
+## Changelog
+
+### v1.0.0 (2026-01-20)
+
+**Initial Release**
+
+#### Features
+- 🏠 Homepage with hero, about, menu, locations, contact sections
+- 📍 6 individual location pages with SEO optimization
+- 🍖 Full menu with 80+ items (BBQ meats, seafood, appetizers, drinks, desserts)
+- 📱 Mobile-first responsive design
+- 🔍 Geolocation-based nearest location detection
+
+#### SEO
+- Schema.org structured data (Website, Organization, FAQ, Restaurant, 6x LocalBusiness)
+- Auto-generated sitemap.xml with all pages
+- Optimized meta tags with 50+ Utah-focused keywords
+- Open Graph & Twitter Card support
+
+#### Performance
+- Image optimization (AVIF/WebP)
+- CSS optimization enabled
+- Security headers configured
+
+#### Mobile Fixes
+- Fixed bottom CTA bar content overlap
+- Fixed navigation menu animation issues
+- Added iOS safe area support
+- Improved scroll behavior with header offset
+
+---
+
 ## License
 
 Private - Ombu Grill Utah
 
+---
+
 ## Contact
 
-Website: https://ombugrillutah.com
-Instagram: @ombuutah
-TikTok: @ombu_utah
-Email: info@ombugrillutah.com
+| Channel | Link |
+|---------|------|
+| Website | https://ombugrillutah.com |
+| Instagram | [@ombuutah](https://instagram.com/ombuutah) |
+| TikTok | [@ombu_utah](https://tiktok.com/@ombu_utah) |
+| Email | info@ombugrillutah.com |
