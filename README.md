@@ -106,43 +106,113 @@ npm run lint
 
 ## Configuration
 
-### Images
-Images are configured in `src/data/images.ts`. Set `IMAGE_PLACEHOLDERS_ENABLED`:
-- `true`: Shows colored placeholder divs (for development)
-- `false`: Shows actual images (for production)
+### Images - Complete Guide
 
-Required images:
+Images are configured in `src/data/images.ts`.
+
+#### Step 1: Toggle Placeholder Mode
+```typescript
+// src/data/images.ts (line 9)
+export const IMAGE_PLACEHOLDERS_ENABLED = true;  // Development (colored boxes)
+export const IMAGE_PLACEHOLDERS_ENABLED = false; // Production (real images)
 ```
-public/images/
-├── hero/
-│   └── hero-bbq.webp
-├── menu/
-│   ├── beef.webp
-│   ├── pork-chicken.webp
-│   ├── seafood.webp
-│   └── hotpot.webp
-├── locations/
-│   ├── midvale.webp
-│   ├── slc.webp
-│   ├── layton.webp
-│   ├── orem.webp
-│   ├── south-jordan.webp
-│   └── south-salt-lake.webp
-└── og-image.jpg (1200x630 for social sharing)
+
+#### Step 2: Add Required Images
+
+| Image | Path | Size | Description |
+|-------|------|------|-------------|
+| **Hero** | `public/images/hero/hero-bbq.webp` | 1920×1080 | Homepage background |
+| **OG Image** | `public/og-image.png` | 1200×630 | Social sharing (Facebook/Twitter) |
+| **Logo** | `public/logo.svg` | 200×60 | Brand logo (SVG provided) |
+
+**Menu Category Images** (`public/images/menu/`):
+| File | Size | Description |
+|------|------|-------------|
+| `bbq-meats.webp` | 800×400 | Korean BBQ meats (bulgogi, galbi) |
+| `seafood.webp` | 800×400 | Shrimp, calamari, mussels |
+| `appetizers.webp` | 800×400 | Fried dumplings, wings, edamame |
+| `sides-soups.webp` | 800×400 | Kimchi, soup, banchan |
+| `rice-noodles.webp` | 800×400 | Bibimbap, ramen, fried rice |
+| `beverages.webp` | 800×400 | Boba tea, milkshakes |
+| `desserts.webp` | 800×400 | Mochi ice cream, crepe cake |
+
+**Location Images** (`public/images/locations/`):
+| File | Size | Description |
+|------|------|-------------|
+| `midvale.webp` | 600×400 | Midvale store front/interior |
+| `slc.webp` | 600×400 | Salt Lake City location |
+| `layton.webp` | 600×400 | Layton location |
+| `orem.webp` | 600×400 | Orem location |
+| `south-jordan.webp` | 600×400 | South Jordan location |
+| `south-salt-lake.webp` | 600×400 | South Salt Lake (Hot Pot) |
+| `fallback.webp` | 600×400 | Default if specific image missing |
+
+#### Step 3: Image Optimization Tips
+```bash
+# Convert JPG/PNG to WebP (recommended)
+# Use https://squoosh.app or:
+cwebp -q 80 input.jpg -o output.webp
+
+# Recommended quality settings:
+# - Hero: 80-85% quality
+# - Menu/Location: 75-80% quality
+# - Keep file sizes under 200KB each
 ```
+
+#### Complete File Structure
+```
+public/
+├── og-image.png              ← 1200×630 (generate from og-image.svg)
+├── og-image.svg              ← Source file (provided)
+├── logo.svg                  ← Brand logo (provided)
+├── favicon.ico               ← Already in src/app/
+└── images/
+    ├── hero/
+    │   └── hero-bbq.webp     ← 1920×1080
+    ├── menu/
+    │   ├── bbq-meats.webp    ← 800×400
+    │   ├── seafood.webp
+    │   ├── appetizers.webp
+    │   ├── sides-soups.webp
+    │   ├── rice-noodles.webp
+    │   ├── beverages.webp
+    │   └── desserts.webp
+    └── locations/
+        ├── midvale.webp      ← 600×400
+        ├── slc.webp
+        ├── layton.webp
+        ├── orem.webp
+        ├── south-jordan.webp
+        ├── south-salt-lake.webp
+        └── fallback.webp
+```
+
+---
+
+### Location Data
+
+Edit `src/data/locations.ts` to update store information:
+
+| Field | Example | Description |
+|-------|---------|-------------|
+| `name` | "Midvale" | Display name |
+| `address` | "6930 S State St" | Street address |
+| `phone` | "8015613577" | Phone (digits only) |
+| `phoneDisplay` | "(801) 561-3577" | Formatted phone |
+| `hours` | "Daily 11 AM - 10 PM" | Operating hours |
+| `lat`, `lng` | 40.6111, -111.8919 | GPS coordinates (for directions) |
+| `pricing.kbbq.lunch` | 16.99 | Lunch price |
+| `pricing.kbbq.dinner` | 25.99 | Dinner price |
+
+**Google Maps URLs**: Auto-generated from address, or set `googleMapsUrl` manually.
+
+---
 
 ### Pricing Visibility
+
 Configure in `src/config/pricingVisibility.ts`:
 - Controls where pricing is displayed
 - Default: Only show on hero for nearest location via geolocation
-
-### Location Data
-Edit `src/data/locations.ts` to update:
-- Addresses and phone numbers
-- Hours of operation
-- Pricing (lunch/dinner)
-- Google Maps URLs
-- Concepts (KBBQ/Hot Pot availability)
 
 ## Deployment
 

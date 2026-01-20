@@ -75,7 +75,7 @@ export const locations: Location[] = [
     pricing: {
       kbbq: { lunch: 16.99, dinner: 25.99 },
     },
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Ombu+Grill+1438+S+State+St%2C+Salt+Lake+City%2C+UT+84115",
+    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Ombu+Grill+1438+State+St%2C+Salt+Lake+City%2C+UT+84115",
   },
   {
     id: "layton",
