@@ -309,55 +309,6 @@ export default function AYCEGuidelinesPage() {
             </div>
           </section>
 
-          {/* Chinese Section */}
-          <section className="py-12 md:py-16">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto">
-                <h2 className="text-2xl md:text-3xl font-bold mb-8">
-                  用餐须知 <span className="text-muted text-lg font-normal">(Chinese)</span>
-                </h2>
-                <div className="glass rounded-2xl p-6 md:p-8 space-y-6">
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">同桌同价</h3>
-                    <p className="text-muted">
-                      同桌所有客人必须点相同的自助套餐。不可分开点午餐和晚餐价格。
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">用餐时间限制：90分钟</h3>
-                    <p className="text-muted">
-                      高峰时段（晚餐和周末）用餐时间限制为90分钟。非高峰时段可适当放宽。
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">剩餐费用：每盎司$2</h3>
-                    <p className="text-muted">
-                      为减少浪费，桌上剩余食物将按每盎司$2收费。建议少量多次点餐，吃完再点。
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">6人以上自动加收18%服务费</h3>
-                    <p className="text-muted">
-                      6人或以上的团体将自动加收18%服务费。
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">儿童价格（按身高）</h3>
-                    <p className="text-muted">
-                      40英寸以下：免费 | 40-50英寸：$9.99 | 50英寸以上：全价
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">禁止外带</h3>
-                    <p className="text-muted">
-                      自助餐食物必须在店内食用，不可打包外带或与未付费客人分享。
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* CTA Section */}
           <section className="py-12 md:py-16 bg-card/30">
             <div className="container mx-auto px-4">
