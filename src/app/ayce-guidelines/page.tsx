@@ -79,7 +79,7 @@ const faqSchema = {
       name: "Can I bring kids to Ombu Grill?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Absolutely! Ombu Grill is family-friendly. Children under 3 eat free, and we offer reduced pricing for kids aged 4-10. The interactive grilling experience is fun for all ages.",
+        text: "Absolutely! Ombu Grill is family-friendly. Kids pricing is based on height: Under 40\" is free, 40\" to 50\" is $9.99, and over 50\" is full price. The interactive grilling experience is fun for all ages.",
       },
     },
     {
@@ -161,9 +161,9 @@ const guidelines = [
 const additionalInfo = [
   {
     icon: Baby,
-    title: "Kids & Family Pricing",
+    title: "Kids Pricing (Height-based)",
     description:
-      "Children under 3 eat free. Kids aged 4-10 receive special pricing. Call your local store for current children's rates.",
+      "Under 40\": Free | 40\" to 50\": $9.99 | Over 50\": Full price",
   },
   {
     icon: Salad,
@@ -342,9 +342,9 @@ export default function AYCEGuidelinesPage() {
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-2">儿童价格</h3>
+                    <h3 className="font-semibold text-lg mb-2">儿童价格（按身高）</h3>
                     <p className="text-muted">
-                      3岁以下免费。4-10岁享受儿童优惠价。详情请致电询问。
+                      40英寸以下：免费 | 40-50英寸：$9.99 | 50英寸以上：全价
                     </p>
                   </div>
                   <div>

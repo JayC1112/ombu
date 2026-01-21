@@ -89,7 +89,7 @@ export default function Footer() {
                     href="/dining-policy"
                     className="text-muted hover:text-foreground transition-colors"
                   >
-                    Dining Policy / 用餐规则
+                    Dining Policy
                   </a>
                 </li>
                 <li>

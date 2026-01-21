@@ -167,7 +167,7 @@ export const locationContents: Record<string, LocationContent> = {
       {
         question: "Is Ombu Grill Layton good for kids?",
         answer:
-          "Yes! Our Layton location is very family-friendly. We have high chairs, booster seats, and kid pricing for children under 10. The interactive grilling is fun for kids (with adult supervision), and we have milder options for less adventurous eaters.",
+          "Yes! Our Layton location is very family-friendly. We have high chairs, booster seats, and kid pricing based on height: Under 40\" is free, 40\" to 50\" is $9.99, and over 50\" is full price. The interactive grilling is fun for kids (with adult supervision), and we have milder options for less adventurous eaters.",
       },
       {
         question: "Do you offer military discounts at the Layton location?",

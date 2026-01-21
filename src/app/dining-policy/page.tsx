@@ -90,11 +90,11 @@ export default function DiningPolicyPage() {
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  Dining Policy <span className="text-gradient">/ 用餐规则</span>
+                  Dining Policy
                 </h1>
                 <p className="text-lg text-muted max-w-2xl mx-auto">
                   We want to set clear expectations upfront to ensure a great experience for
-                  everyone. / 我们希望提前把规则讲清楚，减少误会。
+                  everyone.
                 </p>
               </div>
             </div>
@@ -110,19 +110,13 @@ export default function DiningPolicyPage() {
                     className="glass rounded-2xl p-6 md:p-8 hover:bg-card-hover transition-colors"
                   >
                     <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                      {section.titleEN}{" "}
-                      <span className="text-gradient">/ {section.titleZH}</span>
+                      {section.titleEN}
                     </h2>
                     <div className="space-y-4">
                       {section.bodyEN.map((paragraph, pIndex) => (
-                        <div key={pIndex} className="space-y-2">
-                          <p className="text-foreground leading-relaxed">{paragraph}</p>
-                          {section.bodyZH[pIndex] && (
-                            <p className="text-muted leading-relaxed text-sm md:text-base">
-                              {section.bodyZH[pIndex]}
-                            </p>
-                          )}
-                        </div>
+                        <p key={pIndex} className="text-foreground leading-relaxed">
+                          {paragraph}
+                        </p>
                       ))}
                     </div>
                   </div>
@@ -139,20 +133,14 @@ export default function DiningPolicyPage() {
                   <div className="flex items-center gap-3 mb-4">
                     <MessageCircle className="text-primary" size={24} />
                     <h2 className="text-2xl md:text-3xl font-bold">
-                      {policyFooter.titleEN}{" "}
-                      <span className="text-gradient">/ {policyFooter.titleZH}</span>
+                      {policyFooter.titleEN}
                     </h2>
                   </div>
                   <div className="space-y-4">
                     {policyFooter.bodyEN.map((paragraph, index) => (
-                      <div key={index} className="space-y-2">
-                        <p className="text-foreground leading-relaxed">{paragraph}</p>
-                        {policyFooter.bodyZH[index] && (
-                          <p className="text-muted leading-relaxed text-sm md:text-base">
-                            {policyFooter.bodyZH[index]}
-                          </p>
-                        )}
-                      </div>
+                      <p key={index} className="text-foreground leading-relaxed">
+                        {paragraph}
+                      </p>
                     ))}
                   </div>
                 </div>

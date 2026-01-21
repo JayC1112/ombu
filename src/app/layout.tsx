@@ -109,7 +109,7 @@ const faqSchema = {
       name: "Is Ombu Grill good for families and kids?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes! Ombu Grill is family-friendly with a fun interactive grilling experience that kids love. We offer children's pricing and a variety of meats and sides to please all ages. It's perfect for birthday celebrations and family gatherings.",
+        text: "Yes! Ombu Grill is family-friendly with a fun interactive grilling experience that kids love. Kids pricing is based on height: Under 40\" is free, 40\" to 50\" is $9.99, and over 50\" is full price. It's perfect for birthday celebrations and family gatherings.",
       },
     },
   ],

@@ -27,6 +27,23 @@ export const policySections: PolicySection[] = [
     ],
   },
   {
+    id: "kids-pricing",
+    titleEN: "Kids Pricing (Height-based)",
+    titleZH: "儿童价格（按身高）",
+    bodyEN: [
+      "Our kids pricing is based on height (inches):",
+      "• Under 40\": Free",
+      "• 40\" to 50\": $9.99",
+      "• Over 50\": Full price",
+    ],
+    bodyZH: [
+      "我们的儿童价格按身高（英寸）计算：",
+      "• 40英寸以下：免费",
+      "• 40-50英寸：$9.99",
+      "• 50英寸以上：全价",
+    ],
+  },
+  {
     id: "time-limit-wait",
     titleEN: "Time Limit & Wait",
     titleZH: "用餐时间与等位",

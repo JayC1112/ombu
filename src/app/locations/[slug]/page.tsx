@@ -445,7 +445,7 @@ export default async function LocationPage({
                   <h2 className="text-2xl md:text-3xl font-bold">Dining Guidelines</h2>
                   <div className="flex items-center gap-4">
                     <Link href="/dining-policy" className="text-primary hover:underline text-sm flex items-center gap-1">
-                      Dining Policy / 用餐规则 <ChevronRight size={14} />
+                      Dining Policy <ChevronRight size={14} />
                     </Link>
                     <Link href="/ayce-guidelines" className="text-primary hover:underline text-sm flex items-center gap-1">
                       View All Guidelines <ChevronRight size={14} />

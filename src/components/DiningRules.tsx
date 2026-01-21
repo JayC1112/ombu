@@ -69,7 +69,7 @@ export default function DiningRules() {
               href="/dining-policy"
               className="text-primary hover:underline text-sm inline-flex items-center gap-1"
             >
-              Read our Dining Policy / 查看用餐规则
+              Read our Dining Policy
             </a>
           </div>
         </motion.div>
