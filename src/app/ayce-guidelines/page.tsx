@@ -309,6 +309,29 @@ export default function AYCEGuidelinesPage() {
             </div>
           </section>
 
+          {/* Dining Policy Link */}
+          <section className="py-8 md:py-12">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto">
+                <div className="glass rounded-2xl p-6 text-center border-l-4 border-primary">
+                  <h3 className="text-xl font-semibold mb-3 text-foreground">
+                    Need More Details?
+                  </h3>
+                  <p className="text-muted mb-4">
+                    For complete dining policies, service charges, allergen information, and more, see our full Dining Policy page.
+                  </p>
+                  <Link
+                    href="/dining-policy"
+                    className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl font-semibold transition-colors"
+                  >
+                    See our full Dining Policy
+                    <ChevronRight size={18} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* CTA Section */}
           <section className="py-12 md:py-16 bg-card/30">
             <div className="container mx-auto px-4">
