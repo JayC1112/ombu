@@ -3,9 +3,13 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Beef, Fish, UtensilsCrossed, Salad, CookingPot, Coffee, IceCream, Star } from "lucide-react";
+import { Beef, Fish, UtensilsCrossed, Salad, CookingPot, Coffee, IceCream, Star, MapPin } from "lucide-react";
 import { menuCategoryImages } from "@/data/images";
 import ImagePlaceholder from "./ImagePlaceholder";
+import { useDisplayPrices } from "@/utils/priceGate";
+import { useLocationStore } from "@/store/locationStore";
+import { getPricing, getAvailableConcepts } from "@/data/locations";
+import { scrollToSection } from "@/utils/scrollTo";
 
 // Menu categories with icons
 const categories = [
@@ -130,6 +134,15 @@ export default function Menu() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState("bbq-meats");
+  
+  // Check if prices should be displayed
+  const displayPrices = useDisplayPrices();
+  const { activeLocation, activeConcept } = useLocationStore();
+  const currentLocation = activeLocation();
+  const currentConcept = activeConcept();
+  const pricing = currentLocation && currentConcept
+    ? getPricing(currentLocation, currentConcept)
+    : null;
 
   // Get current category image
   const categoryImage = menuCategoryImages[activeCategory as keyof typeof menuCategoryImages];
@@ -157,14 +170,27 @@ export default function Menu() {
               80+ items including premium Korean BBQ meats, seafood, appetizers, 
               rice bowls, boba drinks & desserts. Grill at your table!
             </p>
-            <div className="flex flex-wrap justify-center gap-3 mt-4">
-              <span className="inline-flex items-center gap-1 bg-accent/20 text-accent px-3 py-1 rounded-full text-sm font-medium">
-                Lunch (11AM-3PM) from $16.99
-              </span>
-              <span className="inline-flex items-center gap-1 bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-medium">
-                Dinner from $25.99
-              </span>
-            </div>
+            {displayPrices && pricing && (
+              <div className="flex flex-wrap justify-center gap-3 mt-4">
+                <span className="inline-flex items-center gap-1 bg-accent/20 text-accent px-3 py-1 rounded-full text-sm font-medium">
+                  Lunch (11AM-3PM) from ${pricing.lunch?.toFixed(2) || "16.99"}
+                </span>
+                <span className="inline-flex items-center gap-1 bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                  Dinner from ${pricing.dinner?.toFixed(2) || "25.99"}
+                </span>
+              </div>
+            )}
+            {!displayPrices && (
+              <div className="flex flex-wrap justify-center gap-3 mt-4">
+                <button
+                  onClick={() => scrollToSection("locations")}
+                  className="inline-flex items-center gap-1 bg-primary/20 text-primary px-4 py-2 rounded-full text-sm font-medium hover:bg-primary/30 transition-colors"
+                >
+                  <MapPin size={14} />
+                  Select a location to view pricing
+                </button>
+              </div>
+            )}
           </motion.div>
 
           {/* Category Tabs - Scrollable on mobile */}

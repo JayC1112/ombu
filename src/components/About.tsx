@@ -4,8 +4,11 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Beef, Salad, Flame, Users } from "lucide-react";
+import { useDisplayPrices } from "@/utils/priceGate";
+import { useLocationStore } from "@/store/locationStore";
+import { getPricing, getAvailableConcepts } from "@/data/locations";
 
-const features = [
+const getFeatures = (displayPrices: boolean, pricing: { lunch: number | null; dinner: number | null } | null) => [
   {
     icon: Beef,
     title: "Premium Korean BBQ Meats",
@@ -27,14 +30,26 @@ const features = [
   {
     icon: Users,
     title: "Best Value in Utah",
-    description:
-      "All-you-can-eat lunch from $16.99, dinner from $25.99. Groups, families & date nights welcome. Better value than Rodizio Grill or Texas de Brazil!",
+    description: displayPrices && pricing
+      ? `All-you-can-eat lunch from $${pricing.lunch?.toFixed(2) || "16.99"}, dinner from $${pricing.dinner?.toFixed(2) || "25.99"}. Groups, families & date nights welcome. Better value than Rodizio Grill or Texas de Brazil!`
+      : "All-you-can-eat Korean BBQ with premium meats, unlimited sides, and interactive grilling. Groups, families & date nights welcome. Better value than Rodizio Grill or Texas de Brazil!",
   },
 ];
 
 export default function About() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  // Check if prices should be displayed
+  const displayPrices = useDisplayPrices();
+  const { activeLocation, activeConcept } = useLocationStore();
+  const currentLocation = activeLocation();
+  const currentConcept = activeConcept();
+  const pricing = currentLocation && currentConcept
+    ? getPricing(currentLocation, currentConcept)
+    : null;
+  
+  const features = getFeatures(displayPrices, pricing);
 
   return (
     <section id="about" className="py-24 relative">

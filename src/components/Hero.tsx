@@ -24,6 +24,7 @@ import { heroImage } from "@/data/images";
 import ImagePlaceholder from "./ImagePlaceholder";
 import { shouldShowPricing } from "@/config/pricingVisibility";
 import { scrollToSection } from "@/utils/scrollTo";
+import { useDisplayPrices } from "@/utils/priceGate";
 
 export default function Hero() {
   // Use the shared location store
@@ -63,12 +64,10 @@ export default function Hero() {
     : null;
 
   // Check if pricing should be shown
-  // IMPORTANT: Only show prices when:
-  // 1. Pricing visibility is enabled for heroNearest
-  // 2. Geolocation succeeded (locationStatus === "granted")
-  // 3. Nearest location is confirmed (NOT user-selected location)
+  // IMPORTANT: Only show prices when user has selected a location OR geolocation succeeded
+  const displayPrices = useDisplayPrices();
   const canShowPricing = shouldShowPricing("heroNearest");
-  const shouldShowPrices = canShowPricing && hasNearestLocation && !hasSelectedLocation;
+  const shouldShowPrices = canShowPricing && displayPrices;
 
   return (
     <section
@@ -120,20 +119,42 @@ export default function Hero() {
             Korean BBQ & Hot Pot
           </motion.h1>
 
-          {/* Price highlight - Mobile visible */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="flex flex-wrap justify-center gap-2 mb-4"
-          >
-            <span className="inline-flex items-center gap-1 bg-accent/20 text-accent px-3 py-1 rounded-full text-sm font-semibold">
-              Lunch from $16.99
-            </span>
-            <span className="inline-flex items-center gap-1 bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-semibold">
-              Dinner from $25.99
-            </span>
-          </motion.div>
+          {/* Price highlight - Only show when location is selected */}
+          {displayPrices && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="flex flex-wrap justify-center gap-2 mb-4"
+            >
+              {currentLocation && pricing && (
+                <>
+                  <span className="inline-flex items-center gap-1 bg-accent/20 text-accent px-3 py-1 rounded-full text-sm font-semibold">
+                    Lunch from ${pricing.lunch?.toFixed(2) || "16.99"}
+                  </span>
+                  <span className="inline-flex items-center gap-1 bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                    Dinner from ${pricing.dinner?.toFixed(2) || "25.99"}
+                  </span>
+                </>
+              )}
+            </motion.div>
+          )}
+          {!displayPrices && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="flex flex-wrap justify-center gap-2 mb-4"
+            >
+              <button
+                onClick={() => scrollToSection("locations")}
+                className="inline-flex items-center gap-1 bg-primary/20 text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-primary/30 transition-colors"
+              >
+                <MapPin size={14} />
+                Select a location to view pricing
+              </button>
+            </motion.div>
+          )}
 
           {/* Subtitle */}
           <motion.p
@@ -245,24 +266,15 @@ export default function Hero() {
               </div>
             )}
 
-            {/* Has Active Location but no pricing (user selected or pricing disabled) */}
-            {hasActiveLocation && currentLocation && !shouldShowPrices && (
-              <div className="glass rounded-2xl p-4 max-w-md mx-auto">
-                <p className="text-muted text-sm">
-                  Pricing varies by location. Tap Call to confirm today&apos;s pricing.
-                </p>
-              </div>
-            )}
-
-            {/* No Active Location - Fallback State */}
-            {!isLocating && !hasActiveLocation && (
+            {/* No pricing available - Show select location prompt */}
+            {!displayPrices && !isLocating && (
               <div className="space-y-4">
                 <div className="glass rounded-2xl p-6 max-w-md mx-auto">
                   <p className="text-lg font-medium text-foreground mb-2">
-                    Find Your Nearest Location
+                    Select a Location to View Pricing
                   </p>
                   <p className="text-muted text-sm mb-4">
-                    Pricing varies by location. Call your nearest store for today&apos;s pricing.
+                    Choose a location below to see pricing for that store.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
