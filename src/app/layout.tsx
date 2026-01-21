@@ -188,11 +188,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://ombugrillutah.com"),
   title: {
-    default: "Ombu Grill | Utah's #1 All-You-Can-Eat Korean BBQ & Hot Pot | 6 Locations | From $16.99",
+    default: "Ombu Grill | Utah's #1 All-You-Can-Eat Korean BBQ & Hot Pot | 6 Locations",
     template: "%s | Ombu Grill Korean BBQ Utah",
   },
   description:
-    "Utah's best all-you-can-eat Korean BBQ from $16.99 lunch, $25.99 dinner. 6 locations: Salt Lake City, Midvale, South Jordan, Layton, Orem + Hot Pot in South Salt Lake. Premium bulgogi, galbi, pork belly grilled at your table. Open daily. Walk-ins welcome!",
+    "Utah's best all-you-can-eat Korean BBQ. 6 locations: Salt Lake City, Midvale, South Jordan, Layton, Orem + Hot Pot in South Salt Lake. Premium bulgogi, galbi, pork belly grilled at your table. Open daily. Walk-ins welcome! Select a location to view pricing.",
   keywords: [
     // Primary keywords - Utah focused
     "Korean BBQ Utah",
@@ -250,7 +250,7 @@ export const metadata: Metadata = {
     siteName: "Ombu Grill Utah",
     title: "Ombu Grill | Utah's #1 All-You-Can-Eat Korean BBQ & Hot Pot",
     description:
-      "Utah's best all-you-can-eat Korean BBQ from $16.99. 6 locations: SLC, Midvale, South Jordan, Layton, Orem. Premium meats grilled at your table. Better value than Brazilian steakhouses!",
+      "Utah's best all-you-can-eat Korean BBQ. 6 locations: SLC, Midvale, South Jordan, Layton, Orem. Premium meats grilled at your table. Better value than Brazilian steakhouses! Select a location to view pricing.",
     images: [
       {
         url: "/og-image.png",
@@ -262,7 +262,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ombu Grill | Utah's #1 Korean BBQ from $16.99",
+    title: "Ombu Grill | Utah's #1 Korean BBQ | 6 Locations",
     description:
       "All-you-can-eat Korean BBQ & Hot Pot. 6 Utah locations. Premium meats, unlimited sides, tableside grilling. Open daily!",
     images: ["/og-image.png"],

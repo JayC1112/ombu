@@ -316,7 +316,7 @@ export default function Menu() {
               </div>
               <div>
                 <span className="text-primary font-medium">🍽 No waste policy</span>
-                <p className="text-muted text-xs mt-1">$15/lb leftover charge</p>
+                <p className="text-muted text-xs mt-1">$2 per ounce leftover fee</p>
               </div>
               <div>
                 <span className="text-primary font-medium">👥 Groups 6+</span>
