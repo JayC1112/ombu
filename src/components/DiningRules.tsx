@@ -64,6 +64,14 @@ export default function DiningRules() {
               </motion.div>
             ))}
           </div>
+          <div className="text-center mt-4">
+            <a
+              href="/dining-policy"
+              className="text-primary hover:underline text-sm inline-flex items-center gap-1"
+            >
+              Read our Dining Policy / 查看用餐规则
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

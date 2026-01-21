@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/#menu", label: "Menu", sectionId: "menu" },
   { href: "/#locations", label: "Locations", sectionId: "locations" },
   { href: "/#contact", label: "Contact", sectionId: "contact" },
+  { href: "/dining-policy", label: "Dining Policy", sectionId: null },
 ];
 
 export default function Header() {
@@ -46,7 +47,15 @@ export default function Header() {
     : null;
 
   // Handle navigation with smooth scroll
-  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, sectionId: string | null) => {
+    // Close mobile menu first
+    setIsMobileMenuOpen(false);
+
+    // If sectionId is null, it's a regular page link - let it navigate normally
+    if (sectionId === null) {
+      return;
+    }
+
     e.preventDefault();
 
     const scrollToSection = () => {
@@ -55,9 +64,6 @@ export default function Header() {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     };
-
-    // Close mobile menu first
-    setIsMobileMenuOpen(false);
 
     // If we're on the home page, scroll after menu closes
     if (pathname === "/") {

@@ -443,9 +443,14 @@ export default async function LocationPage({
               <div className="max-w-4xl mx-auto">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl md:text-3xl font-bold">Dining Guidelines</h2>
-                  <Link href="/ayce-guidelines" className="text-primary hover:underline text-sm flex items-center gap-1">
-                    View All Guidelines <ChevronRight size={14} />
-                  </Link>
+                  <div className="flex items-center gap-4">
+                    <Link href="/dining-policy" className="text-primary hover:underline text-sm flex items-center gap-1">
+                      Dining Policy / 用餐规则 <ChevronRight size={14} />
+                    </Link>
+                    <Link href="/ayce-guidelines" className="text-primary hover:underline text-sm flex items-center gap-1">
+                      View All Guidelines <ChevronRight size={14} />
+                    </Link>
+                  </div>
                 </div>
                 <div className="grid sm:grid-cols-3 gap-4">
                   {diningGuidelines.map((guideline) => (

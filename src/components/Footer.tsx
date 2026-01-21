@@ -85,6 +85,14 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
+                  <a
+                    href="/dining-policy"
+                    className="text-muted hover:text-foreground transition-colors"
+                  >
+                    Dining Policy / 用餐规则
+                  </a>
+                </li>
+                <li>
                   <button
                     onClick={() => scrollToSection("locations")}
                     className="text-muted hover:text-foreground transition-colors cursor-pointer"
