@@ -134,9 +134,12 @@ function generateRestaurantSchema(location: Location) {
       opens: isLateNight ? "12:00" : "11:00",
       closes: isLateNight ? "00:00" : "22:00",
     },
-    servesCuisine: location.concepts.kbbq
-      ? ["Korean", "BBQ", "Asian", "All-You-Can-Eat"]
-      : ["Korean", "Hot Pot", "Asian", "All-You-Can-Eat"],
+    servesCuisine: (() => {
+      const cuisines = ["Korean", "Asian", "All-You-Can-Eat"];
+      if (location.concepts.kbbq) cuisines.push("BBQ", "Korean BBQ");
+      if (location.concepts.hotpot) cuisines.push("Hot Pot");
+      return cuisines;
+    })(),
     menu: `${siteConfig.url}/menu`,
     hasMenu: {
       "@type": "Menu",

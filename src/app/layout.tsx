@@ -45,7 +45,7 @@ const faqSchema = {
       name: "How much does Ombu Grill Korean BBQ cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Ombu Grill offers all-you-can-eat Korean BBQ starting at $16.99 for lunch (11AM-3PM) and $25.99-$26.99 for dinner. This includes unlimited premium meats, seafood, vegetables, and side dishes. Much better value than Brazilian steakhouses like Rodizio Grill or Texas de Brazil!",
+        text: "Ombu Grill offers all-you-can-eat Korean BBQ starting at $16.99-$17.99 for lunch (11AM-3PM) and $25.99-$26.99 for dinner. This includes unlimited premium meats, seafood, vegetables, and side dishes. Much better value than Brazilian steakhouses like Rodizio Grill or Texas de Brazil!",
       },
     },
     {

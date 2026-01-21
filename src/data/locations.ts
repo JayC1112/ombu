@@ -1,3 +1,5 @@
+import { buildGoogleDirectionsUrl, buildGoogleMapsEmbedUrl } from "@/utils/maps";
+
 export type Concept = "kbbq" | "hotpot";
 
 export interface LocationPricing {
@@ -23,6 +25,7 @@ export interface Location {
   zip: string;
   phone: string;
   phoneDisplay: string;
+  phoneE164: string; // E.164 格式电话号码（如 +18012246667）
   hours: string;
   hoursShort: string;
   lat: number | null;
@@ -32,6 +35,7 @@ export interface Location {
     hotpot: boolean;
   };
   pricing: LocationPricing;
+  timeLimitMinutes?: number; // 用餐时间限制（分钟）
   menuUrl?: string;
   googleMapsUrl?: string;
 }
@@ -47,6 +51,7 @@ export const locations: Location[] = [
     zip: "84047",
     phone: "8015613577",
     phoneDisplay: "(801) 561-3577",
+    phoneE164: "+18015613577",
     hours: "Daily 11 AM - 10 PM",
     hoursShort: "11AM-10PM",
     lat: 40.6111,
@@ -67,6 +72,7 @@ export const locations: Location[] = [
     zip: "84115",
     phone: "8014844848",
     phoneDisplay: "(801) 484-4848",
+    phoneE164: "+18014844848",
     hours: "Daily 11 AM - 10 PM",
     hoursShort: "11AM-10PM",
     lat: 40.7449,
@@ -87,6 +93,7 @@ export const locations: Location[] = [
     zip: "84041",
     phone: "3855619140",
     phoneDisplay: "(385) 561-9140",
+    phoneE164: "+13855619140",
     hours: "Daily 11 AM - 10 PM",
     hoursShort: "11AM-10PM",
     lat: 41.0779,
@@ -107,14 +114,16 @@ export const locations: Location[] = [
     zip: "84057",
     phone: "8012246667",
     phoneDisplay: "(801) 224-6667",
-    hours: "Daily 11 AM - 10 PM",
+    phoneE164: "+18012246667",
+    hours: "11:00 AM – 10:00 PM", // Updated format
     hoursShort: "11AM-10PM",
     lat: 40.2989,
     lng: -111.6946,
-    concepts: { kbbq: true, hotpot: false },
+    concepts: { kbbq: true, hotpot: false }, // KBBQ ONLY - No Hot Pot available
     pricing: {
-      kbbq: { lunch: 16.99, dinner: 26.99 },
+      kbbq: { lunch: 17.99, dinner: 26.99 }, // Lunch $17.99, Dinner $26.99
     },
+    timeLimitMinutes: 90, // 90-minute dining time limit
     googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Ombu+Grill+147+N+State+St%2C+Orem%2C+UT+84057",
   },
   {
@@ -127,6 +136,7 @@ export const locations: Location[] = [
     zip: "84095",
     phone: "3852812984",
     phoneDisplay: "(385) 281-2984",
+    phoneE164: "+13852812984",
     hours: "Daily 11 AM - 10 PM",
     hoursShort: "11AM-10PM",
     lat: 40.5607,
@@ -151,6 +161,7 @@ export const locations: Location[] = [
     zip: "84115",
     phone: "3853018732",
     phoneDisplay: "(385) 301-8732",
+    phoneE164: "+13853018732",
     hours: "Daily 12 PM - 12 AM",
     hoursShort: "12PM-12AM",
     lat: 40.7046,
@@ -179,21 +190,14 @@ export const siteConfig = {
 
 // Helper to generate Google Maps directions URL
 export function getDirectionsUrl(location: Location): string {
-  if (location.lat && location.lng) {
-    return `https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`;
-  }
-  const address = encodeURIComponent(
-    `${location.address}, ${location.city}, ${location.state} ${location.zip}`
-  );
-  return `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+  const addressFull = `${location.address}, ${location.city}, ${location.state} ${location.zip}`;
+  return buildGoogleDirectionsUrl(addressFull);
 }
 
 // Helper to get Google Maps embed URL
 export function getMapsEmbedUrl(location: Location): string {
-  const query = encodeURIComponent(
-    `${location.address}, ${location.city}, ${location.state} ${location.zip}`
-  );
-  return `https://www.google.com/maps?q=${query}&output=embed`;
+  const addressFull = `${location.address}, ${location.city}, ${location.state} ${location.zip}`;
+  return buildGoogleMapsEmbedUrl(addressFull);
 }
 
 // Helper to get concept label

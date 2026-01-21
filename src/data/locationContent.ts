@@ -184,26 +184,26 @@ export const locationContents: Record<string, LocationContent> = {
 
   orem: {
     slug: "orem",
-    seoTitle: "Korean BBQ Orem & Provo | All-You-Can-Eat KBBQ | Ombu Grill",
+    seoTitle: "Ombu Grill Orem | AYCE Korean BBQ in Orem, UT",
     seoDescription:
-      "Best Korean BBQ in Orem and Utah County. Ombu Grill offers unlimited KBBQ near BYU and UVU. Student-friendly prices from $16.99. Tableside grilling, free parking.",
-    h1: "All-You-Can-Eat Korean BBQ & Hot Pot in Orem, Utah",
+      "All-you-can-eat Korean BBQ in Orem, UT. Ombu Grill Orem offers unlimited KBBQ, 90-minute dining limit. Located at 147 N State St. Lunch $17.99, Dinner $26.99. Call (801) 224-6667.",
+    h1: "All-You-Can-Eat Korean BBQ in Orem, Utah",
     intro:
-      "Ombu Grill Orem brings authentic Korean BBQ to Utah Valley! Located on State Street, we're the top choice for students from BYU and UVU, families in Orem and Provo, and anyone craving unlimited Korean BBQ at student-friendly prices.",
+      "Ombu Grill Orem brings authentic Korean BBQ to Utah Valley! Located on State Street, we're the top choice for students from BYU and UVU, families in Orem and Provo, and anyone craving unlimited Korean BBQ. KBBQ ONLY - 90-minute dining time limit.",
     description: `
       College students, rejoice! Ombu Grill Orem understands that you want delicious food without emptying your wallet. Our Utah County location has become legendary among BYU and UVU students for offering premium all-you-can-eat Korean BBQ at prices that work with a student budget.
 
-      Located on State Street in Orem, we're perfectly positioned between BYU in Provo and UVU in Orem. Whether you're celebrating the end of finals, hosting a study group reward dinner, or just craving something more exciting than ramen, Ombu Grill delivers an experience that's worth every penny.
+      Located at 147 N State St in Orem, we're perfectly positioned between BYU in Provo and UVU in Orem. Whether you're celebrating the end of finals, hosting a study group reward dinner, or just craving something more exciting than ramen, Ombu Grill delivers an experience that's worth every penny. Please note: Orem is KBBQ ONLY (no hot pot), with a 90-minute dining time limit to ensure everyone gets a chance to enjoy unlimited Korean BBQ.
 
       The Orem location has a distinctly youthful energy. You'll hear K-pop playing, see friends taking photos of their sizzling meat spreads for Instagram, and witness the competitive eating that inevitably happens when college students discover unlimited food. We love it—the energy is contagious.
 
       But don't think we're just for students. Utah Valley families have embraced Ombu Grill as a go-to for celebrations. Birthday parties, graduation dinners, missionary farewells, and homecomings all happen at our tables. The interactive nature of Korean BBQ makes it perfect for bringing people together—everyone participates in the cooking, and there's always something to talk about.
 
-      Our Orem team knows the student crowd well. We're used to large groups, split checks, and the occasional "end of semester" celebration that gets a little rowdy (in the best way). We also offer quick lunch service for those with tight class schedules—our lunch special is the best deal in Utah Valley.
+      Our Orem team knows the student crowd well. We're used to large groups, split checks, and the occasional "end of semester" celebration that gets a little rowdy (in the best way). We also offer quick lunch service for those with tight class schedules—lunch is $17.99 (11 AM - 3 PM) and dinner is $26.99 (3 PM - 10 PM), making it the best deal in Utah Valley.
 
       What really sets our Orem location apart is the community we've built. Regular customers become friends, and our staff remembers faces and favorite orders. This isn't just a restaurant—it's a gathering place for Utah Valley's Korean BBQ enthusiasts.
 
-      Planning a group dinner? We can accommodate large parties and even help coordinate ordering for big groups. Just give us a call ahead of time, and we'll make sure your experience is smooth from start to finish.
+      Planning a group dinner? We can accommodate large parties and even help coordinate ordering for big groups. Just give us a call at (801) 224-6667 ahead of time, and we'll make sure your experience is smooth from start to finish.
     `,
     parking: "Free parking lot on-site. Street parking also available on State Street.",
     landmarks: [
@@ -212,9 +212,11 @@ export const locationContents: Record<string, LocationContent> = {
       "5 minutes from UVU campus",
       "Near University Place Mall",
     ],
-    lastSeating: "Last seating at 9:30 PM daily.",
+    lastSeating: "Last seating at 9:30 PM daily. 90-minute dining time limit.",
     specialFeatures: [
-      "Student-friendly pricing and atmosphere",
+      "KBBQ ONLY (No Hot Pot available)",
+      "90-minute dining time limit",
+      "Student-friendly pricing: Lunch $17.99, Dinner $26.99",
       "Popular for BYU and UVU students",
       "Large group friendly",
       "Quick lunch service for busy schedules",
@@ -223,19 +225,29 @@ export const locationContents: Record<string, LocationContent> = {
       "Serving Utah County including Orem, Provo, Vineyard, American Fork, and Pleasant Grove. The go-to Korean BBQ for BYU and UVU students.",
     faqs: [
       {
+        question: "Does Ombu Grill Orem offer Hot Pot?",
+        answer:
+          "No, Ombu Grill Orem is KBBQ ONLY. We do not offer hot pot at this location. For hot pot options, visit our South Jordan location (KBBQ + Hot Pot combo) or our South Salt Lake Hot Pot-only location.",
+      },
+      {
+        question: "What is the dining time limit at Orem?",
+        answer:
+          "Ombu Grill Orem has a 90-minute dining time limit for all-you-can-eat service. This ensures fair access for all guests during busy times.",
+      },
+      {
         question: "Do you offer student discounts at Ombu Grill Orem?",
         answer:
-          "Our lunch pricing ($16.99) is already very student-friendly! We occasionally run promotions during finals week and back-to-school season. Follow us on Instagram for current deals.",
+          "Our lunch pricing ($17.99) is already very student-friendly! We occasionally run promotions during finals week and back-to-school season. Follow us on Instagram for current deals.",
       },
       {
         question: "Can I host a large group dinner for my ward or club?",
         answer:
-          "Absolutely! We regularly host large groups from BYU and UVU. For parties of 15+, please call ahead so we can prepare seating and ensure smooth service.",
+          "Absolutely! We regularly host large groups from BYU and UVU. For parties of 15+, please call (801) 224-6667 ahead so we can prepare seating and ensure smooth service.",
       },
       {
         question: "How far is Ombu Grill from BYU?",
         answer:
-          "We're about 10 minutes from BYU campus, located on State Street in Orem. Easy drive up University Parkway to State Street, with plenty of free parking.",
+          "We're about 10 minutes from BYU campus, located at 147 N State St in Orem. Easy drive up University Parkway to State Street, with plenty of free parking.",
       },
     ],
   },
