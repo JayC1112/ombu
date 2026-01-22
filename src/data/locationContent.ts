@@ -21,7 +21,7 @@ export const locationContents: Record<string, LocationContent> = {
     seoTitle: "All-You-Can-Eat Korean BBQ in Midvale, UT | Ombu Grill",
     seoDescription:
       "Best Korean BBQ in Midvale, Utah. Ombu Grill offers unlimited KBBQ from $16.99. Located on State Street near Fashion Place Mall. 90-minute AYCE, tableside grilling, free parking.",
-    h1: "All-You-Can-Eat Korean BBQ & Hot Pot in Midvale, Utah",
+    h1: "All-You-Can-Eat Korean BBQ in Midvale, Utah",
     intro:
       "Welcome to Ombu Grill Midvale, your destination for authentic Korean BBQ in the heart of Salt Lake Valley. Our Midvale location brings the sizzling flavors of Korea to State Street, offering an unforgettable all-you-can-eat dining experience.",
     description: `
@@ -75,7 +75,7 @@ export const locationContents: Record<string, LocationContent> = {
     seoTitle: "Korean BBQ Salt Lake City | All-You-Can-Eat KBBQ | Ombu Grill",
     seoDescription:
       "Best Korean BBQ in Salt Lake City. Ombu Grill SLC offers unlimited KBBQ from $16.99. Located on State Street near downtown. AYCE meats, tableside grilling, easy parking.",
-    h1: "All-You-Can-Eat Korean BBQ & Hot Pot in Salt Lake City, Utah",
+    h1: "All-You-Can-Eat Korean BBQ in Salt Lake City, Utah",
     intro:
       "Experience authentic Korean BBQ in the heart of Salt Lake City at Ombu Grill. Our SLC location on State Street brings the vibrant flavors of Korean cuisine to downtown, offering unlimited meats, fresh sides, and an interactive grilling experience.",
     description: `
@@ -131,7 +131,7 @@ export const locationContents: Record<string, LocationContent> = {
     seoTitle: "Korean BBQ Layton Utah | All-You-Can-Eat KBBQ | Ombu Grill",
     seoDescription:
       "Best Korean BBQ in Layton and Davis County. Ombu Grill offers unlimited KBBQ from $16.99. Located on Main Street near Layton Hills Mall. Family-friendly, free parking.",
-    h1: "All-You-Can-Eat Korean BBQ & Hot Pot in Layton, Utah",
+    h1: "All-You-Can-Eat Korean BBQ in Layton, Utah",
     intro:
       "Ombu Grill brings authentic Korean BBQ to Davis County! Our Layton location on Main Street is the premier destination for all-you-can-eat Korean cuisine in northern Utah, serving families from Layton, Clearfield, Syracuse, and Farmington.",
     description: `

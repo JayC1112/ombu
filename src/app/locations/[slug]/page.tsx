@@ -325,7 +325,11 @@ export default async function LocationPage({
                       <div>
                         <p className="text-sm text-muted mb-1">Hours</p>
                         <p className="font-medium">{location.hours}</p>
-                        <p className="text-xs text-muted mt-1">Lunch: 11AM-3PM | Dinner: 3PM+</p>
+                        {location.id === "south-salt-lake" ? (
+                          <p className="text-xs text-muted mt-1">Lunch: 12PM-3PM | Dinner: 3PM+</p>
+                        ) : (
+                          <p className="text-xs text-muted mt-1">Lunch: 11AM-3PM | Dinner: 3PM+</p>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-start gap-3 p-3 rounded-xl bg-card/50">
@@ -577,7 +581,13 @@ export default async function LocationPage({
                 <Link href="/" className="text-xl font-bold text-gradient hover:opacity-80 transition-opacity">
                   OMBU GRILL
                 </Link>
-                <p className="text-sm text-muted mt-1">Utah&apos;s #1 Korean BBQ & Hot Pot</p>
+                <p className="text-sm text-muted mt-1">
+                  {location.concepts.kbbq && location.concepts.hotpot
+                    ? "Utah's #1 Korean BBQ & Hot Pot"
+                    : location.concepts.hotpot
+                    ? "Utah's #1 Hot Pot"
+                    : "Utah's #1 Korean BBQ"}
+                </p>
               </div>
               <div className="flex items-center gap-4 text-sm text-muted">
                 <Link href="/" className="hover:text-foreground transition-colors">Home</Link>

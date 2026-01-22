@@ -2,8 +2,8 @@ import { MetadataRoute } from "next";
 import { locations } from "@/data/locations";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Use environment variable for production domain, fallback to default
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ombu-eosin.vercel.app";
+  // Use environment variable for production domain, fallback to main domain
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ombugrillutah.com";
   const lastModified = new Date();
 
   // Main pages
