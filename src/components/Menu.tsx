@@ -315,8 +315,8 @@ export default function Menu() {
                 <p className="text-muted text-xs mt-1">Per table at peak hours</p>
               </div>
               <div>
-                <span className="text-primary font-medium">🍽 No waste policy</span>
-                <p className="text-muted text-xs mt-1">$2 per ounce leftover fee</p>
+                <span className="text-primary font-medium">🍽 Leftover Policy</span>
+                <p className="text-muted text-xs mt-1">Excessive leftovers may be charged by weight. The exact rate may vary by location—please ask your server or manager for details.</p>
               </div>
               <div>
                 <span className="text-primary font-medium">👥 Groups 6+</span>

@@ -21,9 +21,9 @@ export const diningGuidelines: DiningGuideline[] = [
   {
     id: "leftover-fee",
     icon: Scale,
-    title: "Leftover Fee $2/oz",
+    title: "Leftover Policy",
     description:
-      "To minimize food waste, a $2 per ounce fee applies to uneaten food left on the table.",
+      "Excessive leftovers may be charged by weight. The exact rate may vary by location—please ask your server or manager for details.",
     shortDescription: "Reduce waste",
   },
   {
@@ -38,6 +38,6 @@ export const diningGuidelines: DiningGuideline[] = [
 
 export const diningGuidelinesText = {
   timeLimit: "90-minute dining limit during peak hours",
-  leftoverFee: "$2/oz leftover fee to reduce food waste",
+  leftoverFee: "Leftover policy: Excessive leftovers may be charged by weight. The exact rate may vary by location—please ask your server or manager for details.",
   gratuity: "18% gratuity for parties of 6+",
 };

@@ -82,13 +82,13 @@ export const policySections: PolicySection[] = [
   },
   {
     id: "no-waste-policy",
-    titleEN: "No-Waste Policy",
-    titleZH: "减少浪费政策",
+    titleEN: "Leftover Policy",
+    titleZH: "剩餐政策",
     bodyEN: [
-      "To reduce food waste, excessive leftover food may result in an additional charge. Order gradually—our staff is happy to help you reorder.",
+      "Excessive leftovers may be charged by weight. The exact rate may vary by location—please ask your server or manager for details.",
     ],
     bodyZH: [
-      "为减少浪费，若剩余食物过多，可能会产生额外费用。建议少量多次点单，需要随时加点即可。",
+      "若剩余食物过多，可能会按重量计费；具体标准以门店为准，欢迎现场咨询。",
     ],
   },
   {

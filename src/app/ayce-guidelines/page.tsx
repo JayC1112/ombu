@@ -17,7 +17,7 @@ import { locations, siteConfig } from "@/data/locations";
 export const metadata: Metadata = {
   title: "AYCE Dining Guidelines | All-You-Can-Eat Rules & Policies",
   description:
-    "Ombu Grill all-you-can-eat Korean BBQ dining guidelines. 90-minute time limit, $2/oz leftover fee, 18% gratuity for 6+ guests. Learn our AYCE policies before your visit.",
+    "Ombu Grill all-you-can-eat Korean BBQ dining guidelines. 90-minute time limit, leftover policy, 18% gratuity for 6+ guests. Learn our AYCE policies before your visit.",
   keywords: [
     "AYCE guidelines",
     "all you can eat rules",
@@ -55,7 +55,7 @@ const faqSchema = {
       name: "Is there a leftover fee at Ombu Grill?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes, to minimize food waste, a $2 per ounce fee applies to uneaten food left on the table. We recommend ordering in smaller batches and going back for more as needed.",
+        text: "Excessive leftovers may be charged by weight. The exact rate may vary by location—please ask your server or manager for details. We recommend ordering in smaller batches and going back for more as needed.",
       },
     },
     {
@@ -130,9 +130,9 @@ const guidelines = [
   },
   {
     icon: Scale,
-    title: "Leftover Fee: $2 per Ounce",
+    title: "Leftover Policy",
     description:
-      "To minimize food waste, uneaten food left on the table is charged at $2 per ounce. Order in smaller batches and go back for more—there's no limit to how many rounds you can order!",
+      "Excessive leftovers may be charged by weight. The exact rate may vary by location—please ask your server or manager for details. Order in smaller batches and go back for more—there's no limit to how many rounds you can order!",
     important: true,
   },
   {
