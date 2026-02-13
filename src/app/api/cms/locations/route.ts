@@ -1,51 +1,51 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
-  try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-
-    const { data, error } = await supabase
-      .from('location_info')
-      .select('*')
-      .order('display_order')
-
-    if (error) {
-      console.error('Supabase error:', error)
-      return NextResponse.json({ error: error.message, details: error }, { status: 500 })
-    }
-
-    return NextResponse.json(data)
-  } catch (err: any) {
-    console.error('Exception:', err)
-    return NextResponse.json({ error: err.message }, { status: 500 })
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  if (!url || !key) {
+    return NextResponse.json({ 
+      error: 'Missing env vars',
+      hasUrl: !!url,
+      hasKey: !!key 
+    }, { status: 500 })
   }
+
+  const supabase = createClient(url, key)
+
+  const { data, error } = await supabase
+    .from('location_info')
+    .select('*')
+    .order('display_order')
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json(data)
 }
 
 export async function POST(request: Request) {
-  try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
-    const body = await request.json()
-    
-    const { error } = await supabase
-      .from('location_info')
-      .upsert(body, { onConflict: 'location_id' })
+  const body = await request.json()
+  
+  const { error } = await supabase
+    .from('location_info')
+    .upsert(body, { onConflict: 'location_id' })
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ success: true })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
+
+  return NextResponse.json({ success: true })
 }
 
 export async function PATCH(request: Request) {
