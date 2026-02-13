@@ -1,58 +1,34 @@
-import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export async function GET() {
-  const cookieStore = await cookies()
-  
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll() {},
-      },
-    }
-  )
-  
   const { data, error } = await supabase
     .from('gallery_images')
     .select('*')
-    .eq('is_active', true)
     .order('display_order')
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  return NextResponse.json(data || [])
+  return NextResponse.json(data || [], { 
+    headers: { 
+      'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' 
+    } 
+  })
 }
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies()
-  
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll() {},
-      },
-    }
-  )
-
   const body = await request.json()
-  const { title, description, category, display_order, is_active } = body
-
+  
   const { error } = await supabase
     .from('gallery_images')
-    .insert({ title, description, category, display_order, is_active })
+    .upsert(body)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })

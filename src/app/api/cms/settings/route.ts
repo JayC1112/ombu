@@ -1,23 +1,12 @@
-import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export async function GET() {
-  const cookieStore = await cookies()
-  
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll() {},
-      },
-    }
-  )
-  
   const { data, error } = await supabase
     .from('site_settings')
     .select('*')
@@ -26,31 +15,20 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  // Convert to key-value object
+  // Convert to key-value format
   const settings: Record<string, string> = {}
   data?.forEach((item: any) => {
     settings[item.id] = item.value
   })
 
-  return NextResponse.json(settings)
+  return NextResponse.json(settings, { 
+    headers: { 
+      'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' 
+    } 
+  })
 }
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies()
-  
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll() {},
-      },
-    }
-  )
-
   const body = await request.json()
   const { id, value } = body
 
