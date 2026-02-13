@@ -23,7 +23,7 @@ export default function Footer() {
     currentLocation !== null && (hasSelectedLocation || hasNearestLocation);
 
   // Build directions URL for current location
-  const getDirectionsUrl = (loc: typeof locations[0]) => {
+  const getDirectionsUrl = (loc: any) => {
     return buildDirectionsUrl(loc.address, loc.city, loc.state, loc.zip);
   };
 
