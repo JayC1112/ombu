@@ -206,7 +206,7 @@ export default function MenuPage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100 p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">菜单管理</h1>
         <button
@@ -247,13 +247,13 @@ export default function MenuPage() {
       {activeTab === 'categories' && (
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">排序</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">名称</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">中文名</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">操作</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">排序</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">名称</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">中文名</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">状态</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">操作</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -282,14 +282,14 @@ export default function MenuPage() {
       {activeTab === 'items' && (
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">排序</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">名称</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">分类</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">价格</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">操作</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">排序</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">名称</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">分类</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">价格</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">状态</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">操作</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
