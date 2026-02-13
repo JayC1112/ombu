@@ -1,10 +1,77 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, MapPin, Phone, Clock, Navigation } from "lucide-react";
-import { locations, siteConfig, getDirectionsUrl, getConceptLabel } from "@/data/locations";
 import { PRICING_HIDDEN_MESSAGE } from "@/config/pricingVisibility";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
+// Site config - will move to settings API later
+const siteConfig = {
+  url: "https://ombugrillutah.com",
+};
+
+interface LocationFromAPI {
+  location_id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  phone_display: string;
+  hours: string;
+  lat: number | null;
+  lng: number | null;
+  concept: string;
+  is_active: boolean;
+  display_order: number;
+}
+
+// Transform API data to match component format
+function transformLocation(loc: LocationFromAPI) {
+  const concept = loc.concept || "kbbq";
+  return {
+    id: loc.location_id,
+    slug: loc.location_id,
+    name: loc.name,
+    address: loc.address,
+    city: loc.city,
+    state: loc.state,
+    zip: loc.zip,
+    phone: loc.phone,
+    phoneDisplay: loc.phone_display,
+    hours: loc.hours,
+    lat: loc.lat,
+    lng: loc.lng,
+    concepts: {
+      kbbq: concept.includes("kbbq"),
+      hotpot: concept.includes("hotpot"),
+    },
+    conceptLabel: concept === "kbbq+hotpot" ? "KBBQ + Hot Pot" : concept === "hotpot" ? "Hot Pot" : "KBBQ",
+  };
+}
+
+async function getLocations() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/location_info?is_active=eq.true&select=*&order=display_order`, {
+      headers: {
+        'apikey': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+      },
+      next: { revalidate: 300 }
+    });
+    if (!res.ok) return [];
+    const data: LocationFromAPI[] = await res.json();
+    return data.map(transformLocation);
+  } catch {
+    return [];
+  }
+}
+
+function getDirectionsUrl(location: { address: string; city: string; state: string; zip: string }) {
+  const address = `${location.address}, ${location.city}, ${location.state} ${location.zip}`;
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
+}
 
 export const metadata: Metadata = {
   title: "All Ombu Grill Locations in Utah | Find a Location Near You",
@@ -49,7 +116,9 @@ const breadcrumbSchema = {
   ],
 };
 
-export default function LocationsPage() {
+export default async function LocationsPage() {
+  const locations = await getLocations();
+
   return (
     <>
       {/* JSON-LD Schema */}
@@ -91,9 +160,6 @@ export default function LocationsPage() {
               <div className="max-w-6xl mx-auto">
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {locations.map((location) => {
-                    const hasBoth = location.concepts.kbbq && location.concepts.hotpot;
-                    const conceptLabel = getConceptLabel(location);
-
                     return (
                       <div
                         key={location.id}
@@ -104,7 +170,7 @@ export default function LocationsPage() {
                           <div className="flex items-start justify-between mb-4">
                             <h3 className="text-xl font-bold">{location.name}</h3>
                             <div className="text-xs font-medium px-2.5 py-1 rounded-full bg-primary/20 text-primary">
-                              {conceptLabel}
+                              {location.conceptLabel}
                             </div>
                           </div>
 
