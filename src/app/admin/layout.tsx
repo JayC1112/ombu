@@ -1,6 +1,6 @@
 import './admin.css'
 import Link from 'next/link'
-import { Settings, DollarSign, Image as ImageIcon, MapPin, Eye, Globe } from 'lucide-react'
+import { Settings, DollarSign, Image as ImageIcon, MapPin, Eye, Globe, Utensils } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -55,6 +55,13 @@ export default function AdminLayout({
               >
                 <Globe className="w-4 h-4" />
                 网站设置
+              </Link>
+              <Link 
+                href="/admin/menu" 
+                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+              >
+                <Utensils className="w-4 h-4" />
+                菜单管理
               </Link>
             </div>
           </div>
