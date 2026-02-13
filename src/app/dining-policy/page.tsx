@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, MessageCircle } from "lucide-react";
 import { policySections, policyFooter } from "@/data/diningPolicy";
-import { siteConfig } from "@/data/locations";
+import { siteConfig } from "@/lib/locations";
 
 export const metadata: Metadata = {
   title: "Dining Policy | Ombu Grill - Restaurant Rules & Guidelines",
