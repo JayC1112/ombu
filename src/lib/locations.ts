@@ -110,3 +110,14 @@ export const siteConfig = {
   name: "Ombu Grill Utah",
   phone: "(801) 561-3577",
 };
+
+// Get concept label
+export function getConceptLabel(location: { concepts: { kbbq: boolean; hotpot: boolean } }) {
+  if (location.concepts.kbbq && location.concepts.hotpot) {
+    return "KBBQ + Hot Pot";
+  }
+  if (location.concepts.hotpot) {
+    return "Hot Pot";
+  }
+  return "KBBQ";
+}
