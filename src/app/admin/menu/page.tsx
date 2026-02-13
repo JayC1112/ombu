@@ -32,7 +32,7 @@ export default function MenuPage() {
   const [categories, setCategories] = useState<MenuCategory[]>([])
   const [items, setItems] = useState<MenuItem[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'categories' | 'items'>('categories')
+  const [activeTab, setActiveTab] = useState<'categories' | 'items'>('items')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   
