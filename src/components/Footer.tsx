@@ -1,11 +1,13 @@
 "use client";
 
 import { Instagram, Music2, MapPin, Phone, Navigation, Utensils } from "lucide-react";
-import { locations, socialLinks, getDirectionsUrl } from "@/data/locations";
+import { useCMSData, defaultSocialLinks, buildDirectionsUrl } from "@/hooks/useCMSData";
 import { useLocationStore } from "@/store/locationStore";
 import { scrollToSection } from "@/utils/scrollTo";
+import { Loader2 } from "lucide-react";
 
 export default function Footer() {
+  const { locations, siteSettings, loading } = useCMSData();
   const currentYear = new Date().getFullYear();
 
   // Get active location for mobile CTA
@@ -20,6 +22,23 @@ export default function Footer() {
   const hasActiveLocation =
     currentLocation !== null && (hasSelectedLocation || hasNearestLocation);
 
+  // Build directions URL for current location
+  const getDirectionsUrl = (loc: typeof locations[0]) => {
+    return buildDirectionsUrl(loc.address, loc.city, loc.state, loc.zip);
+  };
+
+  if (loading) {
+    return (
+      <footer className="bg-card border-t border-border">
+        <div className="container mx-auto px-4 py-12">
+          <div className="flex justify-center">
+            <Loader2 className="animate-spin" />
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
@@ -28,31 +47,24 @@ export default function Footer() {
             {/* Brand */}
             <div className="lg:col-span-1">
               <h3 className="text-2xl font-bold text-gradient mb-4">
-                OMBU GRILL
+                {siteSettings.site_name?.toUpperCase() || 'OMBU GRILL'}
               </h3>
               <p className="text-muted mb-4">
-                Utah&apos;s #1 Korean BBQ & Hot Pot experience with 6 locations
-                to serve you.
+                {siteSettings.site_description || `Utah&apos;s #1 Korean BBQ & Hot Pot experience with ${locations.length} locations to serve you.`}
               </p>
               <div className="flex gap-3">
-                <a
-                  href={socialLinks.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-card-hover flex items-center justify-center hover:bg-primary transition-colors"
-                  aria-label="Instagram"
-                >
-                  <Instagram size={18} />
-                </a>
-                <a
-                  href={socialLinks.tiktok}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-card-hover flex items-center justify-center hover:bg-primary transition-colors"
-                  aria-label="TikTok"
-                >
-                  <Music2 size={18} />
-                </a>
+                {defaultSocialLinks.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-card-hover flex items-center justify-center hover:bg-primary transition-colors"
+                    aria-label={social.name}
+                  >
+                    {social.icon === 'instagram' ? <Instagram size={18} /> : <Music2 size={18} />}
+                  </a>
+                ))}
               </div>
             </div>
 
@@ -137,7 +149,7 @@ export default function Footer() {
                       size={14}
                     />
                     <div className="text-sm">
-                      <p className="text-foreground">{location.name}</p>
+                      <p className="text-foreground">{location.fullName || location.name}</p>
                       <a
                         href={`tel:${location.phone}`}
                         className="text-muted hover:text-primary transition-colors"
@@ -152,7 +164,7 @@ export default function Footer() {
                     onClick={() => scrollToSection("locations")}
                     className="text-primary hover:underline text-sm cursor-pointer"
                   >
-                    View all 6 locations →
+                    View all {locations.length} locations →
                   </button>
                 </li>
               </ul>

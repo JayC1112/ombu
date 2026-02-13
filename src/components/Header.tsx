@@ -6,7 +6,7 @@ import { Menu, X, Phone, MapPin, Navigation, Utensils } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useLocationStore } from "@/store/locationStore";
-import { getDirectionsUrl } from "@/data/locations";
+import { buildDirectionsUrl } from "@/hooks/useCMSData";
 
 const navLinks = [
   { href: "/#home", label: "Home", sectionId: "home" },
@@ -134,7 +134,7 @@ export default function Header() {
                 <span>{callLabel}</span>
               </motion.a>
               <motion.a
-                href={getDirectionsUrl(currentLocation)}
+                href={buildDirectionsUrl(currentLocation.address, currentLocation.city, currentLocation.state, currentLocation.zip)}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -222,7 +222,7 @@ export default function Header() {
                     {callLabel}
                   </a>
                   <a
-                    href={getDirectionsUrl(currentLocation)}
+                    href={buildDirectionsUrl(currentLocation.address, currentLocation.city, currentLocation.state, currentLocation.zip)}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsMobileMenuOpen(false)}

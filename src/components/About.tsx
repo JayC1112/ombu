@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { Beef, Salad, Flame, Users } from "lucide-react";
 import { useDisplayPrices } from "@/utils/priceGate";
 import { useLocationStore } from "@/store/locationStore";
-import { getPricing, getAvailableConcepts } from "@/data/locations";
+import { useCMSData } from "@/hooks/useCMSData";
 
 const getFeatures = (displayPrices: boolean, pricing: { lunch: number | null; dinner: number | null } | null) => [
   {
@@ -42,14 +42,12 @@ export default function About() {
   
   // Check if prices should be displayed
   const displayPrices = useDisplayPrices();
+  const { siteSettings } = useCMSData();
   const { activeLocation, activeConcept } = useLocationStore();
   const currentLocation = activeLocation();
   const currentConcept = activeConcept();
-  const pricing = currentLocation && currentConcept
-    ? getPricing(currentLocation, currentConcept)
-    : null;
   
-  const features = getFeatures(displayPrices, pricing);
+  const features = getFeatures(displayPrices, null);
 
   return (
     <section id="about" className="py-24 relative">

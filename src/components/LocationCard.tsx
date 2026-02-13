@@ -3,19 +3,39 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { MapPin, Phone, Clock, Navigation, Check, Beef, Soup } from "lucide-react";
-import {
-  type Location,
-  getDirectionsUrl,
-  getConceptLabel,
-  getAvailableConcepts,
-} from "@/data/locations";
 import { useLocationStore } from "@/store/locationStore";
-import { getLocationImage } from "@/data/images";
+import { buildDirectionsUrl } from "@/hooks/useCMSData";
 import ImagePlaceholder from "./ImagePlaceholder";
 import { PRICING_HIDDEN_MESSAGE } from "@/config/pricingVisibility";
 
+// Type for transformed location from useCMSData hook
+interface TransformedLocation {
+  id: string;
+  slug: string;
+  name: string;
+  fullName?: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  phoneDisplay: string;
+  phoneE164?: string;
+  hours: string;
+  hoursShort?: string;
+  lat: number | null;
+  lng: number | null;
+  concepts: {
+    kbbq: boolean;
+    hotpot: boolean;
+  };
+  timeLimitMinutes?: number | null;
+  isActive?: boolean;
+  displayOrder?: number;
+}
+
 interface LocationCardProps {
-  location: Location;
+  location: TransformedLocation;
   index: number;
 }
 
@@ -41,15 +61,19 @@ export default function LocationCard({ location, index }: LocationCardProps) {
     setSelectedLocation(location);
   };
 
-  // Get concept info
-  const conceptLabel = getConceptLabel(location);
-  const concepts = getAvailableConcepts(location);
-  const hasBoth = concepts.length === 2;
-  const isKbbqOnly = concepts.length === 1 && concepts[0] === "kbbq";
-  const isHotpotOnly = concepts.length === 1 && concepts[0] === "hotpot";
+  // Get concept info from the transformed format
+  const { concepts } = location;
+  const hasBoth = concepts.kbbq && concepts.hotpot;
+  const isKbbqOnly = concepts.kbbq && !concepts.hotpot;
+  const isHotpotOnly = concepts.hotpot && !concepts.kbbq;
+  
+  const conceptLabel = hasBoth ? 'KBBQ & Hot Pot' : isKbbqOnly ? 'KBBQ' : 'Hot Pot';
 
-  // Get location image
-  const locationImage = getLocationImage(location.id);
+  // Get directions URL
+  const directionsUrl = buildDirectionsUrl(location.address, location.city, location.state, location.zip);
+
+  // Display name - use fullName if available
+  const displayName = location.fullName || location.name;
 
   return (
     <motion.div
@@ -61,14 +85,8 @@ export default function LocationCard({ location, index }: LocationCardProps) {
         isNearest ? "ring-2 ring-accent" : ""
       } ${isSelected ? "ring-2 ring-primary glow" : ""}`}
     >
-      {/* Location Image */}
-      <div className="relative w-full h-36">
-        <ImagePlaceholder
-          image={locationImage}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover"
-        />
+      {/* Location Image - using placeholder for now */}
+      <div className="relative w-full h-36 bg-gradient-to-br from-card via-card-hover to-primary/20">
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
 
         {/* Status Badge - on image overlay */}
@@ -88,7 +106,7 @@ export default function LocationCard({ location, index }: LocationCardProps) {
       <div className="p-6">
         {/* Header with Name and Concept Badge */}
         <div className="flex items-start justify-between mb-4">
-          <h3 className="text-xl font-bold">{location.name}</h3>
+          <h3 className="text-xl font-bold">{displayName}</h3>
           <div
             className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
               hasBoth
@@ -149,7 +167,7 @@ export default function LocationCard({ location, index }: LocationCardProps) {
             Call
           </a>
           <a
-            href={getDirectionsUrl(location)}
+            href={directionsUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={handleSelect}

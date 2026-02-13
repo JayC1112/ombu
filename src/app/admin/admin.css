@@ -1,0 +1,66 @@
+/* Admin Panel - Light Mode Override */
+.admin-panel {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --border-color: #e5e7eb;
+}
+
+/* Force light mode styles for admin inputs */
+.admin-panel input[type="text"],
+.admin-panel input[type="number"],
+.admin-panel input[type="email"],
+.admin-panel input[type="password"],
+.admin-panel select,
+.admin-panel textarea {
+  background-color: white !important;
+  color: #111827 !important;
+  border-color: #d1d5db !important;
+}
+
+.admin-panel input::placeholder {
+  color: #9ca3af !important;
+}
+
+.admin-panel label {
+  color: #374151 !important;
+}
+
+/* Table styles */
+.admin-panel table {
+  background-color: white !important;
+  color: #111827 !important;
+}
+
+.admin-panel th {
+  color: #374151 !important;
+  background-color: #f9fafb !important;
+}
+
+.admin-panel td {
+  color: #111827 !important;
+  background-color: white !important;
+}
+
+/* Headings */
+.admin-panel h1,
+.admin-panel h2,
+.admin-panel h3,
+.admin-panel h4 {
+  color: #111827 !important;
+}
+
+/* Links */
+.admin-panel a {
+  color: #2563eb !important;
+}
+
+.admin-panel a:hover {
+  color: #1d4ed8 !important;
+}
+
+/* Buttons */
+.admin-panel button {
+  color: white !important;
+}

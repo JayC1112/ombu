@@ -1,20 +1,72 @@
-"use client";
+'use client';
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { MapPin, Loader2, RotateCcw, Beef, Soup, Filter } from "lucide-react";
-import { locations, getConceptLabel } from "@/data/locations";
 import { useLocationStore } from "@/store/locationStore";
 import LocationCard from "./LocationCard";
 import { PRICING_HIDDEN_MESSAGE } from "@/config/pricingVisibility";
 
 type FilterType = "all" | "kbbq" | "hotpot";
 
+// Types matching API response
+interface ApiLocation {
+  id: string;
+  location_id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  phone_display: string;
+  hours: string;
+  hours_short: string;
+  lat: number | null;
+  lng: number | null;
+  concept: string;
+  time_limit_minutes: number | null;
+  is_active: boolean;
+  display_order: number;
+}
+
+// Transform API data to expected format
+function transformLocation(loc: ApiLocation) {
+  const concepts = {
+    kbbq: loc.concept.includes('kbbq'),
+    hotpot: loc.concept.includes('hotpot'),
+  };
+  
+  return {
+    id: loc.location_id,
+    slug: loc.location_id,
+    name: loc.name.replace('Ombu Grill ', '').replace('Ombu Hotpot ', ''),
+    fullName: loc.name,
+    address: loc.address,
+    city: loc.city,
+    state: loc.state,
+    zip: loc.zip,
+    phone: loc.phone,
+    phoneDisplay: loc.phone_display,
+    phoneE164: `+1${loc.phone}`,
+    hours: loc.hours,
+    hoursShort: loc.hours_short,
+    lat: loc.lat,
+    lng: loc.lng,
+    concepts,
+    pricing: {}, // Will be fetched separately
+    timeLimitMinutes: loc.time_limit_minutes,
+    isActive: loc.is_active,
+  };
+}
+
 export default function Locations() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [filter, setFilter] = useState<FilterType>("all");
+  const [locations, setLocations] = useState<ReturnType<typeof transformLocation>[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const {
     locationStatus,
@@ -26,6 +78,22 @@ export default function Locations() {
 
   const isLocating = locationStatus === "locating";
   const hasSelection = selectedLocation !== null;
+
+  useEffect(() => {
+    async function fetchLocations() {
+      try {
+        const res = await fetch('/api/cms/locations');
+        const data: ApiLocation[] = await res.json();
+        const activeLocations = data.filter((loc: ApiLocation) => loc.is_active);
+        setLocations(activeLocations.map(transformLocation));
+      } catch (err) {
+        console.error('Failed to fetch locations:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchLocations();
+  }, []);
 
   // Filter locations based on concept
   const filteredLocations = locations.filter((location) => {
@@ -47,6 +115,24 @@ export default function Locations() {
     }
     return 0;
   });
+
+  // Helper function for concept label
+  function getConceptLabel(loc: ReturnType<typeof transformLocation>) {
+    if (loc.concepts.kbbq && loc.concepts.hotpot) return 'KBBQ & Hot Pot';
+    if (loc.concepts.hotpot) return 'Hot Pot';
+    return 'KBBQ';
+  }
+
+  if (loading) {
+    return (
+      <section id="locations" className="py-24 relative">
+        <div className="container mx-auto px-4 text-center">
+          <Loader2 className="animate-spin mx-auto" size={32} />
+          <p className="mt-4 text-muted">Loading locations...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="locations" className="py-24 relative">

@@ -8,53 +8,29 @@ import Locations from "@/components/Locations";
 import GoogleReviewsPreview from "@/components/GoogleReviewsPreview";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import { locations, siteConfig, getBrandName, getConceptLabel } from "@/data/locations";
 
-// ItemList schema for locations (SEO)
-const locationsItemListSchema = {
+// Simple SEO schema - will be enhanced when other components are updated
+const siteSchema = {
   "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Ombu Grill Locations in Utah",
-  description: "All 6 Ombu Grill and Ombu Hotpot locations across Utah",
-  numberOfItems: locations.length,
-  itemListElement: locations.map((loc, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    item: {
-      "@type": "Restaurant",
-      "@id": `${siteConfig.url}/locations/${loc.slug}`,
-      name: `${getBrandName(loc)} - ${loc.name}`,
-      description: `All-you-can-eat ${getConceptLabel(loc)} in ${loc.city}, Utah`,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: loc.address,
-        addressLocality: loc.city,
-        addressRegion: loc.state,
-        postalCode: loc.zip,
-        addressCountry: "US",
-      },
-      telephone: loc.phoneDisplay,
-      url: `${siteConfig.url}/locations/${loc.slug}`,
-      servesCuisine: loc.concepts.kbbq ? ["Korean", "BBQ"] : ["Korean", "Hot Pot"],
-      ...(loc.googleMapsUrl && { sameAs: [loc.googleMapsUrl] }),
-      ...(loc.lat && loc.lng && {
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: loc.lat,
-          longitude: loc.lng,
-        },
-      }),
-    },
-  })),
+  "@type": "RestaurantChain",
+  name: "Ombu Grill Utah",
+  description: "Korean BBQ and Hot Pot restaurants in Utah",
+  url: "https://ombugrillutah.com",
+  servesCuisine: ["Korean BBQ", "Hot Pot"],
+  areaServed: {
+    "@type": "State",
+    name: "Utah"
+  },
+  priceRange: "$$"
 };
 
 export default function Home() {
   return (
     <>
-      {/* ItemList schema for locations */}
+      {/* Site schema for SEO */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(locationsItemListSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
       />
       <Header />
       <main>

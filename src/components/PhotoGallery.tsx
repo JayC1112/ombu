@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { galleryImages } from "@/data/gallery";
-import ImagePlaceholder from "./ImagePlaceholder";
+import { useCMSData } from "@/hooks/useCMSData";
 
 export default function PhotoGallery() {
+  const { galleryImages, loading } = useCMSData();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -49,26 +49,22 @@ export default function PhotoGallery() {
               msOverflowStyle: "none",
             }}
           >
-            {galleryImages.map((image, index) => (
+            {(loading ? [] : galleryImages).map((image, index) => (
               <motion.div
-                key={index}
+                key={image.id || index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.4, delay: 0.1 * index }}
                 className="relative flex-shrink-0 snap-center"
               >
-                <div className="relative w-64 h-48 md:w-80 md:h-60 rounded-xl overflow-hidden group">
-                  <ImagePlaceholder
-                    image={image}
-                    fill
-                    sizes="(max-width: 768px) 256px, 320px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                <div className="relative w-64 h-48 md:w-80 md:h-60 rounded-xl overflow-hidden group bg-gradient-to-br from-card via-card-hover to-primary/20">
+                  {/* Using placeholder gradient since we don't have real images yet */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-card via-card-hover to-primary/20" />
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                       <p className="text-sm text-white font-medium">
-                        {image.alt}
+                        {image.title || image.alt_text || image.description}
                       </p>
                     </div>
                   </div>

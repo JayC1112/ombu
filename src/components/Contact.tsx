@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Instagram, Music2, Mail, MessageCircle } from "lucide-react";
-import { socialLinks } from "@/data/locations";
+import { useCMSData } from "@/hooks/useCMSData";
 import { scrollToSection } from "@/utils/scrollTo";
 
 export default function Contact() {
+  const { siteSettings } = useCMSData();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -38,7 +39,7 @@ export default function Contact() {
             className="grid md:grid-cols-2 gap-4 mb-12"
           >
             <a
-              href={socialLinks.instagram}
+              href={siteSettings.instagram_url || 'https://instagram.com/ombuutah'}
               target="_blank"
               rel="noopener noreferrer"
               className="glass rounded-2xl p-6 hover:bg-card-hover transition-all duration-300 flex items-center gap-4 group"
@@ -55,7 +56,7 @@ export default function Contact() {
             </a>
 
             <a
-              href={socialLinks.tiktok}
+              href={siteSettings.tiktok_url || 'https://tiktok.com/@ombu_utah'}
               target="_blank"
               rel="noopener noreferrer"
               className="glass rounded-2xl p-6 hover:bg-card-hover transition-all duration-300 flex items-center gap-4 group"

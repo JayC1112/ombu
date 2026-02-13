@@ -1,0 +1,7 @@
+-- 关闭 location_info 表的 RLS（测试用）
+ALTER TABLE location_info DISABLE ROW LEVEL SECURITY;
+
+-- 对其他表也关掉 RLS（如果需要）
+ALTER TABLE site_settings DISABLE ROW LEVEL SECURITY;
+ALTER TABLE site_images DISABLE ROW LEVEL SECURITY;
+ALTER TABLE location_pricing DISABLE ROW LEVEL SECURITY;
