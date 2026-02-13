@@ -58,7 +58,7 @@ export default function LocationCard({ location, index }: LocationCardProps) {
 
   // Handle selecting this location
   const handleSelect = () => {
-    setSelectedLocation(location);
+    setSelectedLocation(location as any);
   };
 
   // Get concept info from the transformed format
