@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { locations, siteConfig } from "@/data/locations";
+import SettingsLoader from "@/components/SettingsLoader";
 
 // Global JSON-LD schemas
 const websiteSchema = {
@@ -327,6 +328,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
+        <SettingsLoader />
         {children}
       </body>
     </html>
