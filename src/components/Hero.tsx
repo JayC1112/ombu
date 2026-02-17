@@ -18,7 +18,7 @@ import {
   getPricing,
   getAvailableConcepts,
   getConceptLabel,
-} from "@/data/locations";
+} from "@/store/locationStore";
 import { useLocationStore } from "@/store/locationStore";
 import { heroImage } from "@/data/images";
 import ImagePlaceholder from "./ImagePlaceholder";
@@ -37,12 +37,14 @@ export default function Hero() {
     activeConcept,
     requestUserLocation,
     setSelectedConcept,
+    fetchLocations,
   } = useLocationStore();
 
   // Request location on mount
   useEffect(() => {
+    fetchLocations();
     requestUserLocation();
-  }, [requestUserLocation]);
+  }, []);
 
   // Get the active location and concept
   const currentLocation = activeLocation();

@@ -7,8 +7,8 @@ import { Beef, Fish, UtensilsCrossed, Salad, CookingPot, Coffee, IceCream, Star,
 import { menuCategoryImages } from "@/data/images";
 import ImagePlaceholder from "./ImagePlaceholder";
 import { useDisplayPrices } from "@/utils/priceGate";
-import { useLocationStore } from "@/store/locationStore";
-import { getPricing, getAvailableConcepts } from "@/data/locations";
+import { useLocationStore, getAvailableConcepts } from "@/store/locationStore";
+import { getPricing } from "@/data/locations";
 import { scrollToSection } from "@/utils/scrollTo";
 
 // Menu categories with icons

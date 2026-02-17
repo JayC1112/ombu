@@ -1,12 +1,25 @@
 import { create } from "zustand";
-import {
-  locations,
-  type Location,
-  type Concept,
-  getAvailableConcepts,
-} from "@/data/locations";
 
 export type LocationStatus = "idle" | "locating" | "granted" | "denied" | "error";
+export type Concept = "kbbq" | "hotpot";
+
+interface Location {
+  id: string;
+  slug: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  phoneDisplay: string;
+  phoneE164: string;
+  hours: string;
+  hoursShort: string;
+  lat: number | null;
+  lng: number | null;
+  concept: Concept | Concept[];
+}
 
 interface UserCoordinates {
   lat: number;
@@ -18,17 +31,18 @@ interface LocationState {
   userLocation: UserCoordinates | null;
   locationStatus: LocationStatus;
   nearestLocation: Location | null;
-  nearestDistance: number | null; // in miles
-  selectedLocation: Location | null; // User manually selected
-  selectedConcept: Concept | null; // Selected concept (kbbq or hotpot)
+  nearestDistance: number | null;
+  selectedLocation: Location | null;
+  selectedConcept: Concept | null;
+  locations: Location[];
+  loading: boolean;
 
-  // Computed: returns selectedLocation if set, otherwise nearestLocation
+  // Computed
   activeLocation: () => Location | null;
-
-  // Computed: returns the active concept for the active location
   activeConcept: () => Concept | null;
 
   // Actions
+  fetchLocations: () => Promise<void>;
   requestUserLocation: () => void;
   computeNearest: (coords: UserCoordinates) => void;
   setSelectedLocation: (location: Location | null) => void;
@@ -36,49 +50,73 @@ interface LocationState {
   clearSelection: () => void;
 }
 
-// Haversine formula to calculate distance between two points
-function getDistanceMiles(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-): number {
-  const R = 3959; // Earth's radius in miles
+// Haversine formula
+function getDistanceMiles(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 3959;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
 
+function transformLocation(loc: any): Location {
+  const concept: Concept | Concept[] = loc.concept === 'both' 
+    ? ['kbbq', 'hotpot'] 
+    : loc.concept === 'hotpot' ? 'hotpot' : 'kbbq'
+  
+  return {
+    id: loc.location_id,
+    slug: loc.location_id,
+    name: loc.name,
+    address: loc.address,
+    city: loc.city,
+    state: loc.state,
+    zip: loc.zip,
+    phone: loc.phone,
+    phoneDisplay: loc.phone_display || loc.phone,
+    phoneE164: loc.phone,
+    hours: loc.hours || 'Daily 11 AM - 10 PM',
+    hoursShort: loc.hours_short || '11AM-10PM',
+    lat: loc.lat,
+    lng: loc.lng,
+    concept,
+  }
+}
+
+export function getAvailableConcepts(location: Location): Concept[] {
+  if (Array.isArray(location.concept)) {
+    return location.concept
+  }
+  return [location.concept]
+}
+
+export function getConceptLabel(concept: Concept): string {
+  return concept === 'kbbq' ? 'Korean BBQ' : 'Hot Pot'
+}
+
 export const useLocationStore = create<LocationState>((set, get) => ({
-  // Initial state
   userLocation: null,
   locationStatus: "idle",
   nearestLocation: null,
   nearestDistance: null,
   selectedLocation: null,
   selectedConcept: null,
+  locations: [],
+  loading: true,
 
-  // Computed: get active location (selected > nearest)
   activeLocation: () => {
     const state = get();
     return state.selectedLocation || state.nearestLocation;
   },
 
-  // Computed: get active concept for the active location
   activeConcept: () => {
     const state = get();
     const activeLocation = state.selectedLocation || state.nearestLocation;
-
     if (!activeLocation) return null;
 
-    // If user selected a concept, use it (if valid for this location)
     if (state.selectedConcept) {
       const available = getAvailableConcepts(activeLocation);
       if (available.includes(state.selectedConcept)) {
@@ -86,14 +124,32 @@ export const useLocationStore = create<LocationState>((set, get) => ({
       }
     }
 
-    // Default to first available concept
     const available = getAvailableConcepts(activeLocation);
     return available[0] || null;
   },
 
-  // Request user's geolocation
+  fetchLocations: async () => {
+    try {
+      const res = await fetch('/api/cms/locations', { next: { revalidate: 60 } })
+      const data = await res.json()
+      
+      if (Array.isArray(data)) {
+        const locations = data.map(transformLocation)
+        set({ locations, loading: false })
+        
+        // Auto-detect nearest if we have user location
+        const state = get()
+        if (state.userLocation) {
+          get().computeNearest(state.userLocation)
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch locations:', error)
+      set({ loading: false })
+    }
+  },
+
   requestUserLocation: () => {
-    // Check if geolocation is available
     if (typeof window === "undefined" || !navigator.geolocation) {
       set({ locationStatus: "error" });
       return;
@@ -103,81 +159,64 @@ export const useLocationStore = create<LocationState>((set, get) => ({
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const coords = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        set({
-          userLocation: coords,
-          locationStatus: "granted",
-        });
-        // Compute nearest after getting location
+        const coords = { lat: position.coords.latitude, lng: position.coords.longitude };
+        set({ userLocation: coords, locationStatus: "granted" });
         get().computeNearest(coords);
       },
       (error) => {
-        if (error.code === error.PERMISSION_DENIED) {
-          set({ locationStatus: "denied" });
-        } else {
-          set({ locationStatus: "error" });
-        }
+        set({ locationStatus: error.code === error.PERMISSION_DENIED ? "denied" : "error" });
       },
-      {
-        enableHighAccuracy: false,
-        timeout: 10000,
-        maximumAge: 300000, // Cache for 5 minutes
-      }
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
     );
   },
 
-  // Compute nearest location from user coordinates
   computeNearest: (coords: UserCoordinates) => {
+    const { locations } = get();
     let minDistance = Infinity;
     let nearest: Location | null = null;
 
     locations.forEach((location) => {
-      // Skip locations without valid lat/lng
-      if (location.lat === null || location.lng === null) {
-        return;
-      }
-
-      const distance = getDistanceMiles(
-        coords.lat,
-        coords.lng,
-        location.lat,
-        location.lng
-      );
-
-      if (distance < minDistance) {
-        minDistance = distance;
-        nearest = location;
+      if (location.lat && location.lng) {
+        const distance = getDistanceMiles(coords.lat, coords.lng, location.lat, location.lng);
+        if (distance < minDistance) {
+          minDistance = distance;
+          nearest = location;
+        }
       }
     });
 
-    set({
-      nearestLocation: nearest,
-      nearestDistance: nearest ? Math.round(minDistance * 10) / 10 : null,
-    });
+    set({ nearestLocation: nearest, nearestDistance: nearest ? Math.round(minDistance * 10) / 10 : null });
   },
 
-  // Set a manually selected location (from clicking a location card)
   setSelectedLocation: (location: Location | null) => {
-    set({
-      selectedLocation: location,
-      // Reset concept when changing location
-      selectedConcept: null,
-    });
+    set({ selectedLocation: location, selectedConcept: null });
   },
 
-  // Set selected concept (kbbq or hotpot)
   setSelectedConcept: (concept: Concept | null) => {
     set({ selectedConcept: concept });
   },
 
-  // Clear selection (both location and concept)
   clearSelection: () => {
-    set({
-      selectedLocation: null,
-      selectedConcept: null,
-    });
+    set({ selectedLocation: null, selectedConcept: null });
   },
 }));
+
+// Get pricing for a location
+export async function getPricing(location: Location, concept: Concept): Promise<{ lunch: number | null; dinner: number | null } | null> {
+  try {
+    const res = await fetch(`/api/cms/pricing?location_id=${location.slug}`, { next: { revalidate: 60 } })
+    const data = await res.json()
+    
+    if (!data || data.length === 0) return null
+    
+    const pricing = data[0]
+    if (concept === 'kbbq') {
+      return { lunch: pricing.lunch_price, dinner: pricing.dinner_price }
+    } else if (concept === 'hotpot') {
+      return { lunch: pricing.hotpot_lunch || pricing.lunch_price, dinner: pricing.hotpot_dinner || pricing.dinner_price }
+    }
+    return null
+  } catch {
+    return null
+  }
+}
