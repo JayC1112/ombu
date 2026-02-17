@@ -63,15 +63,17 @@ export default function SettingsPage() {
     setSaving(true)
     setSaved(false)
 
-    // Save each setting
+    // Save each setting via API
     for (const [key, value] of Object.entries(settings)) {
       if (value !== undefined) {
-        const { error } = await supabase
-          .from('site_settings')
-          .upsert({ id: key, value, status: 'published' }, { onConflict: 'id' })
-        
-        if (error) {
-          console.error('Error saving:', key, error)
+        const res = await fetch('/api/cms/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: key, value })
+        })
+        const data = await res.json()
+        if (data.error) {
+          console.error('Error saving:', key, data.error)
         }
       }
     }
