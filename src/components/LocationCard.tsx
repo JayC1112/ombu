@@ -37,9 +37,10 @@ interface TransformedLocation {
 interface LocationCardProps {
   location: TransformedLocation;
   index: number;
+  imageUrl?: string | null;
 }
 
-export default function LocationCard({ location, index }: LocationCardProps) {
+export default function LocationCard({ location, index, imageUrl }: LocationCardProps) {
   const {
     nearestLocation,
     selectedLocation,
@@ -85,9 +86,13 @@ export default function LocationCard({ location, index }: LocationCardProps) {
         isNearest ? "ring-2 ring-accent" : ""
       } ${isSelected ? "ring-2 ring-primary glow" : ""}`}
     >
-      {/* Location Image - using placeholder for now */}
+      {/* Location Image */}
       <div className="relative w-full h-36 bg-gradient-to-br from-card via-card-hover to-primary/20">
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+        {imageUrl ? (
+          <img src={imageUrl} alt={location.name} className="w-full h-full object-cover" />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+        )}
 
         {/* Status Badge - on image overlay */}
         {isNearest && !isSelected && (

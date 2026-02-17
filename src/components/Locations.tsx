@@ -78,14 +78,27 @@ export default function Locations() {
 
   const isLocating = locationStatus === "locating";
   const hasSelection = selectedLocation !== null;
+  const [locationImages, setLocationImages] = useState<Record<string, string>>({});
 
   useEffect(() => {
     async function fetchLocations() {
       try {
-        const res = await fetch('/api/cms/locations');
-        const data: ApiLocation[] = await res.json();
+        const [locRes, imgRes] = await Promise.all([
+          fetch('/api/cms/locations'),
+          fetch('/api/cms/images')
+        ]);
+        const data: ApiLocation[] = await locRes.json();
+        const images = await imgRes.json();
+        
         const activeLocations = data.filter((loc: ApiLocation) => loc.is_active);
         setLocations(activeLocations.map(transformLocation));
+        
+        // Set location images
+        const imgMap: Record<string, string> = {};
+        images.filter((img: any) => img.category === 'location').forEach((img: any) => {
+          imgMap[img.key] = img.image_url;
+        });
+        setLocationImages(imgMap);
       } catch (err) {
         console.error('Failed to fetch locations:', err);
       } finally {
@@ -268,6 +281,7 @@ export default function Locations() {
                 key={location.id}
                 location={location}
                 index={index}
+                imageUrl={locationImages[location.slug] || null}
               />
             ))}
           </div>
