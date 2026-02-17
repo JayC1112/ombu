@@ -138,7 +138,7 @@ export default function Locations() {
 
   if (loading) {
     return (
-      <section id="locations" className="py-24 relative">
+      <section id="locations" className="py-24 relative bg-background">
         <div className="container mx-auto px-4 text-center">
           <Loader2 className="animate-spin mx-auto" size={32} />
           <p className="mt-4 text-muted">Loading locations...</p>

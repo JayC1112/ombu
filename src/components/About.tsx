@@ -50,7 +50,7 @@ export default function About() {
   const features = getFeatures(displayPrices, null);
 
   return (
-    <section id="about" className="py-24 relative">
+    <section id="about" className="py-24 relative bg-background">
       <div className="container mx-auto px-4">
         <div ref={ref} className="max-w-6xl mx-auto">
           {/* Section Header */}

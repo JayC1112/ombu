@@ -28,7 +28,7 @@ export default function DiningRules() {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <section ref={ref} className="py-6 border-y border-border bg-card/30">
+    <section ref={ref} className="py-6 border-y border-border bg-background">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 10 }}

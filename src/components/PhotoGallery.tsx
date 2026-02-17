@@ -12,7 +12,7 @@ export default function PhotoGallery() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="py-16 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden bg-background">
       <div ref={ref} className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
