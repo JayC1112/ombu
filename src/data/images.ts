@@ -6,7 +6,7 @@
  * instead of broken images.
  */
 
-export const IMAGE_PLACEHOLDERS_ENABLED = true;
+export const IMAGE_PLACEHOLDERS_ENABLED = false;
 
 export interface ImageData {
   src: string;
