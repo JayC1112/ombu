@@ -69,7 +69,7 @@ export default function MenuPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
       <section className="relative py-20 bg-gradient-to-br from-card via-card-hover to-primary/20">
         <div className="container mx-auto px-4">
@@ -159,7 +159,7 @@ export default function MenuPage() {
       </section>
 
       {/* Info Banner */}
-      <section className="py-8 bg-card/50 border-t border-border">
+      <section className="py-8 bg-white/50 dark:bg-black/30 border-t border-border">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid sm:grid-cols-3 gap-6 text-center">
