@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -9,26 +10,37 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-
-  // 简化的登录验证（生产环境应该用 Supabase Auth）
-  const ADMIN_EMAIL = 'jaychen1112@gmail.com'
-  const ADMIN_PASSWORD = 'ombu2024!' // 请修改为更安全的密码
+  const supabase = createClient()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     setLoading(true)
 
-    // 简单验证（生产环境替换为真实认证）
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      // 设置 cookie（7天有效）
-      document.cookie = `admin_session=true; max-age=${7*24*60*60}; path=/; SameSite=Lax`
-      // 使用 window.location 跳转
-      window.location.href = '/admin'
-    } else {
+    // 从数据库验证用户
+    const { data, error: fetchError } = await supabase
+      .from('admin_users')
+      .select('*')
+      .eq('email', email)
+      .eq('is_active', true)
+      .single()
+
+    if (fetchError || !data) {
       setError('邮箱或密码错误')
       setLoading(false)
+      return
     }
+
+    // 验证密码
+    if (data.password_hash !== password) {
+      setError('邮箱或密码错误')
+      setLoading(false)
+      return
+    }
+
+    // 登录成功，设置 cookie
+    document.cookie = `admin_session=true; max-age=${7*24*60*60}; path=/; SameSite=Lax`
+    window.location.href = '/admin'
   }
 
   return (
