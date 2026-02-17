@@ -30,7 +30,7 @@ export default function GoogleReviewsPreview() {
   };
 
   return (
-    <section className="py-16 relative">
+    <section className="py-16 relative bg-background">
       <div className="container mx-auto px-4">
         <div ref={ref} className="max-w-6xl mx-auto">
           {/* Section Header */}

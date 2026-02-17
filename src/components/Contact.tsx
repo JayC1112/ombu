@@ -13,7 +13,7 @@ export default function Contact() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="contact" className="py-24 relative bg-card/30">
+    <section id="contact" className="py-24 relative bg-background">
       <div className="container mx-auto px-4">
         <div ref={ref} className="max-w-4xl mx-auto">
           {/* Section Header */}
