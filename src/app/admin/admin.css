@@ -64,3 +64,21 @@
 .admin-panel button {
   color: white !important;
 }
+
+/* Buttons - ensure visibility */
+.admin-panel button,
+.admin-panel .btn {
+  background-color: #2563eb !important;
+  color: white !important;
+  border: 1px solid #2563eb !important;
+}
+
+.admin-panel button:hover,
+.admin-panel .btn:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.admin-panel button:disabled {
+  background-color: #9ca3af !important;
+  border-color: #9ca3af !important;
+}
