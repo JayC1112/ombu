@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { createClient } from "@/lib/supabase";
+import { createServerClient } from "@/lib/supabase";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 // Fetch settings from database
 async function getSettings() {
-  const supabase = createClient()
+  const supabase = await createServerClient()
   const { data } = await supabase.from('site_settings').select('*')
   
   if (!data) return {}
@@ -29,7 +29,7 @@ async function getSettings() {
 
 // Fetch locations from database
 async function getLocations() {
-  const supabase = createClient()
+  const supabase = await createServerClient()
   const { data } = await supabase.from('location_info').select('*').eq('is_active', true).order('display_order')
   return data || []
 }

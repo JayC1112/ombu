@@ -1,31 +1,37 @@
 import { createBrowserClient } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 
+// Browser client (for client components)
 export function createClient() {
-  // During build time, return a dummy client
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    console.warn('Supabase env vars not set - using mock client')
-    return createBrowserClient(
-      'https://placeholder.supabase.co',
-      'placeholder'
-    )
-  }
-
   return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 }
 
-// Site settings functions
-export async function getSiteSettings() {
-  const supabase = createClient()
-  const { data } = await supabase.from('site_settings').select('*')
+// Server client (for server components like layout.tsx)
+export async function createServerClient() {
+  const cookieStore = await cookies()
   
-  if (!data) return {}
-  
-  const settings: Record<string, string> = {}
-  data.forEach((item: any) => {
-    settings[item.id] = item.value
-  })
-  return settings
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
+          } catch {
+            // Called from Server Component
+          }
+        },
+      },
+    }
+  )
 }
