@@ -138,22 +138,22 @@ export default function Header() {
           ) : (
             // No location: Show View Menu + Locations
             <div className="flex items-center gap-2">
-              <a
+              <Link
                 href="/#menu"
                 onClick={(e) => handleNavClick(e, "menu")}
                 className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-full font-medium transition-colors cursor-pointer"
               >
                 <Utensils size={16} />
                 <span>View Menu</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/#locations"
                 onClick={(e) => handleNavClick(e, "locations")}
                 className="flex items-center gap-2 bg-card hover:bg-card-hover border border-border text-foreground px-4 py-2.5 rounded-full font-medium transition-colors cursor-pointer"
               >
                 <MapPin size={16} />
                 <span>Locations</span>
-              </a>
+              </Link>
             </div>
           )}
         </nav>
@@ -216,22 +216,22 @@ export default function Header() {
                 </>
               ) : (
                 <>
-                  <a
+                  <Link
                     href="/#menu"
                     onClick={(e) => handleNavClick(e, "menu")}
                     className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl font-medium transition-colors cursor-pointer active:bg-primary-dark"
                   >
                     <Utensils size={16} />
                     Menu
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/#locations"
                     onClick={(e) => handleNavClick(e, "locations")}
                     className="flex-1 flex items-center justify-center gap-2 bg-card hover:bg-card-hover text-foreground py-3 rounded-xl font-medium transition-colors border border-border cursor-pointer active:bg-card-hover"
                   >
                     <MapPin size={16} />
                     Locations
-                  </a>
+                  </Link>
                 </>
               )}
             </div>

@@ -22,12 +22,6 @@ interface LocationInfo {
   is_active: boolean
 }
 
-const conceptLabels: Record<string, string> = {
-  'kbbq': 'KBBQ',
-  'hotpot': 'Hot Pot',
-  'kbbq+hotpot': 'KBBQ + Hot Pot',
-}
-
 export default function LocationsPage() {
   const [locations, setLocations] = useState<LocationInfo[]>([])
   const [loading, setLoading] = useState(true)
@@ -35,21 +29,21 @@ export default function LocationsPage() {
   const [saved, setSaved] = useState(false)
   const supabase = createClient()
 
-  useEffect(() => {
-    fetchLocations()
-  }, [])
-
   async function fetchLocations() {
     const { data } = await supabase
       .from('location_info')
       .select('*')
       .order('display_order')
-    
+
     if (data) {
       setLocations(data)
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    fetchLocations()
+  }, [])
 
   async function handleSave() {
     setSaving(true)

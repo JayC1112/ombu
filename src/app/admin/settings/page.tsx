@@ -40,15 +40,11 @@ export default function SettingsPage() {
   const [saved, setSaved] = useState(false)
   const supabase = createClient()
 
-  useEffect(() => {
-    fetchSettings()
-  }, [])
-
   async function fetchSettings() {
     const { data } = await supabase
       .from('site_settings')
       .select('*')
-    
+
     if (data && data.length > 0) {
       const settingsMap: SiteSettings = { ...defaultSettings }
       data.forEach((item: any) => {
@@ -58,6 +54,10 @@ export default function SettingsPage() {
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    fetchSettings()
+  }, [])
 
   async function handleSave() {
     setSaving(true)

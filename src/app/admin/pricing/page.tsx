@@ -3,9 +3,6 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
 
-// Force dynamic rendering
-export const dynamic = 'force-dynamic'
-
 interface Pricing {
   location_id: string
   kbbq_lunch: number | null
@@ -31,21 +28,21 @@ export default function PricingPage() {
   const [saved, setSaved] = useState(false)
   const supabase = createClient()
 
-  useEffect(() => {
-    fetchPricing()
-  }, [])
-
   async function fetchPricing() {
     const { data } = await supabase
       .from('location_pricing')
       .select('*')
       .order('location_id')
-    
+
     if (data) {
       setPricing(data)
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    fetchPricing()
+  }, [])
 
   async function handleSave() {
     setSaving(true)
@@ -105,7 +102,7 @@ export default function PricingPage() {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm border overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>

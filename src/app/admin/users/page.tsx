@@ -27,19 +27,19 @@ export default function UsersPage() {
   })
   const supabase = createClient()
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
-
   async function fetchUsers() {
     const { data } = await supabase
       .from('admin_users')
       .select('*')
       .order('created_at', { ascending: false })
-    
+
     if (data) setUsers(data)
     setLoading(false)
   }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
 
   async function handleSave() {
     setSaving(true)
@@ -121,8 +121,8 @@ export default function UsersPage() {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-        <table className="w-full">
+      <div className="bg-white rounded-lg shadow-sm border overflow-x-auto">
+        <table className="w-full min-w-[600px]">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">用户</th>

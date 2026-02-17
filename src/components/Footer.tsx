@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Instagram, Music2, MapPin, Phone, Navigation, Utensils } from "lucide-react";
 import { useCMSData, defaultSocialLinks, buildDirectionsUrl } from "@/hooks/useCMSData";
 import { useLocationStore } from "@/store/locationStore";
@@ -81,28 +82,28 @@ export default function Footer() {
                   </button>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="/menu"
                     className="text-muted hover:text-foreground transition-colors"
                   >
                     Full Menu
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="/ayce-guidelines"
                     className="text-muted hover:text-foreground transition-colors"
                   >
                     AYCE Guidelines
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     href="/dining-policy"
                     className="text-muted hover:text-foreground transition-colors"
                   >
                     Dining Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <button
@@ -177,12 +178,12 @@ export default function Footer() {
               © {currentYear} Ombu Grill Utah. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm text-muted">
-              <a href="#" className="hover:text-foreground transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-foreground transition-colors">
-                Terms of Service
-              </a>
+              <Link href="/dining-policy" className="hover:text-foreground transition-colors">
+                Dining Policy
+              </Link>
+              <Link href="/ayce-guidelines" className="hover:text-foreground transition-colors">
+                AYCE Guidelines
+              </Link>
             </div>
           </div>
         </div>

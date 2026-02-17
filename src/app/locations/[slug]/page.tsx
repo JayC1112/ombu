@@ -83,7 +83,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: `/images/locations/${location.id}.webp`,
+          url: `/opengraph-image`,
           width: 1200,
           height: 630,
           alt: `${brandName} ${location.name} - ${conceptLabel} in ${location.city}, Utah`,
@@ -111,7 +111,7 @@ function generateRestaurantSchema(location: Location) {
     "@type": ["Restaurant", "LocalBusiness"],
     "@id": `${siteConfig.url}/locations/${location.slug}`,
     name: `${brandName} - ${location.name}`,
-    image: `${siteConfig.url}/images/locations/${location.id}.webp`,
+    image: `${siteConfig.url}/opengraph-image`,
     url: `${siteConfig.url}/locations/${location.slug}`,
     telephone: location.phoneDisplay,
     priceRange: "$$",
@@ -600,7 +600,7 @@ export default async function LocationPage({
         </footer>
 
         {/* Mobile Sticky CTA */}
-        <div className="fixed bottom-0 left-0 right-0 md:hidden glass border-t border-border p-3 z-40">
+        <div className="fixed bottom-0 left-0 right-0 md:hidden glass border-t border-border p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] z-40">
           <div className="flex gap-2">
             <a href={`tel:${location.phone}`}
               className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl font-medium transition-colors">

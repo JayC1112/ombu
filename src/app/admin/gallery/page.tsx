@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Upload, Image as ImageIcon, Check, X, Trash2 } from 'lucide-react'
-
-export const dynamic = 'force-dynamic'
+import { Image as ImageIcon, X, Trash2 } from 'lucide-react'
 
 interface GalleryImage {
   id: string
@@ -35,10 +33,6 @@ export default function GalleryPage() {
   })
   const [uploadFile, setUploadFile] = useState<File | null>(null)
 
-  useEffect(() => {
-    fetchImages()
-  }, [])
-
   async function fetchImages() {
     try {
       const res = await fetch('/api/cms/gallery?refresh=' + Date.now())
@@ -50,6 +44,10 @@ export default function GalleryPage() {
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    fetchImages()
+  }, [])
 
   async function handleSubmit() {
     if (!formData.title) {
@@ -163,7 +161,7 @@ export default function GalleryPage() {
 
       {images.length === 0 && (
         <div className="text-center py-12 text-gray-500">
-          暂无图片，请点击"添加图片"上传
+          暂无图片，请点击&ldquo;添加图片&rdquo;上传
         </div>
       )}
 

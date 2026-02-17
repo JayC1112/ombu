@@ -4,9 +4,6 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
 import { Upload, Image as ImageIcon, Check } from 'lucide-react'
 
-// Force dynamic rendering
-export const dynamic = 'force-dynamic'
-
 // Image size recommendations
 const imageSpecs = {
   hero: { width: 1920, height: 1080, ratio: '16:9', maxSize: '2MB' },
@@ -62,21 +59,21 @@ export default function ImagesPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const supabase = createClient()
 
-  useEffect(() => {
-    fetchImages()
-  }, [])
-
   async function fetchImages() {
     const { data } = await supabase
       .from('site_images')
       .select('*')
       .order('category', { ascending: true })
-    
+
     if (data) {
       setImages(data)
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    fetchImages()
+  }, [])
 
   async function handleImageUpload(category: string, key: string, file: File) {
     const formData = new FormData()

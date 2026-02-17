@@ -11,7 +11,6 @@ export async function GETCategories() {
   const { data, error } = await supabase
     .from('menu_categories')
     .select('*')
-    .eq('is_active', true)
     .order('sort_order')
 
   if (error) {
@@ -83,7 +82,6 @@ export async function GETItems() {
   const { data, error } = await supabase
     .from('menu_items')
     .select('*')
-    .eq('is_active', true)
     .order('sort_order')
 
   if (error) {

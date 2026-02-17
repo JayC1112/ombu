@@ -1,8 +1,18 @@
 import './admin.css'
 import Link from 'next/link'
 import { Settings, DollarSign, Image as ImageIcon, MapPin, Eye, Globe, Utensils, Users } from 'lucide-react'
+import LogoutButton from './LogoutButton'
+import AdminMobileNav from './AdminMobileNav'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default function AdminLayout({
   children,
@@ -20,64 +30,66 @@ export default function AdminLayout({
                 Ombu CMS
               </Link>
             </div>
-            <div className="flex items-center gap-4">
-              <Link 
-                href="/admin/locations" 
+            <div className="hidden lg:flex items-center gap-4">
+              <Link
+                href="/admin/locations"
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <MapPin className="w-4 h-4" />
                 门店管理
               </Link>
-              <Link 
-                href="/admin/pricing" 
+              <Link
+                href="/admin/pricing"
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <DollarSign className="w-4 h-4" />
                 价格管理
               </Link>
-              <Link 
-                href="/admin/images" 
+              <Link
+                href="/admin/images"
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <ImageIcon className="w-4 h-4" />
                 图片管理
               </Link>
-              <Link 
-                href="/admin/visitors" 
+              <Link
+                href="/admin/visitors"
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <Eye className="w-4 h-4" />
                 访问统计
               </Link>
-              <Link 
-                href="/admin/settings" 
+              <Link
+                href="/admin/settings"
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <Globe className="w-4 h-4" />
                 网站设置
               </Link>
-              <Link 
-                href="/admin/menu" 
+              <Link
+                href="/admin/menu"
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <Utensils className="w-4 h-4" />
                 菜单管理
               </Link>
-              <Link 
-                href="/admin/users" 
+              <Link
+                href="/admin/users"
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <Users className="w-4 h-4" />
                 用户管理
               </Link>
-              <Link 
-                href="/admin/gallery" 
+              <Link
+                href="/admin/gallery"
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
               >
                 <ImageIcon className="w-4 h-4" />
                 相册管理
               </Link>
+              <LogoutButton />
             </div>
+            <AdminMobileNav />
           </div>
         </div>
       </nav>

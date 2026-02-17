@@ -309,10 +309,10 @@ export default async function AyceGuidelinesPage() {
               </div>
               <div className="flex items-center gap-6">
                 <Link href="/dining-policy" className="text-sm text-muted hover:text-foreground transition-colors">
-                  Privacy Policy
+                  Dining Policy
                 </Link>
-                <Link href="/dining-policy" className="text-sm text-muted hover:text-foreground transition-colors">
-                  Terms of Service
+                <Link href="/" className="text-sm text-muted hover:text-foreground transition-colors">
+                  Home
                 </Link>
               </div>
             </div>

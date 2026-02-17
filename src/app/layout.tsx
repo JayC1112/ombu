@@ -123,7 +123,7 @@ const aggregateRatingSchema = {
   "@type": "Restaurant",
   "@id": `${siteConfig.url}/#restaurant`,
   name: siteConfig.name,
-  image: `${siteConfig.url}/og-image.png`,
+  image: `${siteConfig.url}/opengraph-image`,
   servesCuisine: ["Korean", "BBQ", "Hot Pot", "Asian", "Korean BBQ"],
   priceRange: "$$",
   aggregateRating: {
@@ -149,7 +149,7 @@ const localBusinessSchemas = locations.map((loc) => ({
   "@type": "Restaurant",
   "@id": `${siteConfig.url}/locations/${loc.slug}`,
   name: `${loc.concepts.hotpot && !loc.concepts.kbbq ? "Ombu Hotpot" : "Ombu Grill"} - ${loc.name}`,
-  image: `${siteConfig.url}/og-image.png`,
+  image: `${siteConfig.url}/opengraph-image`,
   url: `${siteConfig.url}/locations/${loc.slug}`,
   telephone: loc.phoneDisplay,
   priceRange: "$$",
@@ -245,6 +245,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Ombu Grill Utah" }],
   creator: "Ombu Grill Utah",
+  alternates: {
+    canonical: "https://ombugrillutah.com",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -255,7 +258,7 @@ export const metadata: Metadata = {
       "Utah's best all-you-can-eat Korean BBQ. 6 locations: SLC, Midvale, South Jordan, Layton, Orem. Premium meats grilled at your table. Better value than Brazilian steakhouses! Select a location to view pricing.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "Ombu Grill - Utah's Best All-You-Can-Eat Korean BBQ & Hot Pot",
@@ -267,7 +270,7 @@ export const metadata: Metadata = {
     title: "Ombu Grill | Utah's #1 Korean BBQ | 6 Locations",
     description:
       "All-you-can-eat Korean BBQ & Hot Pot. 6 Utah locations. Premium meats, unlimited sides, tableside grilling. Open daily!",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

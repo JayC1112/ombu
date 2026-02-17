@@ -92,7 +92,7 @@ export default function About() {
               { value: "4.5", label: "Google Rating" },
             ].map((stat) => (
               <div key={stat.label}>
-                <div className="text-4xl md:text-5xl font-bold text-gradient mb-2">
+                <div className="text-3xl md:text-5xl font-bold text-gradient mb-2">
                   {stat.value}
                 </div>
                 <div className="text-muted">{stat.label}</div>

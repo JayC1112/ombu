@@ -12,6 +12,7 @@
 .admin-panel input[type="number"],
 .admin-panel input[type="email"],
 .admin-panel input[type="password"],
+.admin-panel input[type="url"],
 .admin-panel select,
 .admin-panel textarea {
   background-color: white !important;
@@ -51,34 +52,18 @@
   color: #111827 !important;
 }
 
-/* Links */
-.admin-panel a {
-  color: #2563eb !important;
+/* Body text */
+.admin-panel p,
+.admin-panel span,
+.admin-panel div {
+  color: inherit;
 }
 
-.admin-panel a:hover {
-  color: #1d4ed8 !important;
+/* Nav links - keep gray, not forced blue */
+.admin-panel nav a {
+  color: #374151 !important;
 }
 
-/* Buttons */
-.admin-panel button {
-  color: white !important;
-}
-
-/* Buttons - ensure visibility */
-.admin-panel button,
-.admin-panel .btn {
-  background-color: #2563eb !important;
-  color: white !important;
-  border: 1px solid #2563eb !important;
-}
-
-.admin-panel button:hover,
-.admin-panel .btn:hover {
-  background-color: #1d4ed8 !important;
-}
-
-.admin-panel button:disabled {
-  background-color: #9ca3af !important;
-  border-color: #9ca3af !important;
+.admin-panel nav a:hover {
+  color: #111827 !important;
 }

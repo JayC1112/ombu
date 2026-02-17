@@ -67,23 +67,23 @@ export default function MenuPage() {
 
   const supabase = createClient()
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
   async function fetchData() {
     setLoading(true)
-    
+
     const [catRes, itemRes] = await Promise.all([
       supabase.from('menu_categories').select('*').order('sort_order'),
       supabase.from('menu_items').select('*').order('sort_order')
     ])
-    
+
     if (catRes.data) setCategories(catRes.data)
     if (itemRes.data) setItems(itemRes.data)
-    
+
     setLoading(false)
   }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   async function handleSaveCategory() {
     setSaving(true)
@@ -206,7 +206,7 @@ export default function MenuPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-gray-100 p-6">
+    <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">菜单管理</h1>
         <button
@@ -245,7 +245,7 @@ export default function MenuPage() {
 
       {/* Categories Tab */}
       {activeTab === 'categories' && (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-200">
               <tr>
@@ -280,7 +280,7 @@ export default function MenuPage() {
 
       {/* Items Tab */}
       {activeTab === 'items' && (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-200">
               <tr>
@@ -321,7 +321,7 @@ export default function MenuPage() {
       {/* Category Form Modal */}
       {showCategoryForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4" style={{color: '#111827'}}>
               {editingCategory ? '编辑分类' : '新增分类'}
             </h2>

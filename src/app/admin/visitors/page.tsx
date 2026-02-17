@@ -8,16 +8,12 @@ export default function VisitorsPage() {
   const [loading, setLoading] = useState(true)
   const [days, setDays] = useState(30)
 
-  useEffect(() => {
-    fetchStats()
-  }, [days])
-
   async function fetchStats() {
     setLoading(true)
     try {
       const res = await fetch(`/api/cms/visitors?days=${days}`)
       const data = await res.json()
-      
+
       if (data.records) {
         setStats({
           totalVisits: data.totalVisits || 0,
@@ -37,6 +33,10 @@ export default function VisitorsPage() {
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    fetchStats()
+  }, [days])
 
   if (loading) {
     return <div className="text-center py-8">加载中...</div>
@@ -126,7 +126,7 @@ export default function VisitorsPage() {
                 <span className="text-gray-900">{item.page || '/'}</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-32 h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="w-20 sm:w-32 h-2 bg-gray-100 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-blue-500 rounded-full" 
                     style={{ width: `${(item.count / (stats?.byPage?.[0]?.count || 1)) * 100}%` }}
