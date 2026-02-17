@@ -1,8 +1,6 @@
 'use client';
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MapPin, Loader2, RotateCcw, Beef, Soup, Filter } from "lucide-react";
 import { useLocationStore } from "@/store/locationStore";
 import LocationCard from "./LocationCard";
@@ -62,8 +60,6 @@ function transformLocation(loc: ApiLocation) {
 }
 
 export default function Locations() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [filter, setFilter] = useState<FilterType>("all");
   const [locations, setLocations] = useState<ReturnType<typeof transformLocation>[]>([]);
   const [loading, setLoading] = useState(true);
@@ -150,12 +146,10 @@ export default function Locations() {
   return (
     <section id="locations" className="py-24 relative bg-background">
       <div className="container mx-auto px-4">
-        <div ref={ref} className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Section Header */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -249,13 +243,11 @@ export default function Locations() {
                 below.
               </p>
             )}
-          </motion.div>
+          </div>
 
           {/* What to Expect - Trust Block */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.15 }}
             className="glass rounded-2xl p-6 mb-10 text-center"
           >
             <h3 className="text-lg font-semibold mb-3 text-foreground">What to Expect</h3>
@@ -272,7 +264,7 @@ export default function Locations() {
               <span>Fresh banchan (sides) daily</span>
               <span>6 Utah locations</span>
             </div>
-          </motion.div>
+          </div>
 
           {/* Location Cards Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -302,10 +294,8 @@ export default function Locations() {
           )}
 
           {/* Static SEO Trust Block - Location Details with Links */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-16 glass rounded-2xl p-6 md:p-8"
           >
             <h3 className="text-2xl font-bold mb-6 text-center">
@@ -338,7 +328,7 @@ export default function Locations() {
             <p className="text-center text-muted mt-6 text-sm">
               {PRICING_HIDDEN_MESSAGE.long}
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,8 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Clock, AlertCircle, Users, Info } from "lucide-react";
 
 const rules = [
@@ -24,16 +21,12 @@ const rules = [
 ];
 
 export default function DiningRules() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <section ref={ref} className="py-6 border-y border-border bg-background">
+    <section className="py-6 border-y border-border bg-background">
       <div className="container mx-auto px-4">
-        <motion.div
+        <div
           
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
           className="max-w-4xl mx-auto"
         >
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -45,11 +38,9 @@ export default function DiningRules() {
 
           <div className="flex flex-wrap justify-center gap-4 md:gap-8">
             {rules.map((rule, index) => (
-              <motion.div
+              <div
                 key={rule.title}
                 
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
                 className="flex items-center gap-3"
               >
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
@@ -61,7 +52,7 @@ export default function DiningRules() {
                   </div>
                   <div className="text-muted text-xs">{rule.description}</div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
           <div className="text-center mt-4">
@@ -72,7 +63,7 @@ export default function DiningRules() {
               Read our Dining Policy
             </a>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

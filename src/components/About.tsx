@@ -1,8 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Beef, Salad, Flame, Users } from "lucide-react";
 import { useDisplayPrices } from "@/utils/priceGate";
 import { useLocationStore } from "@/store/locationStore";
@@ -37,8 +34,6 @@ const getFeatures = (displayPrices: boolean, pricing: { lunch: number | null; di
 ];
 
 export default function About() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
   
   // Check if prices should be displayed
   const displayPrices = useDisplayPrices();
@@ -52,12 +47,10 @@ export default function About() {
   return (
     <section id="about" className="py-24 relative bg-background">
       <div className="container mx-auto px-4">
-        <div ref={ref} className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Section Header */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
             className="text-center mb-12 md:mb-16"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -68,16 +61,14 @@ export default function About() {
               Midvale, South Jordan, Layton, Orem & South Salt Lake with 
               authentic all-you-can-eat Korean BBQ and Hot Pot.
             </p>
-          </motion.div>
+          </div>
 
           {/* Features Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
-              <motion.div
+              <div
                 key={feature.title}
                 
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="glass rounded-2xl p-6 hover:bg-card-hover transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
@@ -85,15 +76,13 @@ export default function About() {
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                 <p className="text-muted">{feature.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
 
           {/* Stats */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
             {[
@@ -109,7 +98,7 @@ export default function About() {
                 <div className="text-muted">{stat.label}</div>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

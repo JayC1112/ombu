@@ -1,8 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Beef, Fish, UtensilsCrossed, Salad, CookingPot, Coffee, IceCream, Star, MapPin } from "lucide-react";
 import { menuCategoryImages } from "@/data/images";
 import ImagePlaceholder from "./ImagePlaceholder";
@@ -131,8 +129,6 @@ const menuItems = {
 };
 
 export default function Menu() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState("bbq-meats");
   const [menuImages, setMenuImages] = useState<Record<string, string>>({});
   
@@ -171,12 +167,9 @@ export default function Menu() {
   return (
     <section id="menu" className="py-20 md:py-24 relative bg-background">
       <div className="container mx-auto px-4">
-        <div ref={ref} className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
+          <div
             className="text-center mb-8 md:mb-12"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -207,13 +200,10 @@ export default function Menu() {
                 </button>
               </div>
             )}
-          </motion.div>
+          </div>
 
           {/* Category Tabs - Scrollable on mobile */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          <div
             className="mb-8"
           >
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-start md:justify-center md:flex-wrap">
@@ -232,14 +222,11 @@ export default function Menu() {
                 </button>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Category Image + Menu Items */}
-          <motion.div
+          <div
             key={activeCategory}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
           >
             {/* Category Hero Image */}
             {(dbImage || staticImage) && (
@@ -275,16 +262,13 @@ export default function Menu() {
                 </h4>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {lunchItems.map((item, index) => (
-                    <motion.div
+                    <div
                       key={item.name}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.2, delay: index * 0.02 }}
                       className="glass rounded-xl p-4 hover:bg-card-hover transition-all duration-300"
                     >
                       <h3 className="font-semibold text-foreground">{item.name}</h3>
                       <p className="text-sm text-muted mt-1">{item.description}</p>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -300,11 +284,8 @@ export default function Menu() {
                 </h4>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {dinnerItems.map((item, index) => (
-                    <motion.div
+                    <div
                       key={item.name}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.2, delay: index * 0.02 }}
                       className="glass rounded-xl p-4 hover:bg-card-hover transition-all duration-300 border border-primary/20"
                     >
                       <div className="flex items-start justify-between gap-2">
@@ -314,18 +295,15 @@ export default function Menu() {
                         </span>
                       </div>
                       <p className="text-sm text-muted mt-1">{item.description}</p>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
             )}
-          </motion.div>
+          </div>
 
           {/* Dining Rules Summary */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
+          <div
             className="mt-10 glass rounded-2xl p-5 md:p-6"
           >
             <h4 className="font-semibold mb-3 text-center">Dining Guidelines</h4>
@@ -347,17 +325,14 @@ export default function Menu() {
                 <p className="text-muted text-xs mt-1">Please inform server</p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Note */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.4 }}
+          <p
             className="text-center text-muted text-sm mt-6"
           >
             * Menu items and pricing may vary by location. Visit your nearest Ombu Grill for the full experience.
-          </motion.p>
+          </p>
         </div>
       </div>
     </section>

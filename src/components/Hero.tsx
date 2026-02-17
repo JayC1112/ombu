@@ -112,23 +112,17 @@ export default function Hero() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+          <div
             className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 rounded-full px-4 py-2 mb-4 md:mb-6"
           >
             <Flame className="text-primary" size={18} />
             <span className="text-sm font-medium text-foreground">
               6 Locations Across Utah • Open Daily
             </span>
-          </motion.div>
+          </div>
 
           {/* Main Heading - SEO Focused */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          <h1
             className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-3 md:mb-4 leading-tight"
           >
             Utah&apos;s #1{" "}
@@ -136,14 +130,11 @@ export default function Hero() {
             <br className="hidden sm:block" />
             <span className="sm:hidden"> </span>
             Korean BBQ & Hot Pot
-          </motion.h1>
+          </h1>
 
           {/* Price highlight - Only show when location is selected */}
           {displayPrices && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
+            <div
               className="flex flex-wrap justify-center gap-2 mb-4"
             >
               {currentLocation && pricing && (
@@ -156,13 +147,10 @@ export default function Hero() {
                   </span>
                 </>
               )}
-            </motion.div>
+            </div>
           )}
           {!displayPrices && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
+            <div
               className="flex flex-wrap justify-center gap-2 mb-4"
             >
               <button
@@ -172,25 +160,19 @@ export default function Hero() {
                 <MapPin size={14} />
                 Select a location to view pricing
               </button>
-            </motion.div>
+            </div>
           )}
 
           {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+          <p
             className="text-base md:text-xl text-muted mb-6 md:mb-8 max-w-2xl mx-auto px-2"
           >
             Premium bulgogi, galbi, pork belly & 50+ items grilled at your table.
             Walk-ins welcome • No reservations needed.
-          </motion.p>
+          </p>
 
           {/* Dynamic Pricing Section - ONLY place where pricing is shown */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+          <div
             className="mb-8"
           >
             {/* Loading State */}
@@ -313,14 +295,11 @@ export default function Hero() {
                 </div>
               </div>
             )}
-          </motion.div>
+          </div>
 
           {/* Location Card (when active) */}
           {hasActiveLocation && currentLocation && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+            <div
               className="glass rounded-2xl p-5 max-w-lg mx-auto mb-8 glow"
             >
               <div className="flex items-center justify-between mb-3">
@@ -370,14 +349,11 @@ export default function Hero() {
                   Directions
                 </a>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Secondary CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+          <div
             className="flex flex-wrap justify-center gap-3"
           >
             <button
@@ -393,14 +369,11 @@ export default function Hero() {
             >
               See Full Menu
             </button>
-          </motion.div>
+          </div>
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
+        <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
           <motion.button
@@ -411,7 +384,7 @@ export default function Hero() {
           >
             <ChevronDown size={24} />
           </motion.button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

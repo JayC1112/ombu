@@ -1,26 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Instagram, Music2, Mail, MessageCircle } from "lucide-react";
 import { useCMSData } from "@/hooks/useCMSData";
 import { scrollToSection } from "@/utils/scrollTo";
 
 export default function Contact() {
   const { siteSettings } = useCMSData();
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section id="contact" className="py-24 relative bg-background">
       <div className="container mx-auto px-4">
-        <div ref={ref} className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {/* Section Header */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -29,13 +22,11 @@ export default function Contact() {
             <p className="text-xl text-muted max-w-2xl mx-auto">
               Follow us on social media for updates, specials, and behind-the-scenes content.
             </p>
-          </motion.div>
+          </div>
 
           {/* Social Links */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
             className="grid md:grid-cols-2 gap-4 mb-12"
           >
             <a
@@ -71,13 +62,11 @@ export default function Contact() {
                 <p className="text-muted text-sm">Follow us on TikTok</p>
               </div>
             </a>
-          </motion.div>
+          </div>
 
           {/* Contact Options */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
             className="glass rounded-2xl p-8 text-center"
           >
             <h3 className="text-2xl font-bold mb-4">Have Questions?</h3>
@@ -101,7 +90,7 @@ export default function Contact() {
                 Email Us
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,24 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { useCMSData } from "@/hooks/useCMSData";
 
 export default function PhotoGallery() {
   const { galleryImages, loading } = useCMSData();
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   return (
     <section className="py-16 relative overflow-hidden bg-background">
-      <div ref={ref} className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+        <div
           className="text-center mb-10 px-4"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
@@ -27,13 +20,10 @@ export default function PhotoGallery() {
           <p className="text-muted">
             See what awaits you at Ombu Grill
           </p>
-        </motion.div>
+        </div>
 
         {/* Horizontal Scroll Gallery */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
+        <div
           className="relative"
         >
           {/* Gradient Overlays for scroll indication */}
@@ -50,11 +40,9 @@ export default function PhotoGallery() {
             }}
           >
             {(loading ? [] : galleryImages.filter((img: any) => img.image_url)).map((image, index) => (
-              <motion.div
+              <div
                 key={image.id || index}
                 
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.1 * index }}
                 className="relative flex-shrink-0 snap-center"
               >
                 <div className="relative w-64 h-48 md:w-80 md:h-60 rounded-xl overflow-hidden group bg-gradient-to-br from-card via-card-hover to-primary/20">
@@ -72,20 +60,17 @@ export default function PhotoGallery() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Scroll Hint (mobile) */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.5 }}
+        <p
           className="text-center text-xs text-muted mt-4 md:hidden"
         >
           Swipe to see more
-        </motion.p>
+        </p>
       </div>
     </section>
   );

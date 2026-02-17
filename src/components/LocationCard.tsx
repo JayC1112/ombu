@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { MapPin, Phone, Clock, Navigation, Check, Beef, Soup } from "lucide-react";
 import { useLocationStore } from "@/store/locationStore";
@@ -77,11 +76,7 @@ export default function LocationCard({ location, index, imageUrl }: LocationCard
   const displayName = location.fullName || location.name;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+    <div
       className={`glass rounded-2xl overflow-hidden hover:bg-card-hover transition-all duration-300 relative ${
         isNearest ? "ring-2 ring-accent" : ""
       } ${isSelected ? "ring-2 ring-primary glow" : ""}`}
@@ -191,6 +186,6 @@ export default function LocationCard({ location, index, imageUrl }: LocationCard
           View Location Details
         </Link>
       </div>
-    </motion.div>
+    </div>
   );
 }

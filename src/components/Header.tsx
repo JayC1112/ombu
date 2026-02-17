@@ -93,84 +93,67 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+          <div
             className="text-2xl font-bold text-gradient"
           >
             OMBU GRILL
-          </motion.div>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link, index) => (
-            <motion.a
+            <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.sectionId)}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
               className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors relative group cursor-pointer"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-            </motion.a>
+            </a>
           ))}
 
           {/* Dynamic CTA Buttons */}
           {hasActiveLocation && currentLocation ? (
             // Location available: Show Call + Directions
             <div className="flex items-center gap-2">
-              <motion.a
+              <a
                 href={`tel:${currentLocation.phone}`}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
                 className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-full font-medium transition-colors"
               >
                 <Phone size={16} />
                 <span>{callLabel}</span>
-              </motion.a>
-              <motion.a
+              </a>
+              <a
                 href={buildDirectionsUrl(currentLocation.address, currentLocation.city, currentLocation.state, currentLocation.zip)}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.6 }}
                 className="flex items-center gap-2 bg-card hover:bg-card-hover border border-border text-foreground px-4 py-2.5 rounded-full font-medium transition-colors"
                 title="Get directions"
               >
                 <Navigation size={16} />
-              </motion.a>
+              </a>
             </div>
           ) : (
             // No location: Show View Menu + Locations
             <div className="flex items-center gap-2">
-              <motion.a
+              <a
                 href="/#menu"
                 onClick={(e) => handleNavClick(e, "menu")}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
                 className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-full font-medium transition-colors cursor-pointer"
               >
                 <Utensils size={16} />
                 <span>View Menu</span>
-              </motion.a>
-              <motion.a
+              </a>
+              <a
                 href="/#locations"
                 onClick={(e) => handleNavClick(e, "locations")}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.6 }}
                 className="flex items-center gap-2 bg-card hover:bg-card-hover border border-border text-foreground px-4 py-2.5 rounded-full font-medium transition-colors cursor-pointer"
               >
                 <MapPin size={16} />
                 <span>Locations</span>
-              </motion.a>
+              </a>
             </div>
           )}
         </nav>
@@ -233,22 +216,22 @@ export default function Header() {
                 </>
               ) : (
                 <>
-                  <motion.a
+                  <a
                     href="/#menu"
                     onClick={(e) => handleNavClick(e, "menu")}
                     className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl font-medium transition-colors cursor-pointer active:bg-primary-dark"
                   >
                     <Utensils size={16} />
                     Menu
-                  </motion.a>
-                  <motion.a
+                  </a>
+                  <a
                     href="/#locations"
                     onClick={(e) => handleNavClick(e, "locations")}
                     className="flex-1 flex items-center justify-center gap-2 bg-card hover:bg-card-hover text-foreground py-3 rounded-xl font-medium transition-colors border border-border cursor-pointer active:bg-card-hover"
                   >
                     <MapPin size={16} />
                     Locations
-                  </motion.a>
+                  </a>
                 </>
               )}
             </div>

@@ -1,14 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Star, ExternalLink } from "lucide-react";
 import { mockReviews } from "@/data/reviews";
 
 export default function GoogleReviewsPreview() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const { averageRating, totalReviews, reviews } = mockReviews;
 
@@ -32,12 +27,10 @@ export default function GoogleReviewsPreview() {
   return (
     <section className="py-16 relative bg-background">
       <div className="container mx-auto px-4">
-        <div ref={ref} className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Section Header */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
             className="text-center mb-10"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-3">
@@ -46,13 +39,11 @@ export default function GoogleReviewsPreview() {
             <p className="text-muted">
               Join thousands of happy customers across Utah
             </p>
-          </motion.div>
+          </div>
 
           {/* Rating Summary */}
-          <motion.div
+          <div
             
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
             className="flex flex-col md:flex-row items-center justify-center gap-6 mb-10"
           >
             {/* Google Rating Card */}
@@ -86,16 +77,14 @@ export default function GoogleReviewsPreview() {
               View all reviews on Google
               <ExternalLink size={16} />
             </a>
-          </motion.div>
+          </div>
 
           {/* Review Cards */}
           <div className="grid md:grid-cols-3 gap-4">
             {reviews.map((review, index) => (
-              <motion.div
+              <div
                 key={review.id}
                 
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                 className="glass rounded-xl p-5"
               >
                 {/* Header */}
@@ -120,7 +109,7 @@ export default function GoogleReviewsPreview() {
                 <p className="text-sm text-muted leading-relaxed">
                   &ldquo;{review.text}&rdquo;
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
