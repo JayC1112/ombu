@@ -1,14 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase'
 import { Eye, TrendingUp, Globe, Clock } from 'lucide-react'
 
 export default function VisitorsPage() {
   const [stats, setStats] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [days, setDays] = useState(30)
-  const supabase = createClient()
 
   useEffect(() => {
     fetchStats()
@@ -16,45 +14,26 @@ export default function VisitorsPage() {
 
   async function fetchStats() {
     setLoading(true)
-    const { data, error } = await supabase
-      .from('visitor_stats')
-      .select('*')
-      .gte('created_at', new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString())
-      .order('created_at', { ascending: false })
-
-    if (data) {
-      // Calculate stats locally
-      const totalVisits = data.length
-      const uniquePages = new Set(data.map((d: any) => d.page_path)).size
+    try {
+      const res = await fetch(`/api/cms/visitors?days=${days}`)
+      const data = await res.json()
       
-      // Group by location
-      const byLocation: Record<string, number> = {}
-      data.forEach((d: any) => {
-        const loc = d.location_id || 'direct'
-        byLocation[loc] = (byLocation[loc] || 0) + 1
-      })
-
-      // Group by page
-      const byPage: Record<string, number> = {}
-      data.forEach((d: any) => {
-        byPage[d.page_path] = (byPage[d.page_path] || 0) + 1
-      })
-
-      // Group by date
-      const byDate: Record<string, number> = {}
-      data.forEach((d: any) => {
-        const date = d.created_at.split('T')[0]
-        byDate[date] = (byDate[date] || 0) + 1
-      })
-
-      setStats({
-        totalVisits,
-        uniquePages,
-        byLocation: Object.entries(byLocation).map(([loc, count]) => ({ location: loc, count })),
-        byPage: Object.entries(byPage).map(([page, count]) => ({ page, count })),
-        byDate: Object.entries(byDate).map(([date, count]) => ({ date, count })).sort((a, b) => a.date.localeCompare(b.date)),
-        recentVisits: data.slice(0, 50),
-      })
+      if (data.records) {
+        setStats({
+          totalVisits: data.totalVisits || 0,
+          uniquePages: new Set(data.records.map((d: any) => d.page)).size,
+          byPage: Object.entries(data.records.reduce((acc: any, d: any) => {
+            acc[d.page] = (acc[d.page] || 0) + (d.visits || 1)
+            return acc
+          }, {})).map(([page, count]: [string, any]) => ({ page, count })),
+          recentVisits: data.records.slice(0, 50),
+        })
+      } else {
+        setStats({ totalVisits: 0, uniquePages: 0, byPage: [], recentVisits: [] })
+      }
+    } catch (err) {
+      console.error('Failed to fetch stats:', err)
+      setStats({ totalVisits: 0, uniquePages: 0, byPage: [], recentVisits: [] })
     }
     setLoading(false)
   }
@@ -79,41 +58,43 @@ export default function VisitorsPage() {
         </select>
       </div>
 
-      {/* Summary Cards */}
+      {/* Stats Cards */}
       <div className="grid md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-lg shadow-sm border p-6">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-blue-100 rounded-lg">
-              <Eye className="text-blue-600" size={24} />
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Eye className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600">总访问量</p>
-              <p className="text-2xl font-bold">{stats?.totalVisits || 0}</p>
+              <p className="text-sm text-gray-500">总访问量</p>
+              <p className="text-2xl font-bold text-gray-900">{stats?.totalVisits || 0}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow-sm border p-6">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <Globe className="w-6 h-6 text-green-600" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">独立页面</p>
+              <p className="text-2xl font-bold text-gray-900">{stats?.uniquePages || 0}</p>
             </div>
           </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border p-6">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-green-100 rounded-lg">
-              <Globe className="text-green-600" size={24} />
+            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-6 h-6 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600">独立页面</p>
-              <p className="text-2xl font-bold">{stats?.uniquePages || 0}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-purple-100 rounded-lg">
-              <TrendingUp className="text-purple-600" size={24} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">日均访问</p>
-              <p className="text-2xl font-bold">
-                {stats?.totalVisits ? Math.round(stats.totalVisits / days) : 0}
+              <p className="text-sm text-gray-500">平均访问</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {stats?.totalVisits && stats?.uniquePages 
+                  ? Math.round(stats.totalVisits / stats.uniquePages) 
+                  : 0}
               </p>
             </div>
           </div>
@@ -121,104 +102,70 @@ export default function VisitorsPage() {
 
         <div className="bg-white rounded-lg shadow-sm border p-6">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-orange-100 rounded-lg">
-              <Clock className="text-orange-600" size={24} />
+            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+              <Clock className="w-6 h-6 text-orange-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600">最近记录</p>
-              <p className="text-2xl font-bold">
-                {stats?.recentVisits?.[0] ? new Date(stats.recentVisits[0].created_at).toLocaleDateString('zh-CN') : '-'}
-              </p>
+              <p className="text-sm text-gray-500">时间范围</p>
+              <p className="text-2xl font-bold text-gray-900">{days}天</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* By Location */}
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h2 className="text-lg font-semibold mb-4" style={{color: '#111827'}}>按门店</h2>
-          <div className="space-y-3">
-            {stats?.byLocation?.length > 0 ? (
-              stats.byLocation.map((item: any, idx: number) => (
-                <div key={idx} className="flex justify-between items-center">
-                  <span className="text-gray-700">{item.location === 'direct' ? '直接访问' : item.location}</span>
-                  <span className="font-semibold">{item.count}</span>
+      {/* Page Stats */}
+      <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+        <h2 className="text-lg font-semibold mb-4 text-gray-900">页面访问排行</h2>
+        <div className="space-y-3">
+          {(stats?.byPage || []).sort((a: any, b: any) => b.count - a.count).slice(0, 10).map((item: any, index: number) => (
+            <div key={item.page} className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-xs font-medium text-gray-600">
+                  {index + 1}
+                </span>
+                <span className="text-gray-900">{item.page || '/'}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-32 h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-blue-500 rounded-full" 
+                    style={{ width: `${(item.count / (stats?.byPage?.[0]?.count || 1)) * 100}%` }}
+                  />
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-500">暂无数据</p>
-            )}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h2 className="text-lg font-semibold mb-4" style={{color: '#111827'}}>按页面</h2>
-          <div className="space-y-3">
-            {stats?.byPage?.length > 0 ? (
-              stats.byPage.slice(0, 10).map((item: any, idx: number) => (
-                <div key={idx} className="flex justify-between items-center">
-                  <span className="text-gray-700 text-sm">{item.page}</span>
-                  <span className="font-semibold">{item.count}</span>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-500">暂无数据</p>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Daily Trend */}
-      <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
-        <h2 className="text-lg font-semibold mb-4" style={{color: '#111827'}}>每日趋势</h2>
-        <div className="flex items-end gap-1 h-32">
-          {stats?.byDate?.map((item: any, idx: number) => {
-            const max = Math.max(...stats.byDate.map((d: any) => d.count))
-            const height = max > 0 ? (item.count / max) * 100 : 0
-            return (
-              <div
-                key={idx}
-                className="flex-1 bg-primary rounded-t"
-                style={{ height: `${height}%`, minHeight: item.count > 0 ? '4px' : '0' }}
-                title={`${item.date}: ${item.count}`}
-              />
-            )
-          })}
-        </div>
-        <div className="flex justify-between text-xs text-gray-500 mt-2">
-          <span>{stats?.byDate?.[0]?.date}</span>
-          <span>{stats?.byDate?.[stats.byDate.length - 1]?.date}</span>
+                <span className="text-sm text-gray-600 w-12 text-right">{item.count}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Recent Visits */}
       <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h2 className="text-lg font-semibold mb-4" style={{color: '#111827'}}>最近访问</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b">
-                <th className="text-left py-2 text-gray-600">时间</th>
-                <th className="text-left py-2 text-gray-600">页面</th>
-                <th className="text-left py-2 text-gray-600">门店</th>
-                <th className="text-left py-2 text-gray-600">来源</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stats?.recentVisits?.slice(0, 20).map((visit: any, idx: number) => (
-                <tr key={idx} className="border-b">
-                  <td className="py-2 text-gray-700">
-                    {new Date(visit.created_at).toLocaleString('zh-CN')}
-                  </td>
-                  <td className="py-2 text-gray-700">{visit.page_path}</td>
-                  <td className="py-2 text-gray-700">{visit.location_id || '-'}</td>
-                  <td className="py-2 text-gray-500 text-xs">{visit.referrer || '-'}</td>
+        <h2 className="text-lg font-semibold mb-4 text-gray-900">最近访问记录</h2>
+        {stats?.recentVisits?.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">页面</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">访问量</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">日期</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {stats.recentVisits.map((visit: any, index: number) => (
+                  <tr key={index} className="border-b border-gray-100">
+                    <td className="py-3 px-4 text-gray-900">{visit.page}</td>
+                    <td className="py-3 px-4 text-gray-900">{visit.visits || 1}</td>
+                    <td className="py-3 px-4 text-gray-500">{visit.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-gray-500 text-center py-8">暂无访问数据</p>
+        )}
       </div>
     </div>
   )

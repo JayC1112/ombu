@@ -6,12 +6,18 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const days = parseInt(searchParams.get('days') || '30')
+  
+  const startDate = new Date()
+  startDate.setDate(startDate.getDate() - days)
+  
   const { data, error } = await supabase
     .from('visitor_stats')
     .select('*')
+    .gte('date', startDate.toISOString().split('T')[0])
     .order('date', { ascending: false })
-    .limit(30)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
@@ -22,7 +28,7 @@ export async function GET() {
   return NextResponse.json({
     records: data || [],
     totalVisits,
-    period: '30 days'
+    period: `${days} days`
   })
 }
 
