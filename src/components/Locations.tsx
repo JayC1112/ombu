@@ -153,7 +153,7 @@ export default function Locations() {
         <div ref={ref} className="max-w-6xl mx-auto">
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
@@ -253,7 +253,7 @@ export default function Locations() {
 
           {/* What to Expect - Trust Block */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.15 }}
             className="glass rounded-2xl p-6 mb-10 text-center"
@@ -303,7 +303,7 @@ export default function Locations() {
 
           {/* Static SEO Trust Block - Location Details with Links */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mt-16 glass rounded-2xl p-6 md:p-8"

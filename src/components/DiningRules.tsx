@@ -31,7 +31,7 @@ export default function DiningRules() {
     <section ref={ref} className="py-6 border-y border-border bg-background">
       <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.4 }}
           className="max-w-4xl mx-auto"
@@ -47,7 +47,7 @@ export default function DiningRules() {
             {rules.map((rule, index) => (
               <motion.div
                 key={rule.title}
-                initial={{ opacity: 0, y: 10 }}
+                
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 className="flex items-center gap-3"

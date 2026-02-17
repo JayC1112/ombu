@@ -18,7 +18,7 @@ export default function Contact() {
         <div ref={ref} className="max-w-4xl mx-auto">
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
@@ -33,7 +33,7 @@ export default function Contact() {
 
           {/* Social Links */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="grid md:grid-cols-2 gap-4 mb-12"
@@ -75,7 +75,7 @@ export default function Contact() {
 
           {/* Contact Options */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="glass rounded-2xl p-8 text-center"

@@ -55,7 +55,7 @@ export default function About() {
         <div ref={ref} className="max-w-6xl mx-auto">
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
             className="text-center mb-12 md:mb-16"
@@ -75,7 +75,7 @@ export default function About() {
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
+                
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="glass rounded-2xl p-6 hover:bg-card-hover transition-all duration-300 group"
@@ -91,7 +91,7 @@ export default function About() {
 
           {/* Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center"

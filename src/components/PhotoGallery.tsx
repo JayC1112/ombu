@@ -52,7 +52,7 @@ export default function PhotoGallery() {
             {(loading ? [] : galleryImages.filter((img: any) => img.image_url)).map((image, index) => (
               <motion.div
                 key={image.id || index}
-                initial={{ opacity: 0, scale: 0.9 }}
+                
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.4, delay: 0.1 * index }}
                 className="relative flex-shrink-0 snap-center"

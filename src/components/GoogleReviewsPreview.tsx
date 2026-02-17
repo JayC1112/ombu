@@ -35,7 +35,7 @@ export default function GoogleReviewsPreview() {
         <div ref={ref} className="max-w-6xl mx-auto">
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
             className="text-center mb-10"
@@ -50,7 +50,7 @@ export default function GoogleReviewsPreview() {
 
           {/* Rating Summary */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="flex flex-col md:flex-row items-center justify-center gap-6 mb-10"
@@ -93,7 +93,7 @@ export default function GoogleReviewsPreview() {
             {reviews.map((review, index) => (
               <motion.div
                 key={review.id}
-                initial={{ opacity: 0, y: 20 }}
+                
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                 className="glass rounded-xl p-5"
