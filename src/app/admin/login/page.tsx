@@ -22,8 +22,9 @@ export default function LoginPage() {
     // 简单验证（生产环境替换为真实认证）
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       // 设置 cookie（7天有效）
-      document.cookie = `admin_session=true; max-age=${7*24*60*60}; path=/`
-      router.push('/admin')
+      document.cookie = `admin_session=true; max-age=${7*24*60*60}; path=/; SameSite=Lax`
+      // 使用 window.location 跳转
+      window.location.href = '/admin'
     } else {
       setError('邮箱或密码错误')
       setLoading(false)
