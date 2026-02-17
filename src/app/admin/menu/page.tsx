@@ -26,6 +26,7 @@ interface MenuItem {
   sort_order: number
   status: 'draft' | 'published'
   is_active: boolean
+  availability: 'all_day' | 'dinner_only'
 }
 
 export default function MenuPage() {
@@ -63,6 +64,7 @@ export default function MenuPage() {
     sort_order: 0,
     status: 'published' as 'draft' | 'published',
     is_active: true,
+    availability: 'all_day' as 'all_day' | 'dinner_only',
   })
 
   const supabase = createClient()
@@ -153,6 +155,7 @@ export default function MenuPage() {
         sort_order: 0,
         status: 'published',
         is_active: true,
+        availability: 'all_day',
       })
       fetchData()
     } catch (err) {
@@ -197,6 +200,7 @@ export default function MenuPage() {
       sort_order: item.sort_order,
       status: item.status,
       is_active: item.is_active,
+      availability: item.availability || 'all_day',
     })
     setShowItemForm(true)
   }
@@ -218,7 +222,7 @@ export default function MenuPage() {
             } else {
               setShowItemForm(true)
               setEditingItem(null)
-              setItemForm({ category_id: categories[0]?.id || '', name: '', name_zh: '', name_en: '', description: '', price: 0, image_url: '', tags: '', sort_order: 0, status: 'published', is_active: true })
+              setItemForm({ category_id: categories[0]?.id || '', name: '', name_zh: '', name_en: '', description: '', price: 0, image_url: '', tags: '', sort_order: 0, status: 'published', is_active: true, availability: 'all_day' })
             }
           }}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -288,6 +292,7 @@ export default function MenuPage() {
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">名称</th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">分类</th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">价格</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">供应时段</th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">状态</th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">操作</th>
               </tr>
@@ -301,6 +306,11 @@ export default function MenuPage() {
                     <td className="px-6 py-4">{item.name}</td>
                     <td className="px-6 py-4">{cat?.name || '-'}</td>
                     <td className="px-6 py-4">${item.price || 0}</td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2 py-1 text-xs rounded ${item.availability === 'dinner_only' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}`}>
+                        {item.availability === 'dinner_only' ? '仅晚餐' : '全天'}
+                      </span>
+                    </td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 text-xs rounded ${item.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                         {item.status === 'published' ? '已发布' : '草稿'}
@@ -469,6 +479,18 @@ export default function MenuPage() {
                   className="w-full px-3 py-2 border rounded-md"
                   style={{backgroundColor: 'white', color: '#111827'}}
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">供应时段</label>
+                <select
+                  value={itemForm.availability}
+                  onChange={(e) => setItemForm({ ...itemForm, availability: e.target.value as 'all_day' | 'dinner_only' })}
+                  className="w-full px-3 py-2 border rounded-md"
+                  style={{backgroundColor: 'white', color: '#111827'}}
+                >
+                  <option value="all_day">全天供应</option>
+                  <option value="dinner_only">仅晚餐</option>
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">排序</label>
