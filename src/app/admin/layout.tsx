@@ -70,6 +70,13 @@ export default function AdminLayout({
                 <Users className="w-4 h-4" />
                 用户管理
               </Link>
+              <Link 
+                href="/admin/gallery" 
+                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+              >
+                <ImageIcon className="w-4 h-4" />
+                相册管理
+              </Link>
             </div>
           </div>
         </div>
