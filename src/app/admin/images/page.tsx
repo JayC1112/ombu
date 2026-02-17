@@ -72,37 +72,20 @@ export default function ImagesPage() {
   }
 
   async function handleImageUpload(category: string, key: string, file: File) {
-    const fileName = `${category}/${key}-${Date.now()}.${file.name.split('.').pop()}`
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('category', category)
+    formData.append('key', key)
+
+    const res = await fetch('/api/cms/upload', {
+      method: 'POST',
+      body: formData
+    })
+
+    const data = await res.json()
     
-    // Upload to Supabase Storage
-    const { error: uploadError } = await supabase.storage
-      .from('cms-images')
-      .upload(fileName, file)
-
-    if (uploadError) {
-      alert('上传失败: ' + uploadError.message)
-      return
-    }
-
-    // Get public URL
-    const { data: urlData } = supabase.storage
-      .from('cms-images')
-      .getPublicUrl(fileName)
-
-    // Update database
-    const { error: dbError } = await supabase
-      .from('site_images')
-      .upsert({
-        category,
-        key,
-        image_url: urlData.publicUrl,
-        alt_text: key,
-      }, {
-        onConflict: 'category,key',
-      })
-
-    if (dbError) {
-      alert('保存失败: ' + dbError.message)
+    if (data.error) {
+      alert('上传失败: ' + data.error)
       return
     }
 
