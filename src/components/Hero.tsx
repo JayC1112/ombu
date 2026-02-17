@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ChevronDown,
   Flame,
@@ -27,6 +27,8 @@ import { scrollToSection } from "@/utils/scrollTo";
 import { useDisplayPrices } from "@/utils/priceGate";
 
 export default function Hero() {
+  const [heroImgUrl, setHeroImgUrl] = useState<string | null>(null)
+  
   // Use the shared location store
   const {
     locationStatus,
@@ -38,6 +40,19 @@ export default function Hero() {
     requestUserLocation,
     setSelectedConcept,
   } = useLocationStore();
+
+  // Load hero image from database
+  useEffect(() => {
+    fetch('/api/cms/images')
+      .then(res => res.json())
+      .then(data => {
+        const hero = data.find((img: any) => img.category === 'hero' && img.key === 'hero')
+        if (hero?.image_url) {
+          setHeroImgUrl(hero.image_url)
+        }
+      })
+      .catch(console.error)
+  }, [])
 
   // Request location on mount
   useEffect(() => {
@@ -76,13 +91,17 @@ export default function Hero() {
     >
       {/* Background Hero Image */}
       <div className="absolute inset-0">
-        <ImagePlaceholder
-          image={heroImage}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
+        {heroImgUrl ? (
+          <img src={heroImgUrl} alt="Hero" className="w-full h-full object-cover" />
+        ) : (
+          <ImagePlaceholder
+            image={heroImage}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        )}
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/70 to-background" />
         {/* Decorative blurs */}
