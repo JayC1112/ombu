@@ -49,7 +49,7 @@ export default function PhotoGallery() {
               msOverflowStyle: "none",
             }}
           >
-            {(loading ? [] : galleryImages).map((image, index) => (
+            {(loading ? [] : galleryImages.filter((img: any) => img.image_url)).map((image, index) => (
               <motion.div
                 key={image.id || index}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -58,8 +58,11 @@ export default function PhotoGallery() {
                 className="relative flex-shrink-0 snap-center"
               >
                 <div className="relative w-64 h-48 md:w-80 md:h-60 rounded-xl overflow-hidden group bg-gradient-to-br from-card via-card-hover to-primary/20">
-                  {/* Using placeholder gradient since we don't have real images yet */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-card via-card-hover to-primary/20" />
+                  {image.image_url ? (
+                    <img src={image.image_url} alt={image.alt_text || image.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-card via-card-hover to-primary/20" />
+                  )}
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-0 left-0 right-0 p-4">

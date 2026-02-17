@@ -41,11 +41,12 @@ export default function GalleryPage() {
 
   async function fetchImages() {
     try {
-      const res = await fetch('/api/cms/gallery')
+      const res = await fetch('/api/cms/gallery?refresh=' + Date.now())
       const data = await res.json()
-      setImages(data)
+      setImages(Array.isArray(data) ? data : [])
     } catch (err) {
       console.error('Failed to fetch:', err)
+      setImages([])
     }
     setLoading(false)
   }
