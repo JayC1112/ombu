@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+export const dynamic = 'force-dynamic'
+
 import Link from "next/link";
 import { ChevronRight, MapPin, Phone, Clock, Navigation } from "lucide-react";
 import { PRICING_HIDDEN_MESSAGE } from "@/config/pricingVisibility";
