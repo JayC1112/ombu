@@ -7,6 +7,13 @@ import { Upload, Image as ImageIcon, Check } from 'lucide-react'
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
 
+// Image size recommendations
+const imageSpecs = {
+  hero: { width: 1920, height: 1080, ratio: '16:9', maxSize: '2MB' },
+  menu: { width: 800, height: 600, ratio: '4:3', maxSize: '500KB' },
+  location: { width: 1200, height: 800, ratio: '3:2', maxSize: '1MB' }
+}
+
 interface SiteImage {
   id?: string
   category: string
@@ -190,6 +197,11 @@ export default function ImagesPage() {
                       }}
                     />
                   </label>
+                  
+                  {/* Image Size Recommendation */}
+                  <div className="mt-2 text-xs text-gray-500 text-center">
+                    建议: {imageSpecs[category.key as keyof typeof imageSpecs]?.width}x{imageSpecs[category.key as keyof typeof imageSpecs]?.height}px ({imageSpecs[category.key as keyof typeof imageSpecs]?.maxSize})
+                  </div>
 
                   {/* Alt Text Input */}
                   <div className="mt-3">
