@@ -161,7 +161,7 @@ export default function Menu() {
 
   // Get current category image (database first, then fallback to static)
   const dbImage = menuImages[activeCategory]
-  const categoryImage = dbImage || menuCategoryImages[activeCategory as keyof typeof menuCategoryImages];
+  const staticImage = menuCategoryImages[activeCategory as keyof typeof menuCategoryImages]
   
   // Get current items
   const currentItems = menuItems[activeCategory as keyof typeof menuItems] || [];
@@ -242,13 +242,13 @@ export default function Menu() {
             transition={{ duration: 0.3 }}
           >
             {/* Category Hero Image */}
-            {categoryImage && (
+            {(dbImage || staticImage) && (
               <div className="relative w-full h-40 md:h-56 rounded-2xl overflow-hidden mb-6">
                 {dbImage ? (
                   <img src={dbImage} alt={activeCategory} className="w-full h-full object-cover" />
                 ) : (
                   <ImagePlaceholder
-                    image={categoryImage}
+                    image={staticImage}
                     fill
                     sizes="(max-width: 768px) 100vw, 896px"
                     className="object-cover"
