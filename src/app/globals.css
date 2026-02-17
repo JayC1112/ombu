@@ -152,3 +152,25 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Min height screen variant */
+.min-screen-h {
+  min-height: 100dvh;
+}
+
+@supports not (height: 100dvh) {
+  .min-screen-h {
+    min-height: calc(var(--vh) * 100);
+  }
+}
+
+/* Main content padding for bottom call bar */
+.main-content-padding {
+  padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .main-content-padding {
+    padding-bottom: 0;
+  }
+}
