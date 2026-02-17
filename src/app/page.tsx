@@ -34,7 +34,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
       />
       <Header />
-      <main>
+      <main className="pb-24 md:pb-0">
         <Hero />
         <DiningRules />
         <About />

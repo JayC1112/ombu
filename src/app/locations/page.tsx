@@ -129,7 +129,7 @@ export default async function LocationsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background pb-24 md:pb-0">
         <Header />
 
         <main>

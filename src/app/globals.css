@@ -11,6 +11,19 @@
   --card: #18181b;
   --card-hover: #27272a;
   --border: #3f3f46;
+  /* iOS Safari vh fix */
+  --vh: 1vh;
+}
+
+/* Dynamic viewport height for iOS Safari */
+.screen-h {
+  min-height: 100dvh;
+}
+
+@supports not (height: 100dvh) {
+  .screen-h {
+    min-height: calc(var(--vh) * 100);
+  }
 }
 
 @theme inline {
