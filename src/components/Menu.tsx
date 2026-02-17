@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Beef, Fish, UtensilsCrossed, Salad, CookingPot, Coffee, IceCream, Star, MapPin } from "lucide-react";
 import { menuCategoryImages } from "@/data/images";
 import ImagePlaceholder from "./ImagePlaceholder";
@@ -134,6 +134,21 @@ export default function Menu() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState("bbq-meats");
+  const [menuImages, setMenuImages] = useState<Record<string, string>>({});
+  
+  // Load menu images from database
+  useEffect(() => {
+    fetch('/api/cms/images')
+      .then(res => res.json())
+      .then(data => {
+        const images: Record<string, string> = {}
+        data.filter((img: any) => img.category === 'menu').forEach((img: any) => {
+          images[img.key] = img.image_url
+        })
+        setMenuImages(images)
+      })
+      .catch(console.error)
+  }, [])
   
   // Check if prices should be displayed
   const displayPrices = useDisplayPrices();
@@ -144,8 +159,9 @@ export default function Menu() {
     ? getPricing(currentLocation, currentConcept)
     : null;
 
-  // Get current category image
-  const categoryImage = menuCategoryImages[activeCategory as keyof typeof menuCategoryImages];
+  // Get current category image (database first, then fallback to static)
+  const dbImage = menuImages[activeCategory]
+  const categoryImage = dbImage || menuCategoryImages[activeCategory as keyof typeof menuCategoryImages];
   
   // Get current items
   const currentItems = menuItems[activeCategory as keyof typeof menuItems] || [];
@@ -228,12 +244,16 @@ export default function Menu() {
             {/* Category Hero Image */}
             {categoryImage && (
               <div className="relative w-full h-40 md:h-56 rounded-2xl overflow-hidden mb-6">
-                <ImagePlaceholder
-                  image={categoryImage}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 896px"
-                  className="object-cover"
-                />
+                {dbImage ? (
+                  <img src={dbImage} alt={activeCategory} className="w-full h-full object-cover" />
+                ) : (
+                  <ImagePlaceholder
+                    image={categoryImage}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 896px"
+                    className="object-cover"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow-lg">
