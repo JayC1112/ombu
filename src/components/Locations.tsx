@@ -159,7 +159,7 @@ export default function Locations() {
             className="text-center mb-12"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Find a <span className="text-gradient">Location</span>
+              Find a <span className="bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">Location</span>
             </h2>
             <p className="text-xl text-muted max-w-2xl mx-auto mb-4">
               Visit any of our 6 locations across Utah.
@@ -176,8 +176,8 @@ export default function Locations() {
                   onClick={() => setFilter("all")}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     filter === "all"
-                      ? "bg-foreground text-background"
-                      : "text-muted hover:text-foreground"
+                      ? "bg-zinc-900 text-white"
+                      : "text-zinc-400 hover:text-white"
                   }`}
                 >
                   <Filter size={14} />
@@ -309,7 +309,7 @@ export default function Locations() {
             className="mt-16 glass rounded-2xl p-6 md:p-8"
           >
             <h3 className="text-2xl font-bold mb-6 text-center">
-              All <span className="text-gradient">Ombu Locations</span> in Utah
+              All <span className="bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">Ombu Locations</span> in Utah
             </h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
               {locations.map((loc) => (
