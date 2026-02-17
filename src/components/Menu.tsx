@@ -169,7 +169,7 @@ export default function Menu() {
   const dinnerItems = currentItems.filter(item => item.tier === "dinner");
 
   return (
-    <section id="menu" className="py-20 md:py-24 relative bg-card/30">
+    <section id="menu" className="py-20 md:py-24 relative bg-background">
       <div className="container mx-auto px-4">
         <div ref={ref} className="max-w-6xl mx-auto">
           {/* Section Header */}

@@ -148,7 +148,7 @@ export default function Locations() {
   }
 
   return (
-    <section id="locations" className="py-24 relative">
+    <section id="locations" className="py-24 relative bg-background">
       <div className="container mx-auto px-4">
         <div ref={ref} className="max-w-6xl mx-auto">
           {/* Section Header */}
