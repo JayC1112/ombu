@@ -68,7 +68,7 @@ export default function SettingsPage() {
       if (value !== undefined) {
         const { error } = await supabase
           .from('site_settings')
-          .upsert({ id: key, value }, { onConflict: 'id' })
+          .upsert({ id: key, value, status: 'published' }, { onConflict: 'id' })
         
         if (error) {
           console.error('Error saving:', key, error)
