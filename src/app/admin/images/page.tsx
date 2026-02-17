@@ -52,6 +52,7 @@ const imageCategories = [
 export default function ImagesPage() {
   const [images, setImages] = useState<SiteImage[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -173,7 +174,9 @@ export default function ImagesPage() {
                   </div>
                   
                   {/* Preview */}
-                  <div className="aspect-video bg-gray-100 rounded-md mb-3 flex items-center justify-center overflow-hidden">
+                  <div className="aspect-video bg-gray-100 rounded-md mb-3 flex items-center justify-center overflow-hidden cursor-pointer"
+                    onClick={() => imageUrl && setSelectedImage(imageUrl)}
+                  >
                     {imageUrl ? (
                       <img 
                         src={imageUrl} 
@@ -222,6 +225,28 @@ export default function ImagesPage() {
           </div>
         </div>
       ))}
+
+      {/* Image Preview Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-4xl max-h-full" onClick={e => e.stopPropagation()}>
+            <img 
+              src={selectedImage} 
+              alt="Preview" 
+              className="max-w-full max-h-[80vh] object-contain rounded-lg"
+            />
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-black hover:bg-gray-200"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
