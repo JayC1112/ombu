@@ -129,12 +129,14 @@ export default function MenuPage() {
                     <h3 className="font-semibold text-lg">
                       {item.name}
                     </h3>
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 shrink-0">
                       {item.availability === 'dinner_only' && (
                         <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">Dinner Only</span>
                       )}
-                      {item.tags?.includes('popular') && (
-                        <span className="text-xs bg-accent text-white px-2 py-0.5 rounded-full">Popular</span>
+                      {item.price > 0 ? (
+                        <span className="text-sm font-medium text-primary">${item.price.toFixed(2)}</span>
+                      ) : (
+                        <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">Included</span>
                       )}
                     </div>
                   </div>
@@ -143,18 +145,6 @@ export default function MenuPage() {
                   )}
                   {item.description && (
                     <p className="text-muted text-sm">{item.description}</p>
-                  )}
-                  {item.tags && item.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-3">
-                      {item.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
                   )}
                 </div>
               )
