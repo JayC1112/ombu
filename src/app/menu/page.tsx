@@ -133,8 +133,8 @@ export default function MenuPage() {
                       {item.availability === 'dinner_only' && (
                         <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">Dinner Only</span>
                       )}
-                      {item.price > 0 ? (
-                        <span className="text-sm font-medium text-primary">${item.price.toFixed(2)}</span>
+                      {(item.price ?? 0) > 0 ? (
+                        <span className="text-sm font-medium text-primary">${Number(item.price).toFixed(2)}</span>
                       ) : (
                         <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">Included</span>
                       )}
