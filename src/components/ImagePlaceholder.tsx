@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { IMAGE_PLACEHOLDERS_ENABLED, type ImageData } from "@/data/images";
 
 interface ImagePlaceholderProps {
@@ -24,8 +25,10 @@ export default function ImagePlaceholder({
   className = "",
   placeholderClassName = "",
 }: ImagePlaceholderProps) {
-  // When placeholders are enabled, render a gradient div instead of Image
-  if (IMAGE_PLACEHOLDERS_ENABLED) {
+  const [hasError, setHasError] = useState(false);
+
+  // When placeholders are enabled or image failed to load, render a gradient div
+  if (IMAGE_PLACEHOLDERS_ENABLED || hasError) {
     return (
       <div
         className={`bg-gradient-to-br from-card via-card-hover to-primary/20 ${
@@ -48,6 +51,7 @@ export default function ImagePlaceholder({
       placeholder="blur"
       blurDataURL={image.blurDataURL}
       className={className}
+      onError={() => setHasError(true)}
     />
   );
 }

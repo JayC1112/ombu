@@ -16,7 +16,7 @@ import {
   Info,
 } from "lucide-react";
 import CopyButton from "@/components/CopyButton";
-import ImagePlaceholder from "@/components/ImagePlaceholder";
+import LocationHeroImage from "@/components/LocationHeroImage";
 import {
   locations,
   getLocationBySlug,
@@ -260,7 +260,7 @@ export default async function LocationPage({
           {/* Hero Section */}
           <section className="relative">
             <div className="relative h-64 md:h-80 lg:h-96">
-              <ImagePlaceholder image={locationImage} fill priority sizes="100vw" className="object-cover" />
+              <LocationHeroImage locationSlug={location.id} fallbackImage={locationImage} />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
             </div>
 

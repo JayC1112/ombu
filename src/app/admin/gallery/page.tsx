@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Image as ImageIcon, X, Trash2 } from 'lucide-react'
+import { Image as ImageIcon, X, Trash2, ChevronUp, ChevronDown, GripVertical } from 'lucide-react'
 
 interface GalleryImage {
   id: string
@@ -116,6 +116,42 @@ export default function GalleryPage() {
     }
   }
 
+  async function handleMove(index: number, direction: 'up' | 'down') {
+    const swapIndex = direction === 'up' ? index - 1 : index + 1
+    if (swapIndex < 0 || swapIndex >= images.length) return
+
+    const current = images[index]
+    const target = images[swapIndex]
+
+    // Swap display_order values
+    const currentOrder = current.display_order
+    const targetOrder = target.display_order
+
+    // If they have the same order, offset them
+    const newCurrentOrder = targetOrder
+    const newTargetOrder = currentOrder === targetOrder
+      ? (direction === 'up' ? targetOrder + 1 : targetOrder - 1)
+      : currentOrder
+
+    try {
+      await Promise.all([
+        fetch('/api/cms/gallery', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: current.id, display_order: newCurrentOrder }),
+        }),
+        fetch('/api/cms/gallery', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: target.id, display_order: newTargetOrder }),
+        }),
+      ])
+      await fetchImages()
+    } catch (err) {
+      console.error('Failed to reorder:', err)
+    }
+  }
+
   if (loading) {
     return <div className="text-center py-8">加载中...</div>
   }
@@ -134,7 +170,7 @@ export default function GalleryPage() {
 
       {/* Gallery Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {images.map((img) => (
+        {images.map((img, index) => (
           <div key={img.id} className="bg-white rounded-lg shadow-sm border overflow-hidden">
             <div className="aspect-square relative">
               {img.image_url ? (
@@ -153,7 +189,28 @@ export default function GalleryPage() {
             </div>
             <div className="p-3">
               <h3 className="font-medium text-gray-900 text-sm">{img.title}</h3>
-              <p className="text-xs text-gray-500">{categories.find(c => c.id === img.category)?.label}</p>
+              <div className="flex items-center justify-between mt-1">
+                <p className="text-xs text-gray-500">{categories.find(c => c.id === img.category)?.label}</p>
+                <div className="flex items-center gap-0.5">
+                  <span className="text-xs text-gray-400 mr-1">#{img.display_order}</span>
+                  <button
+                    onClick={() => handleMove(index, 'up')}
+                    disabled={index === 0}
+                    className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="上移"
+                  >
+                    <ChevronUp className="w-4 h-4 text-gray-600" />
+                  </button>
+                  <button
+                    onClick={() => handleMove(index, 'down')}
+                    disabled={index === images.length - 1}
+                    className="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                    title="下移"
+                  >
+                    <ChevronDown className="w-4 h-4 text-gray-600" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         ))}
@@ -214,11 +271,11 @@ export default function GalleryPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">排序</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">排序 (数字越小越靠前)</label>
                 <input
                   type="number"
                   value={formData.display_order}
-                  onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border rounded-md"
                   style={{ backgroundColor: 'white', color: '#111827' }}
                 />
@@ -261,4 +318,3 @@ export default function GalleryPage() {
     </div>
   )
 }
-// trigger redeploy
