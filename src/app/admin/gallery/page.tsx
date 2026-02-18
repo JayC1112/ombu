@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Image as ImageIcon, X, Trash2, ChevronUp, ChevronDown, GripVertical } from 'lucide-react'
+import { Image as ImageIcon, X, Trash2, ChevronUp, ChevronDown, Pencil } from 'lucide-react'
 
 interface GalleryImage {
   id: string
@@ -25,6 +25,7 @@ export default function GalleryPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [editingImage, setEditingImage] = useState<GalleryImage | null>(null)
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -49,17 +50,41 @@ export default function GalleryPage() {
     fetchImages()
   }, [])
 
+  function openAddModal() {
+    setEditingImage(null)
+    setFormData({ title: '', description: '', category: 'food', display_order: 99 })
+    setUploadFile(null)
+    setShowModal(true)
+  }
+
+  function openEditModal(img: GalleryImage) {
+    setEditingImage(img)
+    setFormData({
+      title: img.title,
+      description: img.description || '',
+      category: img.category,
+      display_order: img.display_order,
+    })
+    setUploadFile(null)
+    setShowModal(true)
+  }
+
   async function handleSubmit() {
     if (!formData.title) {
       alert('请输入标题')
+      return
+    }
+    if (!editingImage && !uploadFile) {
+      alert('请选择图片')
       return
     }
 
     setSaving(true)
 
     try {
+      let imageUrl = editingImage?.image_url || null
+
       if (uploadFile) {
-        // Upload image first
         const formDataUpload = new FormData()
         formDataUpload.append('file', uploadFile)
         formDataUpload.append('category', 'gallery')
@@ -76,25 +101,29 @@ export default function GalleryPage() {
           setSaving(false)
           return
         }
-
-        // Save to database
-        await fetch('/api/cms/gallery', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: formData.title,
-            description: formData.description,
-            category: formData.category,
-            display_order: formData.display_order,
-            image_url: uploadData.url,
-            alt_text: formData.title,
-            is_active: true,
-          }),
-        })
+        imageUrl = uploadData.url
       }
+
+      const payload: Record<string, unknown> = {
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        display_order: formData.display_order,
+        alt_text: formData.title,
+        is_active: true,
+      }
+      if (editingImage) payload.id = editingImage.id
+      if (imageUrl) payload.image_url = imageUrl
+
+      await fetch('/api/cms/gallery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
 
       await fetchImages()
       setShowModal(false)
+      setEditingImage(null)
       setFormData({ title: '', description: '', category: 'food', display_order: 99 })
       setUploadFile(null)
     } catch (err) {
@@ -161,7 +190,7 @@ export default function GalleryPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">相册管理</h1>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={openAddModal}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
           + 添加图片
@@ -180,12 +209,22 @@ export default function GalleryPage() {
                   <ImageIcon className="w-12 h-12 text-gray-300" />
                 </div>
               )}
-              <button
-                onClick={() => handleDelete(img.id)}
-                className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+              <div className="absolute top-2 right-2 flex gap-1">
+                <button
+                  onClick={() => openEditModal(img)}
+                  className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600"
+                  title="编辑"
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleDelete(img.id)}
+                  className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
+                  title="删除"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
             <div className="p-3">
               <h3 className="font-medium text-gray-900 text-sm">{img.title}</h3>
@@ -227,7 +266,7 @@ export default function GalleryPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-900">添加图片</h2>
+              <h2 className="text-xl font-bold text-gray-900">{editingImage ? '编辑图片' : '添加图片'}</h2>
               <button onClick={() => setShowModal(false)} className="text-gray-500 hover:text-gray-700">
                 <X className="w-6 h-6" />
               </button>
@@ -282,10 +321,17 @@ export default function GalleryPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">图片 *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  图片 {editingImage ? '(不选则保留原图)' : '*'}
+                </label>
+                {editingImage?.image_url && !uploadFile && (
+                  <div className="mb-2 rounded overflow-hidden border">
+                    <img src={editingImage.image_url} alt="" className="w-full h-32 object-cover" />
+                  </div>
+                )}
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/*,.heic,.heif"
                   onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
                   className="w-full px-3 py-2 border rounded-md"
                   style={{ backgroundColor: 'white', color: '#111827' }}
@@ -306,7 +352,7 @@ export default function GalleryPage() {
               </button>
               <button
                 onClick={handleSubmit}
-                disabled={saving || !formData.title || !uploadFile}
+                disabled={saving || !formData.title || (!editingImage && !uploadFile)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
               >
                 {saving ? '保存中...' : '保存'}

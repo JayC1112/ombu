@@ -22,13 +22,17 @@ export async function POST(request: Request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer())
-    const fileName = `${category}/${key}-${Date.now()}.${file.name.split('.').pop()}`
+    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
+    const fileName = `${category}/${key}-${Date.now()}.${ext}`
+
+    // Resolve content type (HEIC from iPhone may have empty type)
+    const contentType = file.type || (ext === 'heic' ? 'image/heic' : ext === 'heif' ? 'image/heif' : 'application/octet-stream')
 
     // Upload to Supabase Storage with service role
     const { error: uploadError } = await supabase.storage
       .from('cms-images')
       .upload(fileName, buffer, {
-        contentType: file.type,
+        contentType,
         upsert: true
       })
 
@@ -41,20 +45,22 @@ export async function POST(request: Request) {
       .from('cms-images')
       .getPublicUrl(fileName)
 
-    // Update database
-    const { error: dbError } = await supabase
-      .from('site_images')
-      .upsert({
-        category,
-        key,
-        image_url: urlData.publicUrl,
-        alt_text: key,
-      }, {
-        onConflict: 'category,key',
-      })
+    // Update site_images database (skip for gallery uploads — gallery has its own table)
+    if (category !== 'gallery') {
+      const { error: dbError } = await supabase
+        .from('site_images')
+        .upsert({
+          category,
+          key,
+          image_url: urlData.publicUrl,
+          alt_text: key,
+        }, {
+          onConflict: 'category,key',
+        })
 
-    if (dbError) {
-      return NextResponse.json({ error: dbError.message }, { status: 500 })
+      if (dbError) {
+        return NextResponse.json({ error: dbError.message }, { status: 500 })
+      }
     }
 
     return NextResponse.json({ success: true, url: urlData.publicUrl })
