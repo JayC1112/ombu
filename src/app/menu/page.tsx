@@ -100,7 +100,10 @@ export default function MenuPage() {
               Our <span className="text-gradient">Menu</span>
             </h1>
             <p className="text-xl text-muted">
-              Premium Korean BBQ & Hot Pot - All You Can Eat
+              50+ Premium Korean BBQ & Hot Pot Items - All You Can Eat
+            </p>
+            <p className="text-sm text-muted/70 mt-2">
+              Menu may vary slightly by location
             </p>
           </div>
         </div>

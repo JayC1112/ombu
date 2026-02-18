@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import DiningRules from "@/components/DiningRules";
 import About from "@/components/About";
 import PhotoGallery from "@/components/PhotoGallery";
-import Menu from "@/components/Menu";
+
 import Locations from "@/components/Locations";
 import GoogleReviewsPreview from "@/components/GoogleReviewsPreview";
 import Contact from "@/components/Contact";
@@ -19,7 +19,6 @@ export default function Home() {
         <DiningRules />
         <About />
         <PhotoGallery />
-        <Menu />
         <Locations />
         <GoogleReviewsPreview />
         <Contact />

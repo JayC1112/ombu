@@ -11,7 +11,7 @@ import { buildDirectionsUrl } from "@/hooks/useCMSData";
 const navLinks = [
   { href: "/#home", label: "Home", sectionId: "home" },
   { href: "/#about", label: "About", sectionId: "about" },
-  { href: "/#menu", label: "Menu", sectionId: "menu" },
+  { href: "/menu", label: "Menu", sectionId: null },
   { href: "/#locations", label: "Locations", sectionId: "locations" },
   { href: "/#contact", label: "Contact", sectionId: "contact" },
   { href: "/dining-policy", label: "Dining Policy", sectionId: null },
@@ -139,8 +139,7 @@ export default function Header() {
             // No location: Show View Menu + Locations
             <div className="flex items-center gap-2">
               <Link
-                href="/#menu"
-                onClick={(e) => handleNavClick(e, "menu")}
+                href="/menu"
                 className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-full font-medium transition-colors cursor-pointer"
               >
                 <Utensils size={16} />
@@ -217,8 +216,8 @@ export default function Header() {
               ) : (
                 <>
                   <Link
-                    href="/#menu"
-                    onClick={(e) => handleNavClick(e, "menu")}
+                    href="/menu"
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl font-medium transition-colors cursor-pointer active:bg-primary-dark"
                   >
                     <Utensils size={16} />
