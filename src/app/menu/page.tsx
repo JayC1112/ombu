@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
-import { Beef, Drumstick, Fish, Soup, Salad, Coffee, MapPin, Utensils } from 'lucide-react'
+import { Beef, Fish, UtensilsCrossed, Soup, Salad, Coffee, IceCream, CookingPot, Utensils } from 'lucide-react'
 
 interface MenuCategory {
   id: string
@@ -28,13 +28,12 @@ interface MenuItem {
 // Icon mapping
 const iconMap: Record<string, any> = {
   'BBQ Meats': Beef,
-  'Pork & Chicken': Drumstick,
   'Seafood': Fish,
-  'Hot Pot Broths': Soup,
-  'Sides & Banchan': Salad,
-  'Sauce Bar': Utensils,
-  'Drinks': Coffee,
-  'Desserts': Coffee,
+  'Appetizers': UtensilsCrossed,
+  'Sides & Soup': Soup,
+  'Rice & Noodles': CookingPot,
+  'Beverages': Coffee,
+  'Desserts': IceCream,
 }
 
 export default function MenuPage() {
