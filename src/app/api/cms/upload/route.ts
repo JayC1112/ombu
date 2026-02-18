@@ -37,7 +37,12 @@ export async function POST(request: Request) {
       })
 
     if (uploadError) {
-      return NextResponse.json({ error: uploadError.message }, { status: 500 })
+      const hasServiceKey = !!process.env.SUPABASE_SERVICE_ROLE_KEY
+      console.error('Storage upload failed:', uploadError.message, { hasServiceKey, fileName, contentType })
+      return NextResponse.json({
+        error: uploadError.message,
+        debug: { hasServiceKey },
+      }, { status: 500 })
     }
 
     // Get public URL

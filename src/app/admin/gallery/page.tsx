@@ -220,7 +220,8 @@ export default function GalleryPage() {
         const uploadData = await uploadRes.json()
 
         if (uploadData.error) {
-          alert('上传失败: ' + uploadData.error)
+          const debugInfo = uploadData.debug ? `\nhasServiceKey: ${uploadData.debug.hasServiceKey}` : ''
+          alert('上传失败: ' + uploadData.error + debugInfo)
           setSaving(false)
           return
         }
