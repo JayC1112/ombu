@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { requireAuth } from '@/lib/apiAuth'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,6 +31,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const auth = await requireAuth(request)
+  if (auth instanceof NextResponse) return auth
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -49,9 +53,12 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  const auth = await requireAuth(request)
+  if (auth instanceof NextResponse) return auth
+
   const { searchParams } = new URL(request.url)
   const locationId = searchParams.get('location_id')
-  
+
   if (!locationId) {
     return NextResponse.json({ error: 'location_id required' }, { status: 400 })
   }
@@ -76,9 +83,12 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await requireAuth(request)
+  if (auth instanceof NextResponse) return auth
+
   const { searchParams } = new URL(request.url)
   const locationId = searchParams.get('location_id')
-  
+
   if (!locationId) {
     return NextResponse.json({ error: 'location_id required' }, { status: 400 })
   }

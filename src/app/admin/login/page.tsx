@@ -1,46 +1,38 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
-  const supabase = createClient()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     setLoading(true)
 
-    // 从数据库验证用户
-    const { data, error: fetchError } = await supabase
-      .from('admin_users')
-      .select('*')
-      .eq('email', email)
-      .eq('is_active', true)
-      .single()
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
 
-    if (fetchError || !data) {
-      setError('邮箱或密码错误')
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || '登录失败')
+        setLoading(false)
+        return
+      }
+
+      window.location.href = '/admin'
+    } catch {
+      setError('网络错误，请重试')
       setLoading(false)
-      return
     }
-
-    // 验证密码
-    if (data.password_hash !== password) {
-      setError('邮箱或密码错误')
-      setLoading(false)
-      return
-    }
-
-    // 登录成功，设置 cookie
-    document.cookie = `admin_session=true; max-age=${7*24*60*60}; path=/; SameSite=Lax`
-    window.location.href = '/admin'
   }
 
   return (
@@ -49,7 +41,7 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-900">
           Ombu CMS 登录
         </h1>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">

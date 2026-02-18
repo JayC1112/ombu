@@ -3,8 +3,8 @@
 import { LogOut } from 'lucide-react'
 
 export default function LogoutButton() {
-  function handleLogout() {
-    document.cookie = 'admin_session=; max-age=0; path=/'
+  async function handleLogout() {
+    await fetch('/api/admin/logout', { method: 'POST' })
     window.location.href = '/admin/login'
   }
 

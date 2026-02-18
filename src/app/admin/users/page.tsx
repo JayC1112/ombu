@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase'
 
 interface AdminUser {
   id: string
@@ -25,15 +24,13 @@ export default function UsersPage() {
     role: 'admin',
     is_active: true
   })
-  const supabase = createClient()
 
   async function fetchUsers() {
-    const { data } = await supabase
-      .from('admin_users')
-      .select('*')
-      .order('created_at', { ascending: false })
-
-    if (data) setUsers(data)
+    const res = await fetch('/api/admin/users')
+    if (res.ok) {
+      const data = await res.json()
+      setUsers(data)
+    }
     setLoading(false)
   }
 
@@ -43,34 +40,31 @@ export default function UsersPage() {
 
   async function handleSave() {
     setSaving(true)
-    
+
     if (editingUser) {
-      // Update existing user
-      const updateData: any = {
-        name: formData.name,
-        role: formData.role,
-        is_active: formData.is_active,
-        updated_at: new Date().toISOString()
-      }
-      if (formData.password) {
-        updateData.password_hash = formData.password
-      }
-      
-      await supabase
-        .from('admin_users')
-        .update(updateData)
-        .eq('id', editingUser.id)
+      await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editingUser.id,
+          name: formData.name,
+          password: formData.password || undefined,
+          role: formData.role,
+          is_active: formData.is_active,
+        }),
+      })
     } else {
-      // Create new user
-      await supabase
-        .from('admin_users')
-        .insert({
+      await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           email: formData.email,
           name: formData.name,
-          password_hash: formData.password,
+          password: formData.password,
           role: formData.role,
-          is_active: formData.is_active
-        })
+          is_active: formData.is_active,
+        }),
+      })
     }
 
     setSaving(false)
@@ -82,8 +76,8 @@ export default function UsersPage() {
 
   async function handleDelete(id: string) {
     if (!confirm('确定要删除这个用户吗？')) return
-    
-    await supabase.from('admin_users').delete().eq('id', id)
+
+    await fetch(`/api/admin/users?id=${id}`, { method: 'DELETE' })
     fetchUsers()
   }
 
@@ -179,7 +173,7 @@ export default function UsersPage() {
             <h2 className="text-xl font-bold mb-4 text-gray-900">
               {editingUser ? '编辑用户' : '添加用户'}
             </h2>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
@@ -192,7 +186,7 @@ export default function UsersPage() {
                   style={{backgroundColor: 'white', color: '#111827'}}
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">姓名</label>
                 <input
@@ -203,7 +197,7 @@ export default function UsersPage() {
                   style={{backgroundColor: 'white', color: '#111817'}}
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   {editingUser ? '新密码（不修改留空）' : '密码'}
@@ -216,7 +210,7 @@ export default function UsersPage() {
                   style={{backgroundColor: 'white', color: '#111827'}}
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">角色</label>
                 <select
@@ -229,7 +223,7 @@ export default function UsersPage() {
                   <option value="editor">编辑</option>
                 </select>
               </div>
-              
+
               <div className="flex items-center">
                 <input
                   type="checkbox"
@@ -241,7 +235,7 @@ export default function UsersPage() {
                 <label htmlFor="is_active" className="text-sm text-gray-700">启用账户</label>
               </div>
             </div>
-            
+
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => setShowModal(false)}

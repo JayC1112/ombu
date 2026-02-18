@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { requireAuth } from '@/lib/apiAuth'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -162,34 +163,43 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const auth = await requireAuth(request)
+  if (auth instanceof NextResponse) return auth
+
   const { searchParams } = new URL(request.url)
   const type = searchParams.get('type')
 
   if (type === 'category') {
     return POSTCategory(request)
   }
-  
+
   return POSTItem(request)
 }
 
 export async function PATCH(request: Request) {
+  const auth = await requireAuth(request)
+  if (auth instanceof NextResponse) return auth
+
   const { searchParams } = new URL(request.url)
   const type = searchParams.get('type')
 
   if (type === 'category') {
     return PATCHCategory(request)
   }
-  
+
   return PATCHItem(request)
 }
 
 export async function DELETE(request: Request) {
+  const auth = await requireAuth(request)
+  if (auth instanceof NextResponse) return auth
+
   const { searchParams } = new URL(request.url)
   const type = searchParams.get('type')
 
   if (type === 'category') {
     return DELETECategory(request)
   }
-  
+
   return DELETEItem(request)
 }

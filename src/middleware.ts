@@ -1,17 +1,29 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { jwtVerify } from 'jose'
 
-export function middleware(request: NextRequest) {
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.ADMIN_JWT_SECRET || 'fallback-dev-secret-change-me'
+)
+
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // 只保护 /admin 路径（不包括 /admin/login）
+  // Only protect /admin paths (not /admin/login)
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
-    // 检查 session cookie
-    const adminSession = request.cookies.get('admin_session')
+    const token = request.cookies.get('admin_token')?.value
 
-    if (!adminSession || adminSession.value !== 'true') {
-      // 未登录，重定向到登录页
+    if (!token) {
       return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+
+    try {
+      await jwtVerify(token, JWT_SECRET)
+    } catch {
+      // Invalid or expired token
+      const response = NextResponse.redirect(new URL('/admin/login', request.url))
+      response.cookies.set('admin_token', '', { maxAge: 0, path: '/' })
+      return response
     }
   }
 
