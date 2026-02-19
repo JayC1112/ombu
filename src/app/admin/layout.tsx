@@ -30,59 +30,59 @@ export default function AdminLayout({
                 Ombu CMS
               </Link>
             </div>
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden xl:flex items-center gap-2">
               <Link
                 href="/admin/locations"
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
               >
                 <MapPin className="w-4 h-4" />
                 门店管理
               </Link>
               <Link
                 href="/admin/pricing"
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
               >
                 <DollarSign className="w-4 h-4" />
                 价格管理
               </Link>
               <Link
                 href="/admin/images"
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
               >
                 <ImageIcon className="w-4 h-4" />
                 图片管理
               </Link>
               <Link
                 href="/admin/visitors"
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
               >
                 <Eye className="w-4 h-4" />
                 访问统计
               </Link>
               <Link
                 href="/admin/settings"
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
               >
                 <Globe className="w-4 h-4" />
                 网站设置
               </Link>
               <Link
                 href="/admin/menu"
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
               >
                 <Utensils className="w-4 h-4" />
                 菜单管理
               </Link>
               <Link
                 href="/admin/users"
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
               >
                 <Users className="w-4 h-4" />
                 用户管理
               </Link>
               <Link
                 href="/admin/gallery"
-                className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-md text-sm text-gray-700 hover:bg-gray-100"
               >
                 <ImageIcon className="w-4 h-4" />
                 相册管理

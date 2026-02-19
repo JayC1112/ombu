@@ -497,7 +497,7 @@ export default function GalleryPage() {
                         src={imageSrc}
                         alt="预览"
                         onLoad={onImageLoad}
-                        style={{ maxHeight: '400px', width: '100%', objectFit: 'contain' }}
+                        style={{ maxHeight: '400px', maxWidth: '100%', display: 'block' }}
                       />
                     </ReactCrop>
                     <p className="mt-1 text-xs text-gray-400">

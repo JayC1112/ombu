@@ -20,7 +20,7 @@ export default function AdminMobileNav() {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         onClick={() => setOpen(true)}
         className="p-2 rounded-md text-gray-700 hover:bg-gray-100"
